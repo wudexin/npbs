@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+
+	<appender name="RootConsoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>info</level>
+		</filter>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%d{ISO8601}|%-5p|%t|%X{breadcrumbId}|%X{BUID}|%logger{5}|%m%n"
+			</pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="RootFileAppender"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<append>true</append>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>info</level>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>/home/bea/logs/npbs.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>
+				%d{ISO8601}|%-5p|%t|%X{breadcrumbId}|%X{BUID}|%logger{5}|%m%n
+				<!-- %d{yyyy-MM-dd HH:mm:ss}, %p, %c, %t, %L, %C{1}, %M %m%n -->
+			</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="NetworkLogAppender"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<append>true</append>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>trace</level>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>/home/bea/logs/network.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+			<maxHistory>30</maxHistory>			
+		</rollingPolicy>
+
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>
+				%d{ISO8601}|%-5p|%t|%X{breadcrumbId}|%X{BUID}|%logger{5}|%m%n
+				<!-- %d{yyyy-MM-dd HH:mm:ss}, %p, %c, %t, %L, %C{1}, %M %m%n -->
+			</pattern>
+		</encoder>
+	</appender>
+	
+	<logger name="org.apache.camel.component.netty" additivity="false"
+		level="trace">
+		<appender-ref ref="NetworkLogAppender" />
+	</logger>
+
+	<logger name="org.jboss.netty" additivity="false"
+		level="trace">
+		<appender-ref ref="NetworkLogAppender" />
+	</logger>
+
+	<appender name="PacketLogAppender"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<append>true</append>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>info</level>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>/home/bea/logs/packet.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>
+				%d{ISO8601}|%-5p|%t|%X{breadcrumbId}|%X{BUID}|%logger{5}|%m%n
+				<!-- %d{yyyy-MM-dd HH:mm:ss}, %p, %c, %t, %L, %C{1}, %M %m%n -->
+			</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="com.nantian.npbs.packet" additivity="false"
+		level="info">
+		<appender-ref ref="PacketLogAppender" />
+	</logger>
+
+	<!-- Perf4J appenders -->
+
+	<!-- This file appender is used to output aggregated performance statistics -->
+	<appender name="perf4jFile"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>/home/bea/logs/perfStats.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%m%n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- This JMX appender creates an MBean and publishes it to the platform 
+		MBean server by default. -->
+	<appender name="perf4jJmxAppender"
+		class="org.perf4j.logback.JmxAttributeStatisticsAppender">
+		<!-- You must specify the tag names whose statistics should be exposed 
+			as MBean attributes. -->
+		<param name="TagNamesToExpose" value="posRequestProcessor,eposRequestProcessor" />
+		<!-- The NotificationThresholds param configures the sending of JMX notifications 
+			when statistic values exceed specified thresholds. This config states that 
+			the firstBlock max value should be between 0 and 800ms, and the secondBlock 
+			max value should be less than 1500 ms. You can also set thresholds on the 
+			Min, Mean, StdDev, Count and TPS statistics - e.g. firstBlockMean(<600). -->
+		<param name="NotificationThresholds"
+			value="posRequestProcessorMean(0-800),eposRequestProcessorMean(&lt;1500)" />
+		<!-- You can also specify an optional MBeanName param, which overrides 
+			the default MBean name of org.perf4j:type=StatisticsExposingMBean,name=Perf4J -->
+	</appender>
+
+	<!-- This AsyncCoalescingStatisticsAppender groups StopWatch log messages 
+		into GroupedTimingStatistics messages which it sends on the file appender 
+		defined below -->
+	<appender name="CoalescingStatistics"
+		class="org.perf4j.logback.AsyncCoalescingStatisticsAppender">
+		<!-- The TimeSlice option is used to determine the time window for which 
+			all received StopWatch logs are aggregated to create a single GroupedTimingStatistics 
+			log. Here we set it to 10 seconds, overriding the default of 30000 ms -->
+		<param name="TimeSlice" value="10000" />
+		<appender-ref ref="perf4jFile" />
+		<appender-ref ref="perf4jJmxAppender" />
+	</appender>
+
+	<!-- Loggers -->
+	<!-- The Perf4J logger. Note that org.perf4j.TimingLogger is the value of 
+		the org.perf4j.StopWatch.DEFAULT_LOGGER_NAME constant. Also, note that additivity 
+		is set to false, which is usually what is desired - this means that timing 
+		statements will only be sent to this logger and NOT to upstream loggers. -->
+	<logger name="org.perf4j.TimingLogger" additivity="false">
+		<level value="info" />
+		<appender-ref ref="CoalescingStatistics" />
+	</logger>
+
+	<root>
+		<level value="info" />
+		<appender-ref ref="RootFileAppender" />
+		<appender-ref ref="RootConsoleAppender" />
+	</root>
+
+</configuration>

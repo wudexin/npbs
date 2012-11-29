@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:cxf="http://cxf.apache.org/core"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xmlns:soap="http://cxf.apache.org/bindings/soap"
+	xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd 
+	http://cxf.apache.org/jaxws 
+	http://cxf.apache.org/schemas/jaxws.xsd 
+	http://cxf.apache.org/jaxrs   
+	http://cxf.apache.org/schemas/jaxrs.xsd
+	http://cxf.apache.org/core
+	http://cxf.apache.org/schemas/core.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-2.5.xsd 
+	http://www.springframework.org/schema/aop 
+	
+	http://cxf.apache.org/transports/http/configuration  
+	http://cxf.apache.org/schemas/configuration/http-conf.xsd">
+	<!-- jar包中自带的cxf文件夹下的*.xml文件 -->
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+
+	<!-- 定义服务端的拦截器对象 -->
+	<bean id="logIn"
+		class="org.apache.cxf.interceptor.LoggingInInterceptor" />
+	<bean id="logOut"
+		class="org.apache.cxf.interceptor.LoggingOutInterceptor" />
+	<bean id="saajIn"
+		class="org.apache.cxf.binding.soap.saaj.SAAJInInterceptor" />
+
+	
+	<jaxws:endpoint id="ModelRequest025001Svc" implementor="#modelRequest025001Svc"
+		address="/ModelRequest025001Svc">
+		<jaxws:binding>
+			<soap:soapBinding version="1.1" />
+		</jaxws:binding>
+		<jaxws:inInterceptors>
+			<ref bean="logIn" />
+			<ref bean="saajIn" />
+		</jaxws:inInterceptors>
+		<jaxws:outInterceptors>
+			<ref bean="logOut" />
+		</jaxws:outInterceptors>
+	</jaxws:endpoint>
+	
+	
+	<jaxws:endpoint id="ModelRequest025002Svc" implementor="#modelRequest025002Svc"
+		address="/ModelRequest025002Svc">
+		<jaxws:binding>
+			<soap:soapBinding version="1.1" />
+		</jaxws:binding>
+		<jaxws:inInterceptors>
+			<ref bean="logIn" />
+			<ref bean="saajIn" />
+		</jaxws:inInterceptors>
+		<jaxws:outInterceptors>
+			<ref bean="logOut" />
+		</jaxws:outInterceptors>
+	</jaxws:endpoint>
+	
+	<jaxws:endpoint id="ModelRequest025012Svc" implementor="#modelRequest025012Svc"
+		address="/ModelRequest025012Svc">
+		<jaxws:binding>
+			<soap:soapBinding version="1.1" />
+		</jaxws:binding>
+		<jaxws:inInterceptors>
+			<ref bean="logIn" />
+			<ref bean="saajIn" />
+		</jaxws:inInterceptors>
+		<jaxws:outInterceptors>
+			<ref bean="logOut" />
+		</jaxws:outInterceptors>
+	</jaxws:endpoint>
+
+</beans>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE aspectj PUBLIC
+        "-//AspectJ//DTD//EN" "http://www.eclipse.org/aspectj/dtd/aspectj.dtd">
+<aspectj>
+    <weaver options="-verbose -showWeaveInfo">
+        <!-- only weave classes in this package -->
+        <include within="com.nantian.npbs..*" />
+    </weaver>
+    <aspects>
+        <!-- use only this aspect for weaving -->
+        <aspect name="org.perf4j.slf4j.aop.TimingAspect" />
+    </aspects>
+</aspectj>

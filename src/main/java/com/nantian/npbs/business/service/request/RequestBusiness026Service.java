@@ -1,0 +1,233 @@
+package com.nantian.npbs.business.service.request;
+
+
+import javax.annotation.Resource;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import com.nantian.npbs.business.dao.TradeDao;
+import com.nantian.npbs.business.model.TbBiTrade;
+import com.nantian.npbs.business.model.TbBiTradeContrast;
+import com.nantian.npbs.business.model.TempData;
+import com.nantian.npbs.common.GlobalConst;
+import com.nantian.npbs.packet.BusinessMessage;
+import com.nantian.npbs.packet.ControlMessage;
+import com.nantian.npbs.packet.internal.HeNDElecICCard;
+
+/**
+ * 补写卡
+ * 河电省标卡
+ * 
+ * @author
+ * 
+ */
+@Scope("prototype")
+@Component
+public class RequestBusiness026Service extends RequestBusinessService {
+
+	private static Logger logger = LoggerFactory
+			.getLogger(RequestBusiness026Service.class);
+	// 流水操作
+	@Resource
+	public TradeDao dao;
+
+	@Override
+	protected boolean checkCommon(ControlMessage cm, BusinessMessage bm) {
+		return true;
+	}
+
+	@Override
+	protected void dealBusiness(ControlMessage cm, BusinessMessage bm) {
+		logger.info("补写卡交易请求处理开始!");
+
+		/*// 如果是河电省标卡则登记流水
+		if ("010002".equals(bm.getTranCode()) == true
+				&& "000000".equals(cm.getServiceResultCode()) == true) {
+			//设置登记流水并修改流水状态
+			bm.setSeqnoFlag("1");
+			TbBiTrade oriTrade = tradeDao.getTradeById(bm.getTranDate(), bm.getOldPbSeqno());
+			// 设置原始电子商务平台流水
+			bm.setSysJournalSeqno(oriTrade.getSystemSerial());
+			
+			// 获取缴费流水的一些信息 金额等
+			// 设置对象数据
+			bm.setAmount(oriTrade.getAmount());
+			bm.setSalary(oriTrade.getSalary());
+			bm.setTax(oriTrade.getTax());
+			bm.setDepreciation(oriTrade.getDepreciation());
+			bm.setOther(oriTrade.getOther());
+			bm.setUserCode(oriTrade.getCustomerno());
+			bm.setUserName(oriTrade.getCustomername());
+			
+			
+		}*/
+		
+		//如果是河电省标卡补写卡，则根据终端上送缴费流水确定上送电商写卡流水
+		if("010026".equals(bm.getTranCode())) {		
+			
+			if(this.checkNullExceptionString(bm.getTranDate()) || this.checkNullExceptionString(bm.getOldPbSeqno())) {
+			  this.setResultMsg(cm, bm, 
+					  GlobalConst.RESPONSECODE_FAILURE, "系统数据异常",
+					  GlobalConst.RESULTCODE_FAILURE, "系统数据异常",
+					  "系统必须的流水日期，流水号为空！交易日期："+bm.getTranDate()+",流水号："+bm.getOldPbSeqno());
+			  return;
+			}
+			//提取河电省标冲正交易流水号
+			TbBiTrade origAmountTrade = tradeDao.getTradeById(bm.getTranDate().trim(), bm.getOldPbSeqno().trim());  
+			if(null == origAmountTrade) {
+				this.setResultMsg(cm, bm, GlobalConst.RESPONSECODE_FAILURE, "终端上送缴费流水异常，系统不存在此流水", 
+						GlobalConst.RESULTCODE_FAILURE, "终端上送缴费流水异常，系统不存在此流水", 
+						"终端上送流水异常，系统不存在改笔流水！交易日期："+bm.getTranDate()+",交易PB流水号："+bm.getOldPbSeqno());
+				return;
+			}	
+		
+			//判断原流水是否可进行补写卡
+			if(!this.checkOldTradeState(origAmountTrade, cm, bm)) {
+				return;
+			}
+			
+			//设置电子商务平台流水
+			bm.setOldElecSeqNo(origAmountTrade.getSystemSerial().trim());
+			
+		}else if("018026".equals(bm.getTranCode())){
+			
+			TbBiTrade oriTrade = tradeDao.getTradeById(bm.getTranDate().trim(), bm.getOldPbSeqno().trim());  
+			if(null==oriTrade){
+				  this.setResultMsg(cm, bm, 
+						  GlobalConst.RESPONSECODE_FAILURE, "系统数据异常",
+						  GlobalConst.RESULTCODE_FAILURE, "系统数据异常",
+						  "系统必须的流水日期，流水号为空！交易日期："+bm.getTranDate()+",流水号："+bm.getOldPbSeqno());
+				return;
+			}
+			TempData cashTemp = (TempData) baseHibernateDao.get(TempData.class,bm.getNdzhuanyong());
+			HeNDElecICCard customData=null;
+			if (bm.getCustomData() != null) {
+				customData = (HeNDElecICCard) bm.getCustomData();
+			} else {
+				customData = new HeNDElecICCard();
+			}
+				String[] split = String.valueOf(cashTemp.getTempValue()).split("\\^");
+				 customData.setCHECK_ID(split[0]);    
+				  customData.setCONS_NO(split[1]);     
+				 customData.setMETER_ID(split[2]);    
+				 customData.setMETER_FLAG(split[3]);  
+				 customData.setCARD_INFO(split[4]);   
+				 customData.setIDDATA(split[5]);      
+				 customData.setCONS_NAME(split[6]);   
+				 customData.setCONS_ADDR(split[7]) ;  
+				 customData.setPAY_ORGNO(split[8]);   
+				 customData.setORG_NO(split[9]) ;     
+				 customData.setCHARGE_CLASS(split[10]);
+				 customData.setFACTOR_VALUE(split[11]);
+				 customData.setPURP_PRICE(split[12])  ;
+				bm.setCustomData(customData); 
+				
+				bm.setOrigSysJournalSeqno(oriTrade.getSystemSerial());
+		}
+	}
+	
+	/**
+	 * 返回交易类型 
+	 * 13-补写卡交易
+	 * @return
+	 */
+	@Override
+	protected String tradeType() {
+		return "13";
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seecom.nantian.npbs.business.service.request.RequestBusinessService#
+	 * needLockProcess()
+	 */
+	@Override
+	public boolean needLockProcess() {
+		return true;
+	}
+
+	@Override
+	public void setTradeFlag(BusinessMessage bm) {
+		//在业务代码中设置
+	}
+
+	@Override
+	public void setCallServiceFlag(ControlMessage cm) {
+		// 发送第三方需根据业务判断，在业务代码中设置
+		cm.setServiceCallFlag("1");
+	}
+	
+	/**
+	 *判断字符串是否为null或空字符串
+	 * @param str   需要判断的字符串
+	 * @return 为空为true  否则为false
+	 */
+	public boolean checkNullExceptionString(String str) {
+		if(null == str || "".equals(str)) {
+			return true;
+		}else {
+			return false;
+		}			
+	}
+	
+	/**
+	 * 设置应答码、应答信息、结果码、结果信息、日志信息
+	 * @param cm
+	 * @param bm
+	 * @param resposeCode  应答码
+	 * @param resposeMsg   应答信息
+	 * @param resultCode   结果码
+	 * @param resultMsg    结果信息
+	 * @param logMsg       日志信息
+	 */
+	public  void setResultMsg(ControlMessage cm, BusinessMessage bm,
+			String resposeCode,String resposeMsg,
+			String resultCode,String resultMsg,String logMsg) {
+		bm.setResponseCode(resposeCode);
+		bm.setResponseMsg(resposeMsg);
+		cm.setResultCode(resultCode);
+		cm.setResultMsg(resultMsg);
+		logger.info(logMsg);
+		
+	}
+	
+	/**
+	 * 检查原交易是能进行补写卡
+	 * @param oriTrade  需要检查交易
+	 * @param cm       控制类
+	 * @param bm       业务类
+	 * @return     是:true   否：false 
+	 */
+	protected boolean checkOldTradeState(TbBiTrade oriTrade,ControlMessage cm,BusinessMessage  bm){		
+		
+		//交易是否为取消交易
+		if(!GlobalConst.TRADE_TYPE_QX.equals(oriTrade.getTradeType().trim())) { 
+			this.setResultMsg(cm, bm,
+					GlobalConst.RESPONSECODE_FAILURE, "终端上送原流水非取消交易!",
+					GlobalConst.RESULTCODE_FAILURE, "终端上送原流水非取消交易!",
+					"终端上送原流水非取消交易!流水号:"+oriTrade.getId().getPbSerial());
+			return false;
+		}
+		
+		//判断原交易是否成功
+		if(GlobalConst.TRADE_STATUS_NEED_WRITE.equals(oriTrade.getStatus().trim())||
+				GlobalConst.TRADE_STATUS_SUCCESS.equals(oriTrade.getStatus().trim())) {
+			return true;				
+		}else {
+			this.setResultMsg(cm, bm,
+					GlobalConst.RESPONSECODE_FAILURE, "补写卡失败,终端取消未成功!",
+					GlobalConst.RESULTCODE_FAILURE, "补写卡失败,终端缴费未成功!",
+					"补写卡失败，原交易状态为"+oriTrade.getStatus());
+			return false;
+		}
+	    
+			
+	
+	}
+	
+	
+}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.nantian.npbs.business.model.TbSmInterouter" table="TB_SM_INTEROUTER" schema="NPBSDB">
+        <composite-id name="id" class="com.nantian.npbs.business.model.TbSmInterouterId">
+            <key-property name="insiUnitcode" type="java.lang.String">
+                <column name="INSI_UNITCODE" length="9" />
+            </key-property>
+            <key-property name="syscode" type="java.lang.String">
+                <column name="SYSCODE" length="3" />
+            </key-property>
+        </composite-id>
+        <property name="outUnitcode" type="java.lang.String">
+            <column name="OUT_UNITCODE" length="9" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.nantian.npbs.business.model.TbBiEcUnit" table="TB_BI_EC_UNIT" schema="NPBSDB">
+        <id name="ecUnitCode" type="java.lang.String">
+            <column name="EC_UNIT_CODE" length="20" />
+            <generator class="assigned" />
+        </id>
+        <property name="ecOperCode" type="java.lang.String">
+            <column name="EC_OPER_CODE" length="20" not-null="true" />
+        </property>
+        <property name="ecAuthOper" type="java.lang.String">
+            <column name="EC_AUTH_OPER" length="20" not-null="true" />
+        </property>
+        <property name="col1" type="java.lang.String">
+            <column name="COL1" length="20" />
+        </property>
+        <property name="col2" type="java.lang.String">
+            <column name="COL2" length="20" />
+        </property>
+        <property name="col3" type="java.lang.String">
+            <column name="COL3" length="20" />
+        </property>
+        <property name="col4" type="java.lang.String">
+            <column name="COL4" length="20" />
+        </property>
+    </class>
+</hibernate-mapping>
