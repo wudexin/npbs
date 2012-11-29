@@ -9,6 +9,8 @@ import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import utils.system;
+
 public class Client3_TextCXFAPI {
 	private final static Logger logger = LoggerFactory
 			.getLogger(Client3_TextCXFAPI.class);
@@ -33,9 +35,9 @@ public class Client3_TextCXFAPI {
 		JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
 		factory.setAddress(URL_UNIMNG + clazz.getSimpleName());
 		factory.setServiceClass(clazz);
-		T svc = (T) factory.create();
-
+		T svc = (T) factory.create(); 
 		BindingProvider bp = (BindingProvider) svc;
+		bp.getRequestContext();
 		bp.getRequestContext().put(BindingProvider.SESSION_MAINTAIN_PROPERTY,
 				false);
 

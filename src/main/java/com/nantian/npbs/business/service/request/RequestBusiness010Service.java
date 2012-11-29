@@ -102,6 +102,8 @@ public class RequestBusiness010Service extends RequestBusinessService {
 		
 		String hql = "from TbBiTrade t where t.id.tradeDate = '"+ bm.getTranDate() +"' and t.companyCode = '"
 			+ bm.getShopCode() + "' and t.posSerial ='" + bm.getOrigPosJournalSeqno() + "'";
+		
+		System.out.println(bm.getOldPbSeqno());
 		logger.info(hql);
 		//日期，商户号，pos流水号为唯一约束
 		List<TbBiTrade> tbBiTradeList = tradeDao.findTradeList(hql);		

@@ -26,7 +26,7 @@ public class ModelSvcImpl implements ModelSvc {
 	public ModelSvcAns demoMethod(ModelSvcReq modelSvcReq) {
 		logger.info("DemoMethod begin!");
 		 if(modelSvcReq!=null)
-			 logger.info("reqPara1={};reqPara2={}",modelSvcReq.getBusi_code(),modelSvcReq.getCompany_code());
+			 logger.info("reqPara1={};reqPara2={}",modelSvcReq.getBusi_code(),modelSvcReq.getCompany_code_fir());
 		 else
 			 logger.info("Request package is null!");
 		//发送camel包

@@ -94,6 +94,8 @@ public class ISO8583PacketHeaderHelper {
 			// 打包消息类型、bitmap和mac
 			packOtherHeader(fieldValues, buffer, offset, cm, bm);
 		}
+		
+		
 
 		// 删除报文长度
 		byte[] buf = new byte[packetLength];

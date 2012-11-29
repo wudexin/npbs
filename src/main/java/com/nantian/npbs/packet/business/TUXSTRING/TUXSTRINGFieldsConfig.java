@@ -1607,8 +1607,19 @@ public class TUXSTRINGFieldsConfig extends FieldsConfig {
 		//预置值
 		f=new Field("D13_13_HEND_PRESET_VALUE",VariableType.ASCII,LengthType.VARIABLE,16,"预置值"); 
 		addFieldConfig(f.getName(),f);
-		 		
+		 	
+		//add by mengqingwei 20121030 start 
+		 //阶梯差价
+		f=new Field("D13_13_HEND_LADDER_DIFF",VariableType.ASCII,LengthType.VARIABLE,16,"阶梯差价"); 
+		addFieldConfig(f.getName(),f);
 		
+		 //本年累计用电量
+		f=new Field("D13_13_HEND_ANNUAL_VALUE",VariableType.ASCII,LengthType.VARIABLE,16,"本年累计用电量"); 
+		addFieldConfig(f.getName(),f);
+		 //本档阶梯剩余电量
+		f=new Field("D13_13_HEND_LADDER_SURPLUS",VariableType.ASCII,LengthType.VARIABLE,36,"本档阶梯剩余电量"); 
+		addFieldConfig(f.getName(),f);
+		//add by mengqingwei 20121030 end 
 		
 		//联通解包
 		

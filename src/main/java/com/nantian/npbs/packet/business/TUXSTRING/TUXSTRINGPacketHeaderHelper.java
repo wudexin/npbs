@@ -104,7 +104,8 @@ public class TUXSTRINGPacketHeaderHelper implements IPacketTUXSTRING {
 			if (null == value) {
 				value = "";
 			}
-			addFieldValue("H_BRCH_NO_NEW", value.trim(), buffer);
+			 
+			addFieldValue("H_BRCH_NO_NEW",value, buffer);
 			// 柜员号
 			value = bm.getEcOperCode();
 			if (null == value) {

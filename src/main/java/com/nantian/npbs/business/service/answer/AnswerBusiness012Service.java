@@ -139,11 +139,13 @@ public class AnswerBusiness012Service extends AnswerBusinessService {
 		}else{ //如果交易失败 ，原来流水恢复状态
 			logger.info("取消交易失败!失败原因:{}",cm.getServiceResultMsg());
 
+			
 			//更新原交易状态。
+			//add by fengyafang 20121105 如果交易失败恢复原来状态，并修改原标志为授权状态，只有取消成功的才不为授权状态
 			boolean suc = tradeDao.updateTradeStatus(trade.getId().getTradeDate(), trade
-					.getId().getPbSerial(), GlobalConst.TRADE_STATUS_SUCCESS,trade.getSystemSerial());
+					.getId().getPbSerial(), GlobalConst.TRADE_STATUS_SUCCESS,trade.getSystemSerial(),GlobalConst.TRADE_CANCEL_FLAG_YES);
 			if (suc != true) {
-				logger.info("更新原交易状态错误,原交易流水号:{},交易日期:{},原状态为:{}" ,new Object[] {bm.getOldPbSeqno() , bm.getTranDate() , trade.getStatus()});
+				logger.info("更新原交易状态错误,原交易流水号:{},交易日期:{},原状态为:{},原授权状态为{}" ,new Object[] {bm.getOldPbSeqno() , bm.getTranDate() , trade.getStatus(),GlobalConst.TRADE_CANCEL_FLAG_NO});
 				return;
 			}
 		}

@@ -2,8 +2,7 @@ package com.nantian.npbs.monitor.service;
 
 import javax.annotation.Resource;
 
-import org.apache.camel.CamelContext;
-import org.apache.camel.Endpoint; 
+import org.apache.camel.CamelContext; 
 import org.apache.camel.component.seda.SedaEndpoint;
 
 import org.slf4j.Logger;
@@ -53,6 +52,12 @@ public class QueueMonitor {
 		uri =  "seda:" + SEDA_TYPE.REQUEST+ "WEBSERVICES";
 		sep = (SedaEndpoint) camelContext.getEndpoint(uri);
 		queueSizeInfo += (uri + " queue size:"+sep.getQueue().size())+"|";
-		//logger.info(queueSizeInfo);
+		 
+		
+		 //add by fengyafang 20121029
+		uri =  "seda:" + SEDA_TYPE.ASYNCANSWER+ "WEBSERVICES";
+		sep = (SedaEndpoint) camelContext.getEndpoint(uri);
+		queueSizeInfo += (uri + " queue size:"+sep.getQueue().size())+"|";
+		// logger.info(queueSizeInfo);
 	}
 }

@@ -2,6 +2,7 @@ package com.nantian.npbs.services.webservices.impl;
 
 import java.util.Timer;
 
+import org.apache.camel.Exchange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
@@ -12,6 +13,7 @@ import com.nantian.npbs.core.modules.utils.SpringContextHolder;
 import com.nantian.npbs.services.webservices.ModelRequest025002Svc;
 import com.nantian.npbs.services.webservices.models.ModelSvcAns;
 import com.nantian.npbs.services.webservices.models.ModelSvcReq;
+import com.nantian.npbs.services.webservices.sendqueues.CreateResponse;
 import com.nantian.npbs.services.webservices.sendqueues.PkgSendModel;
 
 /**
@@ -28,21 +30,22 @@ public class ModelRequest025002SvcImpl implements ModelRequest025002Svc {
 			.getLogger(ModelRequest025002SvcImpl.class);
 
 	@Override
-	public ModelSvcAns sendToQueue(  ModelSvcReq modelSvcReq) {
+	public ModelSvcAns sendToQueue(ModelSvcReq modelSvcReq) {
 		logger.info("DemoMethod begin!");
 		final ModelSvcAns modelSvcAns = new ModelSvcAns();
-		modelSvcAns.setStatus(GlobalConst.TRADE_STATUS_CARD_ORIG);
-		modelSvcAns.setInstatus(GlobalConst.TRADE_STATUS_CARD_ORIG);
+		 ModelSvcAns modelSvcAns1=null;
+		modelSvcAns.setStatus(GlobalConst.RESULTCODE_SUCCESS);
+		modelSvcAns.setTotalStatus("99");
 		modelSvcAns.setMessage("初始状态，交易未确定！");
-		modelSvcAns.setInmessage("初始状态，交易未确定！");
 		if (modelSvcReq == null) {
 			logger.info("reqPara1={};reqPara2={}", modelSvcReq.getBusi_code(),
-					modelSvcReq.getCompany_code());
+					modelSvcReq.getCompany_code_fir());
 			logger.info("Request package is null!");
+			return modelSvcAns;
 		} else {
 
 			// 判断必须数据是否为空，如必须数据为空则不发送队列
-			if (modelSvcReq.getCompany_code() == null) {
+			if (modelSvcReq.getCompany_code_fir() == null) {
 				modelSvcAns.setMessage("商户号不能为空！");
 				modelSvcAns.setStatus("01");
 				return modelSvcAns;
@@ -58,50 +61,59 @@ public class ModelRequest025002SvcImpl implements ModelRequest025002Svc {
 				modelSvcAns.setMessage("交易流水不能为空！");
 				modelSvcAns.setStatus("01");
 				return modelSvcAns;
-			}else if (modelSvcReq.getWeb_date() == null) {
+			} else if (modelSvcReq.getWeb_date() == null) {
 				modelSvcAns.setMessage("交易日期不能为空！");
 				modelSvcAns.setStatus("01");
 				return modelSvcAns;
-			}else if (modelSvcReq.getSystem_code() == null) {
+			} else if (modelSvcReq.getSystem_code() == null) {
 				modelSvcAns.setMessage("交易类型不能为空！");
 				modelSvcAns.setStatus("01");
 				return modelSvcAns;
 			}
-			if(modelSvcReq.getSystem_code().equals("28")){
+			if (modelSvcReq.getSystem_code().equals("28")) {
 				if (modelSvcReq.getCompany_code_sec() == null) {
 					modelSvcAns.setMessage("转入商户号不能为空！");
 					modelSvcAns.setStatus("01");
 					return modelSvcAns;
-				}	
+				}
 			}
-			
+
 			// 发送camel包
 			int i = 0;
-			PkgSendModel pm=(PkgSendModel)SpringContextHolder .getBean("pkgSendModel");
-			
+			PkgSendModel pm = (PkgSendModel) SpringContextHolder
+					.getBean("pkgSendModel");
 			if (pm.sendToQueue(modelSvcReq, modelSvcAns)) {
-				Timer t = new Timer();
-				while (i < 60) {
-					System.out.println(modelSvcAns.getInstatus());
-					if (modelSvcAns.getInstatus().equals(
-							GlobalConst.TRADE_STATUS_SUCCESS)) {
-						break;
-					}
-					i++;
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
 			} else {
 				modelSvcAns.setStatus("01");
 				modelSvcAns.setMessage("发送队列失败");
+				return modelSvcAns;
+			}
+			CreateResponse bean = SpringContextHolder.getBean("createResponse");
+			//在返回的数据里找数据，直到找到为止
+			while (i < 60) { 
+				  modelSvcAns1 =(ModelSvcAns)	bean.ha.get(modelSvcReq.getWeb_date()+""+modelSvcReq.getWeb_serial());
+				i++;
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				if(null!=modelSvcAns1){
+					bean.ha.remove(modelSvcReq.getWeb_date()+""+modelSvcReq.getWeb_serial());
+					break;
+				}
 			}
 		}
 		logger.info("DemoMethod end!");
-		return modelSvcAns;
+		return modelSvcAns1;
+	}
+	
+	 
+
+	@Override
+	public ModelSvcAns returnFromQueue(Exchange e) {
+	 
+		return null;
 	}
 
 }

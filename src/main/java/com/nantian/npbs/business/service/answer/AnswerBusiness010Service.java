@@ -316,6 +316,8 @@ public class AnswerBusiness010Service extends AnswerBusinessService {
 				+ "' ,systemSerial= '" + trade.getSystemSerial()
 				+ "' where id.tradeDate = '" + trade.getId().getTradeDate()
 				+ "' and id.pbSerial = '" + trade.getId().getPbSerial() + "' ";
+		
+		
 		boolean suc = tradeDao.updateTrade(sql);
 		if (suc != true) {
 			logger.info("修改流水状态失败！" );

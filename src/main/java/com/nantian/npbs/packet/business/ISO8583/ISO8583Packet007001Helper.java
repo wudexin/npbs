@@ -18,6 +18,9 @@ public class ISO8583Packet007001Helper extends ISO8583Packetxxx001Helper {
 
 	private static Logger logger = LoggerFactory.getLogger(ISO8583Packet007001Helper.class);
 	
+	
+	
+	
 	//TODO: complete pack field 44
 	@Override
 	protected String packField44(BusinessMessage bm) {

@@ -325,7 +325,7 @@ public class RequestBusiness024Service extends RequestBusinessService {
 				return;
 			}
 			
-/**
+ 
 			// 取消授权标志  0-未授权；1-已授权
 			logger.info("取消授权标志:[{}]" , oriTrade.getCancelflag());
 			if(oriTrade.getCancelflag().equals(GlobalConst.TRADE_CANCEL_FLAG_NO)){
@@ -336,7 +336,7 @@ public class RequestBusiness024Service extends RequestBusinessService {
 				logger.error("该取消交易没有授权!用户输入流水号[{}],用户号[{}],,缴费金额[{}] | 原流水状态[{}]",
 						new Object[]{bm.getOldPbSeqno(),bm.getUserCode(), bm.getAmount(),oriTrade.getStatus(),});
 				return;
-			}	**/	
+			}	 	
 			//设置一般信息
 			bm.setBusinessType(oriTrade.getBusiCode());		
 			bm.setUserName(oriTrade.getCustomername());
@@ -482,6 +482,7 @@ public class RequestBusiness024Service extends RequestBusinessService {
 			bm.setResponseMsg("用户编号输入有误!");
 			cm.setResultCode(GlobalConst.RESULTCODE_FAILURE);
 			cm.setResultMsg("用户编号输入有误!");
+			logger.error("用户号"+oriTrade.getCustomerno()+"bm.getusercode()"+bm.getUserCode());
 			logger.error("取消交易失败,用户编号输入有误!流水状态为:" + oriTrade.getStatus() + "用户号:" + bm.getUserCode() 
 					+  ",平台流水号:" + bm.getOldPbSeqno() + ",缴费金额:" + bm.getAmount()  );
 			return false;

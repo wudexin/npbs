@@ -455,6 +455,8 @@ public class TradeDaoImpl extends BaseHibernateDao implements TradeDao {
 
 	}
 
+	
+	
 
 	// /* (non-Javadoc)
 	// * @see
@@ -475,4 +477,37 @@ public class TradeDaoImpl extends BaseHibernateDao implements TradeDao {
 	// });
 	// return result;
 	// }
+	
+	
+	@Override
+	public   TbBiTrade getTradeByDateSerial(String tradeDate, String pbSerial,String webDate,String webSerial){
+		logger.info("根据日期和流水号取流水表，原交易日期[{}],原交易流水号[{}],原E站日期[{}],原E站流水号[{}]", new Object[] { tradeDate, pbSerial,webDate ,webSerial});
+		TbBiTrade trade1=new TbBiTrade();
+		TbBiTradeId id = new TbBiTradeId(tradeDate, pbSerial);
+		trade1.setId(id);
+		trade1.setSystemDate(webDate);
+		trade1.setSystemSerial(webSerial);
+		String[] string={"TRADE_DATE","PB_SERIAL","SYSTEM_DATE","SYSTEM_SERIAL"};
+		String sql="select tt from TbBiTrade tt where tt.id.tradeDate='"+tradeDate+"' and tt.id.pbSerial='"+pbSerial+"' and tt.systemDate='"+webDate+"' and tt.systemSerial='"+webSerial+"'";
+		Object obj = null;
+		try {
+			
+		 List list = getHibernateTemplate().find(sql);
+			//obj = get(TbBiTrade.class, id);
+			if (list.size() == 1) {
+				obj=list.get(0);
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+			logger.error("取流水表出错!", e);
+		}
+		if (obj != null) {
+			TbBiTrade trade = (TbBiTrade) obj;
+			return trade;
+		} else {
+			return null;
+		}
+	 
+	}
 }

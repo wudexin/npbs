@@ -98,7 +98,6 @@ public class BaseHibernateDao extends GenericHibernateDao<Object, Serializable> 
 				public Object doInHibernate(Session session)
 						throws HibernateException, SQLException {
 					Query query = session.createSQLQuery(sql);
-				 
 					return query.executeUpdate();
 				}
 			});

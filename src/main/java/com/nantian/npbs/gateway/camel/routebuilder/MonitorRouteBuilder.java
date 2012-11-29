@@ -19,5 +19,4 @@ public class MonitorRouteBuilder extends SpringRouteBuilder {
 		logger.info("启动Monitor timer...");
 		from("timer://foo?fixedRate=true&period=10000").routeId("sedaQueueLengthMonitor").to("bean:monitorBean?method=monitor");
 	}
-
 }

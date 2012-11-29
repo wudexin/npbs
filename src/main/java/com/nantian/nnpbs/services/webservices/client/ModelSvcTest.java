@@ -33,14 +33,14 @@ public class ModelSvcTest extends Client3_TextCXFAPI{
 		 logger.info("testDemoMethod begin!");
 		ModelSvcReq modelSvcReq = new ModelSvcReq();
 		modelSvcReq.setBusi_code("025002");
-		modelSvcReq.setCompany_code("05008889"); 
+		modelSvcReq.setCompany_code_fir("05008889"); 
 		modelSvcReq.setAmount("100");
 		modelSvcReq.setFlag("1");
 		modelSvcReq.setSystem_code("21");
 		modelSvcReq.setWeb_date("20121015");
 		modelSvcReq.setWeb_serial("898989");
 		ModelSvcAns modelSvcAns = modelSvc.sendToQueue(modelSvcReq);
-		System.out.println(modelSvcAns.getAcc_balance()+modelSvcAns.getMessage());
+		System.out.println(modelSvcAns.getAcc_balance_fir()+modelSvcAns.getMessage());
 		logger.info("testDemoMethod end!"); 
 	}
 

@@ -1,6 +1,8 @@
 package com.nantian.npbs.business.service.request;
 
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
@@ -98,16 +100,23 @@ public class RequestBusiness004Service extends RequestBusinessService {
 			bm.setMidPlatformDate(origAmountTrade.getSystemDate().trim());
 			
 		}else if(bm.getTranCode().equals("018004")){
-			TbBiTrade oriTrade = tradeDao.getTradeById(bm.getTranDate().trim(), bm.getOldPbSeqno().trim());  
+			TbBiTrade oriTrade = tradeDao.getTradeById("20"+bm.getOldPbSeqno().trim().substring(0, 6), bm.getOldPbSeqno().trim());  
 			if(null==oriTrade){
 				  this.setResultMsg(cm, bm, 
 						  GlobalConst.RESPONSECODE_FAILURE, "系统数据异常",
 						  GlobalConst.RESULTCODE_FAILURE, "系统数据异常",
-						  "系统必须的流水日期，流水号为空！交易日期："+bm.getTranDate()+",流水号："+bm.getOldPbSeqno());
+						  "系统必须的流水日期，流水号为空！交易日期："+"20"+bm.getOldPbSeqno().trim().substring(0, 6)+",流水号："+bm.getOldPbSeqno());
 				return;
 			}
 			//农电缴费补写卡
 			TempData cashTemp = (TempData) baseHibernateDao.get(TempData.class,bm.getNdzhuanyong());
+			if(null==cashTemp){
+				  this.setResultMsg(cm, bm, 
+						  GlobalConst.RESPONSECODE_FAILURE, "系统数据异常",
+						  GlobalConst.RESULTCODE_FAILURE, "系统数据异常",
+						  "农电临时缴费数据异常");
+				return;
+			}
 			HeNDElecICCard customData=null;
 			if (bm.getCustomData() != null) {
 				customData = (HeNDElecICCard) bm.getCustomData();
@@ -226,11 +235,38 @@ public class RequestBusiness004Service extends RequestBusinessService {
 				GlobalConst.TRADE_STATUS_NEED_WRITE.equals(oriTrade.getStatus().trim())){
 			return true;
 		}else{
+			//查找是否写卡成功，缴费失败，如果是则可以做补写卡
+			String sql="select status from tb_bi_trade t where t.system_date='"+oriTrade.getSystemDate() 
+			+"' and t.system_serial='"+oriTrade.getSystemSerial()+"' and t.trade_type='03' and t.trade_date='"+"20"+bm.getOldPbSeqno().trim().substring(0,6)+"'";
+			List queryBySQL = tradeDao.queryBySQL(sql);
+			//List find = baseHibernateDao.find(sql);
+			if(queryBySQL.isEmpty()){
+				logger.info("查询写卡流水失败");
+				this.setResultMsg(cm, bm, 
+						GlobalConst.RESPONSECODE_FAILURE, "补写卡失败,查询写卡流水失败!",
+						GlobalConst.RESULTCODE_FAILURE, "补写卡失败,查询写卡流水失败!",
+						"补写卡失败,查询写卡流水失败");		
+				return false;
+			}
+			if(queryBySQL.get(0).equals("00")){
+				logger.info("查询缴费对应写卡流水为成功则修改缴费流水为成功");
+				boolean updateTradeStatus = tradeDao.updateTradeStatus(oriTrade.getSystemDate(), oriTrade.getId().getPbSerial(), "00");
+				if(updateTradeStatus){
+					return true;	
+				}else{
+					logger.info("更新原缴费流水失败");
+					this.setResultMsg(cm, bm, 
+							GlobalConst.RESPONSECODE_FAILURE, "补写卡失败,原交易流水更新失败!",
+							GlobalConst.RESULTCODE_FAILURE, "补写卡失败,原交易流水更新失败!",
+							"补写卡失败,原交易流水更新失败"+oriTrade.getStatus());		
+					return false;	
+				}
+			}else{
 			this.setResultMsg(cm, bm, 
 					GlobalConst.RESPONSECODE_FAILURE, "补写卡失败,流水状态不正确!",
 					GlobalConst.RESULTCODE_FAILURE, "补写卡失败,流水状态不正确!",
 					"补写卡失败，原交易状态为"+oriTrade.getStatus());				
-			return false;
+			return false;}
 		}
 		
 	}

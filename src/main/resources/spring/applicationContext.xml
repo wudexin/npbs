@@ -12,6 +12,6 @@
        default-lazy-init="true"> 
 	<import resource="classpath*:spring/appctx-main.xml"/>
 	<import resource="classpath*:spring/appctx-camel.xml"/>
-	<import resource="classpath*:spring/appctx-db.xml"/> 
-	<import resource="classpath*:spring/applicationContext-service.xml"/>
+	<import resource="classpath*:spring/appctx-db.xml"/>
+	<import resource="classpath*:spring/appctx-service.xml" />
 </beans> 

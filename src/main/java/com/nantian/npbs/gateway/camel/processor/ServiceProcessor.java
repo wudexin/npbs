@@ -12,6 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import weblogic.wtc.jatmi.TypedString;
+
 import com.nantian.npbs.common.GlobalConst;
 import com.nantian.npbs.common.GlobalConst.CHANEL_TYPE;
 import com.nantian.npbs.common.GlobalConst.DATA_TYPE;

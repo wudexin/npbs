@@ -118,7 +118,7 @@ public class ISO8583FieldICCardUtil {
 		
 	}
 	/**
-	 * 河北农电IC卡55域卡信息解包到卡信息实体 int hasFields[] = {54,49,50,51};
+	 * 河北农电IC卡55域卡信息解包到卡信息实体 int hasFields[] = {54,49,50,51,68};
 	 * @param field 55域pos上送信息
 	 * @param icData ----河北农电IC卡
 	 */
@@ -137,11 +137,11 @@ public class ISO8583FieldICCardUtil {
 				icData.setREAD_INFO(sv);
 				//icData.setREAD_INFO(s);//读卡字符串
 				icData.setCONS_NO(values[49].toString());//客户编号
-				icData.setCARD_NO(values[49].toString());//电卡编号
+				icData.setCARD_NO(values[50].toString());//电卡编号
 				icData.setPURP_FLAG(values[51].toString());//业务标识位
 				icData.setCARD_INFO("");//卡内信息
 				icData.setIDDATA("");//卡内信息
-				icData.setBUSI_TYPE(values[68].toString());//业务
+				icData.setBUSI_TYPE(values[68].toString()); 
 				
 			} catch (Exception e) {
 				logger.info("河北农电IC卡解包55域数据出现异常！");

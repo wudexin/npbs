@@ -161,7 +161,7 @@ public class CompanyDaoImpl extends GenericHibernateDao<TbBiCompany, String>
 					});
 			return true;
 		}catch(Exception e) {
-			logger.info("系统内部出错了!");
+			logger.info("系统内部出错了,需联系管理员!");
 			return false;
 		}
 		

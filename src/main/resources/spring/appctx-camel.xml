@@ -25,16 +25,19 @@
         <camel:routeBuilder ref="requestRouteBuilder"/>
         <camel:routeBuilder ref="elebusiRequestRouteBuilder"/>
         <camel:routeBuilder ref="monitorRouteBuilder"/>
-        <camel:routeBuilder ref="webServicesRouteBuilder"/> 
+        <camel:routeBuilder ref="webServicesAnswerRouteBuilder"/> 
+        <camel:routeBuilder ref="webServicesRequestRouteBuilder"/>  
     </camel:camelContext>
     
-    <bean id="webServicesRouteBuilder" class="com.nantian.npbs.gateway.camel.routebuilder.WebServicesRouteBuilder"/>
+    <bean id="webServicesAnswerRouteBuilder" class="com.nantian.npbs.gateway.camel.routebuilder.WebServicesAnswerRouteBuilder"/>
+    <bean id="webServicesRequestRouteBuilder" class="com.nantian.npbs.gateway.camel.routebuilder.WebServicesRequestRouteBuilder"/>
      <bean id="requestRouteBuilder" class="com.nantian.npbs.gateway.camel.routebuilder.RequestRouteBuilder"/>
     <bean id="serviceRouteBuilder" class="com.nantian.npbs.gateway.camel.routebuilder.ServiceRouteBuilder"/>
     <bean id="answerRouteBuilder" class="com.nantian.npbs.gateway.camel.routebuilder.AnswerRouteBuilder"/>
     <bean id="elebusiRequestRouteBuilder" class="com.nantian.npbs.gateway.camel.routebuilder.ELEBUSIRequestRouteBuilder"/>
     <bean id="monitorRouteBuilder" class="com.nantian.npbs.gateway.camel.routebuilder.MonitorRouteBuilder"/>
     
+    <bean id="createResponse" class="com.nantian.npbs.services.webservices.sendqueues.CreateResponse"/>
     <bean id="length-encoder" class="org.jboss.netty.handler.codec.frame.LengthFieldPrepender">
         <constructor-arg value="2"/>
     </bean>

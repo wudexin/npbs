@@ -9,161 +9,134 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.nantian.npbs.business.model.TbBiCompany;
 import com.nantian.npbs.business.model.TbBiPrepay;
 import com.nantian.npbs.business.model.TbBiPrepayInfo;
 import com.nantian.npbs.business.model.TbBiPrepayInfoId;
 import com.nantian.npbs.business.model.TbBiTrade;
 import com.nantian.npbs.business.model.TbBiTradeId;
+import com.nantian.npbs.common.GlobalConst;
 import com.nantian.npbs.packet.BusinessMessage;
 import com.nantian.npbs.packet.ControlMessage;
 import com.nantian.npbs.services.webservices.models.ModelSvcAns;
 import com.nantian.npbs.services.webservices.models.ModelSvcReq;
+
 @Scope("prototype")
-@Component(value="WebRequestBusiness025012Service")
+@Component(value = "WebRequestBusiness025012Service")
 public class WebRequestBusiness025012Service extends WebRequestBusinessService {
 	private static Logger logger = LoggerFactory
-	.getLogger(WebRequestBusiness025012Service.class);
-	
+			.getLogger(WebRequestBusiness025012Service.class);
+
 	@Override
 	public void dealBusiness(ModelSvcReq modelSvcReq, ModelSvcAns modelSvcAns) {
 		logger.info("WebRequestBusiness025012Service webexecute begin");
 		TbBiTrade trade = new TbBiTrade();
 		TbBiTradeId tradeId = new TbBiTradeId();
-		String number = baseHibernateDao.getNumber();
-		tradeId.setPbSerial(number);
-		tradeId.setTradeDate(baseHibernateDao.getSystemDate());
-
-		TbBiPrepayInfo tbBiPrepayInfo = new TbBiPrepayInfo();
-		TbBiPrepayInfoId tbBiPrepayInfoId = new TbBiPrepayInfoId();
-		tbBiPrepayInfoId.setPbSerial(number);
-		tbBiPrepayInfoId.setTradeDate(baseHibernateDao.getSystemDate());
-
-		String companyCode = modelSvcReq.getCompany_code();// 主商户1
+		tradeId.setPbSerial(modelSvcReq.getPb_serial());
+		tradeId.setTradeDate(modelSvcReq.getTrade_date());
+		String companyCode = modelSvcReq.getCompany_code_fir();// 主商户1
 		String companyCode2 = modelSvcReq.getCompany_code_sec();// 辅商户2
-		String sql="select * from tb_bi_trade t  where t.system_serial='"+modelSvcReq.getWeb_serial()+"' and t.trade_date='"+modelSvcReq.getWeb_date()+"' ";
-		logger.info("查询sql"+sql);
-		//查找流水
-		List list = tradeDao.findInfoList(sql);
-		if(list.isEmpty()){
+
+		logger.info("---------------------检查冲正流水开始 冲正商户 号：[{}]冲正金额[{}]-------------------------",
+						companyCode, modelSvcReq.getAmount());
+		TbBiTrade oriTrade = tradeDao.getTradeByDateSerial(modelSvcReq.getOld_trade_date(),
+				modelSvcReq.getOld_pb_serial(),modelSvcReq.getOld_web_date(),
+				modelSvcReq.getOld_web_serial());
+		if (oriTrade == null) {
 			modelSvcAns.setMessage("查无此流水");
-			modelSvcAns.setStatus("01");
+			modelSvcAns.setStatus(GlobalConst.TRADE_STATUS_CARD_ORIG);
 			return;
-		}else {
-			//有该笔流水的情况 。判断该流水的的交易状态，如果为取消，则不能ukg
-			
-		}
-		if (companyCode2 == null) {// 辅商户为空的情况,直接冲回商户1
-			// 先记流水
-			setTrade(trade, tradeId, modelSvcReq, modelSvcReq.getCompany_code());
-			if (tradeDao.addTrade(trade)) {// 流水成功后记备付金明细。
-				tbBiPrepayInfoId.setPbSerial(number);
-				tbBiPrepayInfoId.setTradeDate(new SimpleDateFormat("yyyyMMdd")
-						.format(new Date()));
-				setPrepayInfo(tbBiPrepayInfo, tbBiPrepayInfoId, modelSvcReq,
-						modelSvcReq.getCompany_code());
-				baseHibernateDao.save(tbBiPrepayInfo);
-				String string = withdrawalsPrepay(companyCode, Double
-						.parseDouble(modelSvcReq.getAmount()));
-				if (!string.equals("000000")) {
-					if (string.equals("000001")) {
-						modelSvcAns.setMessage("交易失败");
-						modelSvcAns.setStatus("01");
-					} else if (string.equals("000002")) {
-						modelSvcAns.setMessage("提取备付金账户出错!");
-						modelSvcAns.setStatus("01");
-					} else if (string.equals("000003")) {
-						modelSvcAns.setMessage("备付金余额不足!");
-						modelSvcAns.setStatus("01");
-					}
-					return;
-				}
-			} else {// 流水失败则不扣款，直接返回
-				modelSvcAns.setMessage("增加流水失败，冲正失败！");
-				modelSvcAns.setStatus("01");
+		} else {
+			if(!checkOldTradeState(oriTrade, modelSvcReq, modelSvcAns)){
 				return;
 			}
-		
-		} else {// 商户号2有值的情况 。则把商户2的值扣除，再增加到商户1里。
-				 
-			setTrade(trade, tradeId, modelSvcReq, modelSvcReq.getCompany_code_sec());
-			if (tradeDao.addTrade(trade)) {
-				// 增加流水成功后扣款
-				String string = withdrawalsPrepay(companyCode, Double
-						.parseDouble(modelSvcReq.getAmount()));
-				if (!string.equals("000000")) {
-					if (string.equals("000001")) {
-						modelSvcAns.setMessage("交易失败！");
-						modelSvcAns.setStatus("01");
-					} else if (string.equals("000002")) {
-						modelSvcAns.setMessage("提取备付金账户出错！");
-						modelSvcAns.setStatus("01");
-					} else if (string.equals("000003")) {
-						modelSvcAns.setMessage("备付金余额不足！");
-						modelSvcAns.setStatus("01");
-					}
-					//在这里更成失败状态 
-					return;
-				} else {
-					// 扣款商户2成功后，登录 备付金明细
-					setPrepayInfo(tbBiPrepayInfo, tbBiPrepayInfoId,
-							modelSvcReq, modelSvcReq.getCompany_code_sec());
-					tbBiPrepayInfo.setFlag("2");
-					baseHibernateDao.save(tbBiPrepayInfo);
-					//增加金额到商户1
-					TbBiTrade  trade2 = new TbBiTrade();
-					TbBiTradeId  tradeId2 = new TbBiTradeId();
-					String number2 = baseHibernateDao.getNumber();
-					tradeId2.setPbSerial(number2);
-					tradeId2.setTradeDate(baseHibernateDao.getSystemDate());
-
-					TbBiPrepayInfo  tbBiPrepayInfo2 = new TbBiPrepayInfo();
-					TbBiPrepayInfoId  tbBiPrepayInfoId2 = new TbBiPrepayInfoId();
-					tbBiPrepayInfoId2.setPbSerial(number2);
-					tbBiPrepayInfoId2.setTradeDate(baseHibernateDao.getSystemDate());
-					
-					setTrade(trade2, tradeId2, modelSvcReq, modelSvcReq.getCompany_code_sec());
-					if (tradeDao.addTrade(trade2)) {
-						
-						setPrepayInfo(tbBiPrepayInfo2, tbBiPrepayInfoId2,
-								modelSvcReq, modelSvcReq.getCompany_code_sec());	
-						 
-						if(addPrepayInfo(tbBiPrepayInfo2) ){
-							//转入商户2
-						String depositPrepay = depositPrepay(modelSvcReq.getCompany_code_sec(),Double.parseDouble(modelSvcReq.getAmount()));
-						if (!string.equals("000000")) {
-							if (string.equals("000001")) {
-								modelSvcAns.setMessage("修改备付金账户余额出错");
-								modelSvcAns.setStatus("01");
-							} else if (string.equals("000002")) {
-								modelSvcAns.setMessage("取该商户备付金账户时出错!");
-								modelSvcAns.setStatus("01");
-							} 
-							//在这里更成失败状态，把钱转回到商户里，
-							return;
-						}   
-						
-						}
-					}
-				}
-				modelSvcAns.setCompany_code(companyCode);
-				// 取备付金账户信息
-				TbBiPrepay tbPrepay = null;
-				try {
-					tbPrepay = getPrepay(companyCode);
-				} catch (Exception e) {
-				}
-				modelSvcAns.setAmount(modelSvcReq.getAmount());
-				modelSvcAns.setAcc_balance(tbPrepay.getAccBalance().toString());
-				modelSvcAns.setTrade_date(tradeId.getTradeDate());
-				modelSvcAns.setPb_serial(tradeId.getPbSerial());
-				modelSvcAns.setMessage("交易成功");
-				modelSvcAns.setStatus("00");
+			if(!checkOldTradeAmount(oriTrade, modelSvcReq, modelSvcAns)){
 				return;
-
+			}
+			if(!checkOldTradeAmount(oriTrade, modelSvcReq, modelSvcAns)){
+				return;
 			}
 		}
-		
-		
+		modelSvcReq.setOriTrade(oriTrade);
+		logger.info("-----------------检查冲正流水结束 -------------------------");
+		if (modelSvcReq.getSystem_code().equals("22")) {// 辅商户为空的情况,直接冲回商户1
+			logger.info("-----------------------只有一个商户号，直接冲正  开始-------------------------");
+			setTrade(trade, tradeId, modelSvcReq, modelSvcReq
+					.getCompany_code_fir());
+			modelSvcReq.setTbBiTrade(trade);
+			modelSvcReq.setTradeId(tradeId);
+	}
+		else{
+			modelSvcAns.setMessage("暂不支持的交易类型");
+			modelSvcAns.setStatus(GlobalConst.TRADE_STATUS_CARD_ORIG);
+		}	
 		logger.info("WebRequestBusiness025012Service webexecute end");
+	}
+
+	@Override
+	public void setTradeFlag(ModelSvcReq modelSvcReq) {
+		// TODO Auto-generated method stub
+		modelSvcReq.setSeqnoFlag("1");
+		
+	}
+	
+	/**
+	 * 检查原交易状态
+	 */
+	protected boolean checkOldTradeState(TbBiTrade oriTrade,ModelSvcReq modelSvcReq,ModelSvcAns modelSvcAns){
+		if(oriTrade.getStatus().trim().equals(GlobalConst.TRADE_STATUS_SUCCESS)){
+			return true;
+		}else{
+			modelSvcAns.setStatus(GlobalConst.TRADE_STATUS_CARD_ORIG);
+			modelSvcAns.setMessage("取消交易失败,该状态不能取消,请拨打客服电话咨询!");
+			logger.error("取消交易失败,原状态不能取消!用户录入平台流水号[{}],商户号[{}],缴费金额[{}] | 原流水状态为[{}]",
+					new Object[]{ modelSvcReq.getOld_pb_serial(),modelSvcReq.getCompany_code_fir(),modelSvcReq.getAmount(), oriTrade.getStatus()});
+			return false;
 		}
+	}
+	
+	 
+	
+	/**
+	 * 检查原交易缴费金额
+	 */
+	protected boolean checkOldTradeAmount(TbBiTrade oriTrade,ModelSvcReq modelSvcReq,ModelSvcAns modelSvcAns){
+		if(oriTrade.getAmount()==Double.parseDouble(modelSvcReq.getAmount())) 
+				return true; 
+		  else{
+			
+			modelSvcAns.setStatus(GlobalConst.TRADE_STATUS_CARD_ORIG);
+			modelSvcAns.setMessage("取消交易失败,缴费金额输入有误!");
+			logger.error("取消交易失败,缴费金额输入有误!用户录入平台流水号[{}],商户号[{}],缴费金额[{}] | 原缴费金额为[{}]",
+					new Object[]{ modelSvcReq.getOld_pb_serial(),modelSvcReq.getCompany_code_fir(),modelSvcReq.getAmount(), oriTrade.getAmount()});
+			return false;
+		}
+	}
+	
+	/**
+	 * 检查原交易商户号是否相符
+	 */
+	protected boolean checkOldTradeCompany(TbBiTrade oriTrade,ModelSvcReq modelSvcReq,ModelSvcAns modelSvcAns){
+		if(oriTrade.getCompanyCode().equals(modelSvcReq.getCompany_code_fir())) 
+				return true; 
+		  else{
+			
+			modelSvcAns.setStatus(GlobalConst.TRADE_STATUS_CARD_ORIG);
+			modelSvcAns.setMessage("取消交易失败,商户号不符!");
+			logger.error("取消交易失败,缴费金额输入有误!用户录入平台流水号[{}],商户号[{}],缴费金额[{}] | 原缴费金额为[{}]",
+					new Object[]{ modelSvcReq.getOld_pb_serial(),modelSvcReq.getCompany_code_fir(),modelSvcReq.getAmount(), oriTrade.getAmount()});
+			return false;
+		}
+	}
+
+	/**
+	 * 返回交易类型 
+	 * 02-取消交易
+	 * @return
+	 */
+	protected String tradeType(){
+		return "02";
+	}
+	
+	
 }

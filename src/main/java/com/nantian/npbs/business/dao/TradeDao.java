@@ -153,4 +153,14 @@ public interface TradeDao {
 	 * @throws Exception
 	 */
 	boolean updateTradeContrast(String sql);
+	
+	 /**
+	  * 
+	  * @param tradeDate
+	  * @param pbSerial
+	  * @param webDate
+	  * @param webSerial
+	  * @return
+	  */
+	public abstract TbBiTrade getTradeByDateSerial(String tradeDate, String pbSerial,String webDate,String webSerial);
 }

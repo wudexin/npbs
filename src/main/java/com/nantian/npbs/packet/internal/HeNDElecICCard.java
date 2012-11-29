@@ -56,6 +56,16 @@ public class HeNDElecICCard {
 	public String PRE_AMT;
 	// 用户上次购电次数
 	public String PURP_TIMES;
+
+	
+/**/	//阶梯差价  
+	public String LADDER_DIFF;
+	//本年累计用电量
+	public String ANNUAL_VALUE;
+	 //本档阶梯剩余电量   
+	public String LADDER_SURPLUS;
+	
+	
 	public String getBUSI_TYPE() {
 		return BUSI_TYPE;
 	}
@@ -363,6 +373,30 @@ public class HeNDElecICCard {
 
 	public void setPRESET_VALUE(String pRESETVALUE) {
 		PRESET_VALUE = pRESETVALUE;
+	}
+
+	 public String getLADDER_DIFF() {
+			return LADDER_DIFF;
+	}
+
+	public void setLADDER_DIFF(String lADDERDIFF) {
+			LADDER_DIFF = lADDERDIFF;
+	}
+
+	public String getANNUAL_VALUE() {
+			return ANNUAL_VALUE;
+	}
+
+	public void setANNUAL_VALUE(String aNNUALVALUE) {
+			ANNUAL_VALUE = aNNUALVALUE;
+	}
+
+	public String getLADDER_SURPLUS() {
+			return LADDER_SURPLUS;
+	}
+
+	public void setLADDER_SURPLUS(String lADDERSURPLUS) {
+			LADDER_SURPLUS = lADDERSURPLUS;
 	}
 
 }

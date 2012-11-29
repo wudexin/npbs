@@ -28,6 +28,7 @@ public class ISO8583Packetxxx010Helper implements IPacketISO8583{
 		//field 11, system trace number (pos journal no)
 		ISO8583PacketUtils.unpackField(fieldValues,11,bm,true);
 		
+		
 		//field 32, user code
 		ISO8583PacketUtils.unpackField(fieldValues,32,bm,true);
 		

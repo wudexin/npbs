@@ -12,9 +12,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import com.nantian.npbs.business.service.answer.WebAnswerBusinessService;
 import com.nantian.npbs.business.service.request.WebRequestBusinessService;
 import com.nantian.npbs.common.GlobalConst.DATA_TYPE;
 import com.nantian.npbs.core.service.IRequestBusinessService;
+import com.nantian.npbs.core.service.WebAnswerBusinessFactory;
 import com.nantian.npbs.core.service.WebRequestBusinessFactory;
 import com.nantian.npbs.gateway.camel.sedaroute.SedaRouteUtils;
 import com.nantian.npbs.gateway.camel.sedaroute.SedaUtils;
@@ -22,28 +24,41 @@ import com.nantian.npbs.packet.PacketOperationException;
 import com.nantian.npbs.packet.PacketUtils;
 import com.nantian.npbs.services.webservices.models.ModelSvcAns;
 import com.nantian.npbs.services.webservices.models.ModelSvcReq;
-@Component(value="webServicesAnswerProcessor")
-public class WebServicesAnswerProcessor extends BaseProcessor implements Processor {
-	private static Logger logger = LoggerFactory.getLogger(WebServicesAnswerProcessor.class);
+
+@Component(value = "webServicesAnswerProcessor")
+public class WebServicesAnswerProcessor extends BaseProcessor implements
+		Processor {
+	private static Logger logger = LoggerFactory
+			.getLogger(WebServicesAnswerProcessor.class);
 
 	@Override
 	@Profiled(tag = "webServicesAnswerProcessor")
 	public void process(Exchange exchange) throws Exception {
 
 		logger.info("start webServicesAnswerProcessor process ....");
-		logger.info(" "); 
-		Map<DATA_TYPE, Object> message1 = exchange.getIn().getBody(Map.class);
-		ModelSvcAns modelSvcAns = (ModelSvcAns)message1.get("modelSvcAns");
-		ModelSvcReq modelSvcReq =(ModelSvcReq)message1.get("modelSvcReq");
-		WebRequestBusinessService  service=WebRequestBusinessFactory.create(modelSvcReq.getBusi_code());
-		service.webexecute(modelSvcReq,modelSvcAns);
-		modelSvcAns.setInstatus("00");
-		Map<Object, Object> m = new HashMap();
-		m.put("modelSvcReq", modelSvcReq);
-		m.put("modelSvcAns", modelSvcAns);
-        exchange.getOut().setBody(m);
-        logger.info("end webServicesAnswerProcessor process ....");
-		return; 
+
+		ModelSvcReq modelSvcReq = getModelSvcReq(exchange);
+		ModelSvcAns modelSvcAns = getModelSvcAns(exchange);
+		WebAnswerBusinessService service = WebAnswerBusinessFactory
+				.create(modelSvcReq.getBusi_code());
+		service.execute(modelSvcReq, modelSvcAns);
+
+		
+		modelSvcAns.setStrTest(modelSvcReq.getWeb_date()+""+modelSvcReq.getWeb_serial());
+		exchange.getOut().setBody(modelSvcAns);
+		logger.info("end webServicesAnswerProcessor process ....响应码[{}],响应信息[{}]",modelSvcAns.getStatus(), modelSvcAns.getMessage());
+		return;
 	}
- 
+
+	private ModelSvcReq getModelSvcReq(Exchange exchange) {
+		return (ModelSvcReq) PacketUtils.getMessageMap(exchange).get(
+				DATA_TYPE.WEBREQ);
+
+	}
+
+	private ModelSvcAns getModelSvcAns(Exchange exchange) {
+		return (ModelSvcAns) PacketUtils.getMessageMap(exchange).get(
+				DATA_TYPE.WEBANS);
+
+	}
 }

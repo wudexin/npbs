@@ -37,6 +37,7 @@ public class TUXSTRINGPacket018002Helper extends TUXSTRINGPacketxxx002Helper {
 				.getCHECK_ID());// 售电查询出参返回的对账批次
 		PacketUtils.addFieldValue(fieldValues, "D13_13_HEND_CONS_NO", cardData
 				.getCONS_NO()); // 客户编号
+		bm.setUserCode(cardData.getCONS_NO());//由于农电的读卡信息里取不到客户编号，需要打印用户编号
 		PacketUtils.addFieldValue(fieldValues, "D13_13_HEND_METER_ID", cardData
 				.getMETER_ID()); // 电能表编号
 		PacketUtils.addFieldValue(fieldValues, "D13_13_HEND_PURP_VALUE",
@@ -71,6 +72,7 @@ public class TUXSTRINGPacket018002Helper extends TUXSTRINGPacketxxx002Helper {
 				.getOCS_MODE());
 		PacketUtils.addFieldValue(fieldValues, "D13_13_HEND_PRESET_VALUE", cardData
 				.getPRESET_VALUE());
+		
 
 	}
 
@@ -105,6 +107,25 @@ public class TUXSTRINGPacket018002Helper extends TUXSTRINGPacketxxx002Helper {
 		if (SERIAL_NUMBER == null)
 			throw new PacketOperationException();
 		cash.setSERIAL_NUMBER(SERIAL_NUMBER);
+		//add by mengqingwei 20121030 start 
+		 //阶梯差价  
+		String LADDER_DIFF = (String) fieldValues.get("D13_13_HEND_LADDER_DIFF");
+		if (LADDER_DIFF == null)
+			throw new PacketOperationException();
+		cash.setLADDER_DIFF(LADDER_DIFF);
+
+		 //本年累计用电量   
+		String ANNUAL_VALUE = (String) fieldValues.get("D13_13_HEND_ANNUAL_VALUE");
+		if (ANNUAL_VALUE == null)
+			throw new PacketOperationException();
+		cash.setANNUAL_VALUE(ANNUAL_VALUE);
+		 //本档阶梯剩余电量       
+		String LADDER_SURPLUS = (String) fieldValues.get("D13_13_HEND_LADDER_SURPLUS");
+		if (LADDER_SURPLUS == null)
+			throw new PacketOperationException();
+		cash.setLADDER_SURPLUS(LADDER_SURPLUS);
+		
+		//add by mengqingwei 20121030 end
 
 		bm.setCustomData(cash);
 	}
@@ -119,6 +140,12 @@ public class TUXSTRINGPacket018002Helper extends TUXSTRINGPacketxxx002Helper {
 				"D13_13_HEND_PRE_AMT", // 用户余额
 				"D13_13_HEND_WRITE_INFO", // 写卡字符串
 				"D13_13_HEND_SERIAL_NUMBER" // 外部售电系统售电流水号
+				
+				//add by mengqingwei 20121030
+				,"D13_13_HEND_LADDER_DIFF",	 //阶梯差价      
+				"D13_13_HEND_ANNUAL_VALUE", // 本年累计用电量   
+				"D13_13_HEND_LADDER_SURPLUS"//本档阶梯剩余电量   
+
 		};
 		return fields;
 	}

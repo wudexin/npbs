@@ -77,21 +77,14 @@ public class ISO8583Packet018001Helper extends ISO8583Packetxxx001Helper {
 			HeNDElecICCard customData = (HeNDElecICCard) bm.getCustomData();
 
 			if (null != customData.getCARD_NO()) {
-				str.append("电卡编号:").append(customData.getCARD_NO())
+				str.append("用户编号:").append(customData.getCONS_NO())
 						.append("\n");
 			}
 			if (null != customData.getCONS_NAME()) {
 				str.append("用户名称:").append(customData.getCONS_NAME()).append(
 						"\n");
 			}
-			if (null != customData.getCONS_ADDR()) {
-				str.append("用电地址:").append(customData.getCONS_ADDR()).append(
-						"\n");
-			}
-			if (null != customData.getPURP_PRICE()) {
-				str.append("购电电价:").append(customData.getPURP_PRICE()).append(
-						"\n");
-			}
+			 
 			if (null != customData.getOWN_AMT()) {
 				str.append("欠费金额:").append(customData.getOWN_AMT())
 						.append("\n");

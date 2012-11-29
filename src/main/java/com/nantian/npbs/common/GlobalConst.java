@@ -74,15 +74,17 @@ public class GlobalConst {
 
 	public static enum DATA_TYPE {
 		CONTROLOBJECT, BUSINESSOBJECT, ORIGREQPACKET, SERVICEREQPACET, SERVICEANSPACET, ORIGANSPACKET
+	//add by fengyafang  20121020
+		,WEBREQ,WEBANS
 	}
 
 	public static enum CHANEL_TYPE {
 		POS, // 便民服务站
 		EPOS, // 缴费一站通
 		ELEBUSISERIVCE, // 电子商务平台服务渠道
-		ELEBUSIREQUEST
-		// 电子商务平台请求渠道
-		
+		ELEBUSIREQUEST//web渠道
+	 
+	 
 	}
 	
 	public static final String posChanelCode = "01";
