@@ -20,6 +20,7 @@ public class AnswerBusiness001Service extends AnswerBusinessService {
 	public void dealBusiness(ControlMessage cm, BusinessMessage bm) {
 		logger.info("缴费查询交易响应处理开始！无业务处理！");
 			
+		//add test
 		// 业务处理，查询交易，打包前处理
 		// 更新系统日期
 		//取变量池中的中间业务平台日期，原C中用的是ZHFWPTRQ
