@@ -145,6 +145,7 @@ public class BusinessMessage {
 	private String batFileName;  //日终对账文件名
 	
 	private String  ndzhuanyong; //农电专用流水 用来存放取消 补写 撤消补写的 查询流水号
+	private String qxMessage;//取消交易的信息
 	
 	public String getNdzhuanyong() {
 		return ndzhuanyong;
@@ -844,5 +845,11 @@ public class BusinessMessage {
 	/** 低额提醒金额（ePOS特殊处理）*/
 	public String getLowTipAmount() {
 		return lowTipAmount;
+	}
+	public String getQxMessage() {
+		return qxMessage;
+	}
+	public void setQxMessage(String qxMessage) {
+		this.qxMessage = qxMessage;
 	}
 }

@@ -1670,6 +1670,9 @@ public class TUXSTRINGFieldsConfig extends FieldsConfig {
 		
 		f = new Field("D13_13_HEGB_DZ_DATE", VariableType.ASCII, LengthType.VARIABLE, 8, "补写卡日期");
 		addFieldConfig(f.getName(), f);
+		//新奥燃气 阶梯气价 
+		f = new Field("D13_13_XAIC_BM_JT", VariableType.ASCII, LengthType.VARIABLE, 120, "阶梯气价");
+		addFieldConfig(f.getName(), f);
 		
 	}
 

@@ -66,7 +66,6 @@ public class ISO8583Packet013025Helper extends ISO8583Packetxxx025Helper {
 		//2:随机数
 		//22:华电IC卡_参数信息文件
 		//6:返回购电次数
-		
 		//
 		int hasFields[] = {20,1,3,21,2,22,6};
 		try {

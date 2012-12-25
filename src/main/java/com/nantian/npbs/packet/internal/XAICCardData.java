@@ -45,6 +45,8 @@ public class XAICCardData {
 	//备注2
 	private String XAIC_Bz2;
 	
+	private String IC_BM_JT;
+	
 	public String getXAIC_Bz1() {
 		return XAIC_Bz1;
 	}
@@ -147,6 +149,14 @@ public class XAICCardData {
 
 	public void setXAIC_Buy(String xAICBuy) {
 		XAIC_Buy = xAICBuy;
+	}
+
+	public String getIC_BM_JT() {
+		return IC_BM_JT;
+	}
+
+	public void setIC_BM_JT(String iCBMJT) {
+		IC_BM_JT = iCBMJT;
 	}
 
 

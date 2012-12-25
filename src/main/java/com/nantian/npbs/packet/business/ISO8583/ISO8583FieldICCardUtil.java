@@ -130,12 +130,8 @@ public class ISO8583FieldICCardUtil {
 		 try {
 			 logger.info(buffer.toString());
 				Object[] values = ElectricFieldReadCardInfoUtils.unpackElectricField55(hasFields, buffer);
-				     String sv =values[54].toString().replace('|', '^');
-				//String sv="0008016985|01|LX_001|LK|1||272|1|1|1| |120713165838|0|0|0|0|0||0| | | | |0| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |  | |";
-				//String s =sv.replace('|', '^');
-				// String sv="0008016985^3^LX_001^LK^2408^^8^12^^^^120917094609^1^409^0^0^409^240^0^^^^^0^^^^^^0^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^";
+				String sv =values[54].toString().replace('|', '^');
 				icData.setREAD_INFO(sv);
-				//icData.setREAD_INFO(s);//读卡字符串
 				icData.setCONS_NO(values[49].toString());//客户编号
 				icData.setCARD_NO(values[50].toString());//电卡编号
 				icData.setPURP_FLAG(values[51].toString());//业务标识位

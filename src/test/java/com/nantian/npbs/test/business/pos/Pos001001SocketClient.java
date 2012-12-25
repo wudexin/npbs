@@ -99,7 +99,7 @@ public class Pos001001SocketClient {
 
 	private static Socket reconnect() throws UnknownHostException, IOException {
 		logger.debug("recreating socket...");
-		String serverIp = "127.0.0.1";
+		String serverIp = "10.232.4.145";
 //		String serverIp = "10.22.17.13";
 		int serverPort = 8884;
 		Socket s = new Socket(serverIp, serverPort);

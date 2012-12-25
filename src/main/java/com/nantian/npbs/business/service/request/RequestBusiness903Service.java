@@ -169,7 +169,11 @@ public class RequestBusiness903Service extends RequestBusinessService {
 			setRetMsg(cm,bm,"","修改签到状态失败!商户号=[" + shopCode + "];");
 			return;
 		}
-		//在此增加是否需要下载农电的标志。如果需要，则置参数下载标志为1。
+		//在此增加检查是否有农电业务 是否需要下载农电的标志。如果需要，则置参数下载标志为1。
+		//add by fengyafang 20121213
+		 
+		
+		 
 	}
 	
 	/**

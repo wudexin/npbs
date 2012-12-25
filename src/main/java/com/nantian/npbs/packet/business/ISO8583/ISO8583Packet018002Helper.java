@@ -35,7 +35,7 @@ public class ISO8583Packet018002Helper extends ISO8583Packetxxx002Helper {
 			logger.info("河北农电IC卡----55域信息解包到卡信息实体----开始");
 			 String buffer = (String)field;
 				customData.setCONS_NO(buffer.toString());// 客户编号
-		bm.setUserCode(customData.getCONS_NO());//用户编号
+		bm.setUserCode(customData.getCONS_NO().trim());//用户编号
 		bm.setCustomData(customData);
 		logger.info("河北农电IC卡缴费--解包55位元读卡信息解包--结束"); 
 	}
@@ -70,14 +70,19 @@ public class ISO8583Packet018002Helper extends ISO8583Packetxxx002Helper {
 			return bm.getResponseMsg();
 		}
 		StringBuffer str = new StringBuffer();
-		if(!"".equals(cashData.getLADDER_DIFF())||cashData.getLADDER_DIFF()!=null)
+		if(!("".equals(cashData.getLADDER_DIFF().trim())||cashData.getLADDER_DIFF()==null))
 		str.append("阶梯差价:").append(cashData.getLADDER_DIFF()).append("\n");
-		if(!"".equals(cashData.getANNUAL_VALUE())||cashData.getANNUAL_VALUE()!=null)
+		if(!("".equals(cashData.getANNUAL_VALUE().trim())||cashData.getANNUAL_VALUE()==null))
 		str.append("本年累计用电量:").append(cashData.getANNUAL_VALUE()).append("\n");
-		if(!"".equals(cashData.getLADDER_SURPLUS())||cashData.getLADDER_SURPLUS()!=null)
+		if(!("".equals(cashData.getLADDER_SURPLUS().trim())||cashData.getLADDER_SURPLUS()==null))
 		str.append(cashData.getLADDER_SURPLUS());
-	    bm.setResponseMsg(str.toString());
-		return str.toString();
+		if(str.toString().length()>1){
+		 bm.setResponseMsg(str.toString());
+		 return str.toString();
+		}else{
+			return bm.getResponseMsg();
+		}
+		
 		//add by mengqingwei 20121030 end
 	}
 	

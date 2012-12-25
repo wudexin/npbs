@@ -374,9 +374,7 @@ public class AnswerBusiness024Service extends AnswerBusinessService {
 					return;
 				}
 
-				// 更新对应当前撤销申请写卡数据流水的缴费交易状态为成功
-				this.tradeDao.updateTradeStatus(bm.getTranDate(), trade.getId()
-						.getPbSerial(), GlobalConst.TRADE_STATUS_CANCEL);
+			 
 
 			} else {
 

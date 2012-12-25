@@ -74,6 +74,7 @@ public class RequestBusiness024Service extends RequestBusinessService {
 				return;
 			}
 			
+			
 			// 取消授权标志  0-未授权；1-已授权
 			logger.info("取消授权标志:[{}]" , oriTrade.getCancelflag());
 			if(oriTrade.getCancelflag().equals(GlobalConst.TRADE_CANCEL_FLAG_NO)){
@@ -85,7 +86,7 @@ public class RequestBusiness024Service extends RequestBusinessService {
 						new Object[]{bm.getOldPbSeqno() , oriTrade.getStatus(),});
 				return;
 			}
-			
+			/*	*/
 			//通过缴费流水 查 写卡电子商务平台流水
 			StringBuffer sb = new StringBuffer();
 			sb.append("select t.system_serial from tb_bi_trade t where t.pb_serial = ");

@@ -31,7 +31,6 @@ public class ISO8583Packet011002Helper extends ISO8583Packetxxx002Helper {
 		
 		try {
 			Object[] values = ElectricField55Utils.unpackElectricField55(hasFields, buffer);
-			
 			//Ic卡号
 			String xAIC_id = (String)values[54];
 			icData.setXAIC_Id(xAIC_id);
@@ -78,7 +77,80 @@ public class ISO8583Packet011002Helper extends ISO8583Packetxxx002Helper {
 		}
 		
 		if(null != icData) {
-			str.append("购气方数:").append(Integer.valueOf(icData.getXAIC_Buy())).append("方\n");
+		//	str.append("购气方数:").append(Integer.valueOf(icData.getXAIC_Buy())).append("方\n");
+			str.append("购气总量:").append(Integer.valueOf(icData.getXAIC_Buy())).append("\n");
+			String icBMJT = icData.getIC_BM_JT();	
+			if(icBMJT.length()==30){ 
+				String substring = icBMJT.substring(0, 10);	
+				str.append("购气单价:").append(Double.parseDouble(substring)/100).append("\n");
+				 String substring2 = icBMJT.substring(10, 20);
+					str.append("购气量:").append(Integer.parseInt(substring2)).append("\n");
+				  String substring3 = icBMJT.substring(20, 30);
+					str.append("购气金额:").append(Double.parseDouble(substring3)/100).append("\n");
+			}
+			else if(icBMJT.length()==60){
+				String substring = icBMJT.substring(0, 10);	
+				str.append("购气单价:").append(Double.parseDouble(substring)/100).append("\n");
+				 String substring2 = icBMJT.substring(10, 20);
+					str.append("购气量:").append(Integer.parseInt(substring2)).append("\n");
+				  String substring3 = icBMJT.substring(20, 30);
+					str.append("购气金额:").append(Double.parseDouble(substring3)/100).append("\n");
+					String substring4 = icBMJT.substring(30, 40);	
+					str.append("购气单价:").append(Double.parseDouble(substring4)/100).append("\n");
+					 String substring5 = icBMJT.substring(40, 50);
+						str.append("购气量:").append(Integer.parseInt(substring5)).append("\n");
+					  String substring6 = icBMJT.substring(50, 60);
+						str.append("购气金额:").append(Double.parseDouble(substring6)/100).append("\n");
+			}
+			else if(icBMJT.length()==90){
+				String substring = icBMJT.substring(0, 10);	
+				str.append("购气单价:").append(Double.parseDouble(substring)/100).append("\n");
+				 String substring2 = icBMJT.substring(10, 20);
+					str.append("购气量:").append(Integer.parseInt(substring2)).append("\n");
+				  String substring3 = icBMJT.substring(20, 30);
+					str.append("购气金额:").append(Double.parseDouble(substring3)/100).append("\n");
+					String substring4 = icBMJT.substring(30, 40);	
+					str.append("购气单价:").append(Double.parseDouble(substring4)/100).append("\n");
+					 String substring5 = icBMJT.substring(40, 50);
+						str.append("购气量:").append(Integer.parseInt(substring5)).append("\n");
+					  String substring6 = icBMJT.substring(50, 60);
+						str.append("购气金额:").append(Double.parseDouble(substring6)/100).append("\n");
+						String substring7 = icBMJT.substring(60, 70);	
+						str.append("购气单价:").append(Double.parseDouble(substring7)/100).append("\n");
+						 String substring8 = icBMJT.substring(70, 80);
+							str.append("购气量:").append(Integer.parseInt(substring8)).append("\n");
+						  String substring9 = icBMJT.substring(80, 90);
+							str.append("购气金额:").append(Double.parseDouble(substring9)/100).append("\n");
+				
+			}
+			else if(icBMJT.length()==120){
+				String substring = icBMJT.substring(0, 10);	
+				str.append("购气单价:").append(Double.parseDouble(substring)/100).append("\n");
+				 String substring2 = icBMJT.substring(10, 20);
+					str.append("购气量:").append(Integer.parseInt(substring2)).append("\n");
+				  String substring3 = icBMJT.substring(20, 30);
+					str.append("购气金额:").append(Double.parseDouble(substring3)/100).append("\n");
+					String substring4 = icBMJT.substring(30, 40);	
+					str.append("购气单价:").append(Double.parseDouble(substring4)/100).append("\n");
+					 String substring5 = icBMJT.substring(40, 50);
+						str.append("购气量:").append(Integer.parseInt(substring5)).append("\n");
+					  String substring6 = icBMJT.substring(50, 60);
+						str.append("购气金额:").append(Double.parseDouble(substring6)/100).append("\n");
+						String substring7 = icBMJT.substring(60, 70);	
+						str.append("购气单价:").append(Double.parseDouble(substring7)/100).append("\n");
+						 String substring8 = icBMJT.substring(70, 80);
+							str.append("购气量:").append(Integer.parseInt(substring8)).append("\n");
+						  String substring9 = icBMJT.substring(80, 90);
+							str.append("购气金额:").append(Double.parseDouble(substring9)/100).append("\n");
+							String substring10 = icBMJT.substring(90, 100);	
+							str.append("购气单价:").append(Double.parseDouble(substring10)/100).append("\n");
+							 String substring11 = icBMJT.substring(100, 110);
+								str.append("购气量:").append(Integer.parseInt(substring11)).append("\n");
+							  String substring12 = icBMJT.substring(110, 120);
+								str.append("购气金额:").append(Double.parseDouble(substring12)/100).append("\n");
+				
+			} 
+			str.append("温馨提示您如需开发票，自购气之日起一年内有效。咨询电话95158（新奥燃气)!\n");
 		}
 		
 		String lowInfo = super.packField44(bm);

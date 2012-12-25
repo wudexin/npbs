@@ -61,6 +61,7 @@ public class RequestBusiness012Service extends RequestBusinessService {
 			return;
 		}
 		
+		
 		//设置一般信息
 		bm.setBusinessType(oriTrade.getBusiCode());		
 		bm.setUserName(oriTrade.getCustomername());
@@ -86,7 +87,7 @@ public class RequestBusiness012Service extends RequestBusinessService {
 			logger.error("商户号不符，原交易流水商户号:[{}]" , oriTrade.getCompanyCode());
 			return;
 		}
-		
+
 		// 取消授权标志  0-未授权；1-已授权
 		logger.info("取消授权标志:[{}]" , oriTrade.getCancelflag());
 		if(oriTrade.getCancelflag().equals(GlobalConst.TRADE_CANCEL_FLAG_NO)){
@@ -98,7 +99,7 @@ public class RequestBusiness012Service extends RequestBusinessService {
 					new Object[]{bm.getOldPbSeqno(),bm.getUserCode(), bm.getAmount(),oriTrade.getStatus(),});
 			return;
 		}		
-		
+		/*		*/	
 		//检查原交易状态、用户编号、缴费金额
 		logger.info("原交易状态:[{}];原交易用户编号:[{}];原交易缴费金额:[{}];" ,
 				new Object[]{oriTrade.getStatus(),oriTrade.getCustomerno(),oriTrade.getAmount()});
@@ -132,6 +133,8 @@ public class RequestBusiness012Service extends RequestBusinessService {
 		cm.setCancelBusinessType(oriTrade.getBusiCode());
 		
 		
+		
+		//把查询出来的取消流水放到BM里临时存放，以便在取消成功后进行授权的回退
 		
 		//更新原交易状态,并修改授权标志为未授权
 		logger.info("预修改原交易状态为:[{}];预修改原交易授权标志为:[{}];" , GlobalConst.TRADE_CANCEL_ING,GlobalConst.TRADE_CANCEL_FLAG_NO);

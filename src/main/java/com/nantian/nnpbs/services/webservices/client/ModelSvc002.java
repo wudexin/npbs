@@ -34,11 +34,11 @@ public class ModelSvc002 extends Client3_TextCXFAPI{
 	 for(int i=1;i<2;i++){
 		ModelSvcReq modelSvcReq = new ModelSvcReq();
 		modelSvcReq.setBusi_code("025002");
-		modelSvcReq.setCompany_code_fir("05008895");  
+		modelSvcReq.setCompany_code_fir("88888800");  
 		modelSvcReq.setAmount(new String(""+(Double.parseDouble("100") )+i));
 		modelSvcReq.setFlag("1");
 		modelSvcReq.setSystem_code("21");
-		modelSvcReq.setWeb_date("20121113");
+		modelSvcReq.setWeb_date("20121126");
 		modelSvcReq.setWeb_serial(new String(""+(Integer.parseInt(("200") )+i)));
 		ModelSvcAns modelSvcAns = modelSvc.sendToQueue(modelSvcReq);
 		System.out.println(modelSvcAns.getAcc_balance_fir()+modelSvcAns.getMessage()

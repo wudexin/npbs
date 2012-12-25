@@ -59,11 +59,16 @@ public class TUXSTRINGPacket011002Helper extends TUXSTRINGPacketxxx002Helper {
 			throws PacketOperationException {
 		
 		XAICCardData cash = (XAICCardData)bm.getCustomData();		
-		
+		//000000||20121210|130022940|000120121210130022940|1|B0F86FF2D82AF43D424C25879DF346A95119401B8BF54D5E691E7FC2F7ECC898827A1C37AEBA485A5221214B2CAA2198827A1C37AEBA485A3B9B6CF0B4217DDC|000000022400000001000000022400|
 		// 加密串
 		String xAIC_ifo = (String) fieldValues.get("D13_13_XAIC_IFO");
 		if (xAIC_ifo == null) throw new PacketOperationException();
 		cash.setXAIC_Ifo(xAIC_ifo);		
+		
+		// 阶梯气价信息
+		String IC_BM_JT = (String) fieldValues.get("D13_13_XAIC_BM_JT");
+		if (IC_BM_JT == null) throw new PacketOperationException();
+		cash.setIC_BM_JT(IC_BM_JT);	
 		
 		//放于bm的customData中
 		bm.setCustomData(cash);
@@ -73,8 +78,9 @@ public class TUXSTRINGPacket011002Helper extends TUXSTRINGPacketxxx002Helper {
 	@Override
 	public String[] hasFields() {
 		String[] fields = {
-			"D13_13_XAIC_IFO"              //加密串
-			
+			"D13_13_XAIC_IFO",              //加密串
+			//add by fengyafnag 
+			"D13_13_XAIC_BM_JT"            //阶梯气价信息
 		};
 		return fields;
 	}

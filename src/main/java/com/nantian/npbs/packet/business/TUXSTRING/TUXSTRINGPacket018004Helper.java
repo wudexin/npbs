@@ -30,7 +30,7 @@ public class TUXSTRINGPacket018004Helper extends TUXSTRINGPacketxxx004Helper {
 	@Override
 	public void pack(Map<String, Object> fieldValues, ControlMessage cm,
 			BusinessMessage bm) throws PacketOperationException {
-
+//|||10.22.17.6|pts_2|ZG01|05008889|02|07180001|PG01|000020121213|12121300245974|130022903||0|0556967000|电能表编号 245200382|电能表标识|||
 		HeNDElecICCard cardData = (HeNDElecICCard) bm.getCustomData();
 		PacketUtils.addFieldValue(fieldValues, "D13_13_HEND_BM_DATE", String.valueOf(bm.getTranDate()));//便民服务站日期
 		PacketUtils.addFieldValue(fieldValues, "D13_13_HEND_BM_SEQNO", String.valueOf(bm.getPbSeqno()));//便民服务站流水

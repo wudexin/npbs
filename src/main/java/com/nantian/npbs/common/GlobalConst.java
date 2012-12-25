@@ -52,7 +52,7 @@ public class GlobalConst {
 //	public static final String POS_HOST_REQ_ADDRESS = "netty:tcp://0.0.0.0:7777";
 	public static final String NETTY_TCP = "netty:tcp://0.0.0.0:";
 	public static final String POS_HOST_REQ_ADDRESS[] = {"8884","8885","8886","8887"};
-	public static final String WEBSERVICES_HOST_ADDRESS = "7001";
+	//public static final String WEBSERVICES_HOST_ADDRESS = "7001";
 	
 	
 	public static final String POS_HOST_ANS_ADDRESS = "netty:tcp://0.0.0.0:6666";

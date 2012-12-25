@@ -27,8 +27,7 @@ public class PkgSendModel {
 	CamelContext camelContext = (CamelContext) SpringContextHolder
 			.getBean("camelContext");
 	ProducerTemplate producerTemplate = camelContext.createProducerTemplate();
-	ConsumerTemplate createConsumerTemplate = camelContext
-			.createConsumerTemplate();
+	 
 	Endpoint endpoint = camelContext.getEndpoint("seda:REQUESTWEBSERVICES");
 	Exchange exchange = endpoint.createExchange();
 

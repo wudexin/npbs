@@ -35,17 +35,12 @@ public class ModelSvc001 extends Client3_TextCXFAPI{
 		 
 		ModelSvcReq modelSvcReq = new ModelSvcReq();
 		modelSvcReq.setBusi_code("025001");
-		modelSvcReq.setCompany_code_fir("05008895"); 
+		modelSvcReq.setCompany_code_fir("88888800"); 
 		ModelSvcAns modelSvcAns = modelSvc.sendToQueue(modelSvcReq);
 		System.out.println(modelSvcAns.getAcc_balance_fir()+modelSvcAns.getMessage());
 		logger.info("testDemoMethod end!"); 
 		
-		ModelSvcReq modelSvcReq1 = new ModelSvcReq();
-		modelSvcReq1.setBusi_code("025001");
-		modelSvcReq1.setCompany_code_fir("05008895"); 
-		ModelSvcAns modelSvcAns1 = modelSvc.sendToQueue(modelSvcReq);
-		System.out.println(modelSvcAns1.getAcc_balance_fir()+modelSvcAns1.getMessage());
-		logger.info("testDemoMethod end!"); 
+		 
 	}
 
 }

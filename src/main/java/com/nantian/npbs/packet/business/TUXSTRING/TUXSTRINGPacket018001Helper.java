@@ -30,7 +30,17 @@ public class TUXSTRINGPacket018001Helper extends TUXSTRINGPacketxxx001Helper {
 	@Override
 	public void pack(Map<String, Object> fieldValues, ControlMessage cm,
 			BusinessMessage bm) throws PacketOperationException {
-
+		/*|||10.22.17.6|pts_2|ZG01|05008889|02|06600408|PG01|0000
+		//017513
+		//|017513
+		|
+		|
+		|
+		|017513^02^XT_003^LK^01^^19^24^1^1^^^0^945^945^24^945^0^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+		|12120800245826
+		|20121208
+		|02|
+		*/
 		HeNDElecICCard cardData = (HeNDElecICCard) bm.getCustomData();
 
 		PacketUtils.addFieldValue(fieldValues, "D13_13_HEND_CONS_NO", cardData
@@ -49,7 +59,7 @@ public class TUXSTRINGPacket018001Helper extends TUXSTRINGPacketxxx001Helper {
 				.getPbSeqno());
 		PacketUtils.addFieldValue(fieldValues, "D13_13_HEND_BM_DATE", bm
 				.getTranDate());
-		PacketUtils.addFieldValue(fieldValues, "D13_13_HEND_BUSI_TYPE", cardData.getBUSI_TYPE());
+		PacketUtils.addFieldValue(fieldValues, "D13_13_HEND_BUSI_TYPE", cardData.getBUSI_TYPE());//
 
 	}
 
@@ -59,7 +69,7 @@ public class TUXSTRINGPacket018001Helper extends TUXSTRINGPacketxxx001Helper {
 
 		HeNDElecICCard cash = new HeNDElecICCard();
 
-		
+		//000000||20121213|0|00001| | |0|0556967000|017513|王杰|河北省保定市雄县双堂乡大魏庄村单元116|0|1340624|134062408|245200382|河南新天|XT_003|02|02|1|0.52|0.0|0.0|0.0| |23|0|1| |||03|0|
 
 		// 电能表标识
 		String METER_FLAG = (String) fieldValues.get("D13_13_HEND_METER_FLAG");
