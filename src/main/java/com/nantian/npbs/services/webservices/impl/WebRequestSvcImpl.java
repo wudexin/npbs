@@ -37,18 +37,18 @@ public class WebRequestSvcImpl implements WebRequestSvc {
 
 	@SuppressWarnings("null")
 	@Override
-	public WebSvcAns sendToQueue(WebSvcReq webSvcReq) {
+	public String sendToQueue(String webSvcReq) {
 		logger.info("DemoMethod begin!");
-		WebSvcAns webSvcAns = new WebSvcAns();
+		/*WebSvcAns webSvcAns = new WebSvcAns();
 		WebSvcAns webSvcAns1=new WebSvcAns();
 		webSvcAns1.setMessage("test");
-		webSvcAns.setWebAnsStr(GlobalConst.RESULTCODE_SUCCESS);
-		
-		/*test
+		webSvcAns.setWebAnsStr(GlobalConst.RESULTCODE_SUCCESS);*/
+		String webSvcAns1="";
+		String webSvcAns="";
 		if (webSvcReq == null) {
 			
 			logger.info("Request package is null!");
-			return webSvcAns;
+			return "01";
 		} else {
 			
 			// 发送camel包
@@ -56,27 +56,28 @@ public class WebRequestSvcImpl implements WebRequestSvc {
 			WebSendModel pm=(WebSendModel)SpringContextHolder.getBean("webSendModel");
 			if (pm.webSendToQueue(webSvcReq, webSvcAns)) {
 			} else {
-				webSvcAns.setWebAnsStr("01");
+				webSvcAns="02";
 				
-				return webSvcAns;
+				return "03";
 			}
 			WebCreateResponse bean = SpringContextHolder.getBean("webcreateResponse");
 			//在返回的数据里找数据，直到找到为止
 			while (i < 60) { 
-				  webSvcAns1 =(WebSvcAns)	bean.ha.get(webSvcReq.getWeb_date()+""+webSvcReq.getWeb_serial());
+				  String st =(String)	bean.ha.get(webSvcReq.substring(35, 41));
 				i++;
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				if(null!=webSvcAns1){
-					bean.ha.remove(webSvcReq.getWeb_date()+""+webSvcReq.getWeb_serial());
+				if(null!=st){
+					bean.ha.remove(webSvcReq.substring(36, 42));
+					webSvcAns1=st;
 					break;
 				}
 			}
 		}
-		*/
+	
 		logger.info("DemoMethod end!");
 		return webSvcAns1;
 	}

@@ -116,6 +116,11 @@ public class PacketUtils {
 			String answerBuffer = (String) PacketUtils.getOrigAnsPacket(message);
 			exchange.getOut().setBody(answerBuffer);
 		}
+		if(CHANEL_TYPE.WEB.equals(cm.getChanelType())){
+			cm.setSynchronous(false);
+			String answerBuffer = (String) PacketUtils.getOrigAnsPacket(message);
+			exchange.getOut().setBody(answerBuffer);
+		}
 	}
 	
 	public static void addFieldValue(Map<String, Object> fieldValues, String fieldName, String value) {

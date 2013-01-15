@@ -56,13 +56,13 @@ public class ServiceProcessor extends BaseProcessor implements Processor {
 			Object requestPkg = PacketUtils.getServiceReqPacket(PacketUtils
 					.getMessageMap(exchange));
 			
-		 	CallWTCSvc callSvc = new CallWTCSvc();
+		 	//CallWTCSvc callSvc = new CallWTCSvc();
 			
-			Object responsePkg = callSvc.callSvc(requestPkg, getServiceCode(cm,bm));
+			//Object responsePkg = callSvc.callSvc(requestPkg, getServiceCode(cm,bm));
 			
-			// 测试用
-			//	TypedString responsePkg = new TypedString(TuxStringTest.backPacket(cm));
-//			responsePkg = null;
+			 //测试用
+				TypedString responsePkg = new TypedString(TuxStringTest.backPacket(cm));
+			//responsePkg = null;
 			PacketUtils.setServiceAnsPacket(
 					PacketUtils.getMessageMap(exchange), responsePkg);
 			logger.info("收到Service应答报文:{} " , responsePkg);

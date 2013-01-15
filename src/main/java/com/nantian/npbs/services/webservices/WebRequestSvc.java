@@ -21,5 +21,5 @@ public interface WebRequestSvc {
 	 * @param modelSvcReq
 	 * @return
 	 */
-	public WebSvcAns sendToQueue(WebSvcReq webSvcReq);
+	public String sendToQueue(String webSvcReq);
 }

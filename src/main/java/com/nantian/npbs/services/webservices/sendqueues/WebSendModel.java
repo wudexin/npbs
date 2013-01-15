@@ -29,10 +29,10 @@ public class WebSendModel {
 	ProducerTemplate producerTemplate = camelContext.createProducerTemplate();
 	ConsumerTemplate createConsumerTemplate = camelContext
 			.createConsumerTemplate();
-	Endpoint endpoint = camelContext.getEndpoint("seda:REQUESTWEBSERVICES");
+	Endpoint endpoint = camelContext.getEndpoint("seda:REQUESTWEB");
 	Exchange exchange = endpoint.createExchange();
 
-	public boolean webSendToQueue(WebSvcReq webSvcReq, WebSvcAns webSvcAns) {
+	public boolean webSendToQueue(String webSvcReq, String webSvcAns) {
 		logger.info("发送队列begin");
 		boolean flag = true;
 		try {

@@ -46,6 +46,17 @@ public class AnswerRouteBuilder extends SpringRouteBuilder {
 				+ GlobalConst.MAIN_QUEUE_LENGTH + "&concurrentConsumers="
 				+ GlobalConst.MAIN_QUEUE_CONCURRENT_CONSUMERS;
 		from(sedaAnswer).routeId(sedaQueue).to(GlobalConst.POS_HOST_ANS_ADDRESS);
+		
+		
+		//web返回队列
+		String webSedaAnswerQueue = "seda:" + SEDA_TYPE.ASYNCANSWER+"WEB";
+		String webSedaRequestEndpoint = webSedaAnswerQueue + "?size="
+				+ GlobalConst.MAIN_QUEUE_LENGTH + "&concurrentConsumers="
+				+ GlobalConst.MAIN_QUEUE_CONCURRENT_CONSUMERS;
+		
+		from(webSedaRequestEndpoint).routeId(webSedaRequestEndpoint).
+		to("bean:webcreateResponse?method=returnFromQueue");
+		
 
 	}
 

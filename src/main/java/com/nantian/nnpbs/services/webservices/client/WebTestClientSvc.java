@@ -35,9 +35,10 @@ public class WebTestClientSvc extends Client3_TextCXFAPI{
 		 
 		WebSvcReq modelSvcReq = new WebSvcReq();
 		modelSvcReq.setBusi_code("000001");
-		 
-		WebSvcAns modelSvcAns = modelSvc.sendToQueue(modelSvcReq);
-		System.out.println(modelSvcAns.getMessage());
+		//modelSvcReq.setWebReqStr("000145700000090396Z06888           016704                                                                                                              ");
+		modelSvcReq.setWebReqStr("000184700000100196Z06888           009129                                                                                                              18203243587         CNYB22FAFFF3FDBEF3C");
+		String modelSvcAns = modelSvc.sendToQueue(modelSvcReq.getWebReqStr());
+		System.out.println(modelSvcAns);
 		logger.info("testDemoMethod end!"); 
 		   
 	}

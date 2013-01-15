@@ -38,6 +38,7 @@
     <bean id="monitorRouteBuilder" class="com.nantian.npbs.gateway.camel.routebuilder.MonitorRouteBuilder"/>
     
     <bean id="createResponse" class="com.nantian.npbs.services.webservices.sendqueues.CreateResponse"/>
+    <bean id="webcreateResponse" class="com.nantian.npbs.services.webservices.sendqueues.WebCreateResponse"/>
     <bean id="length-encoder" class="org.jboss.netty.handler.codec.frame.LengthFieldPrepender">
         <constructor-arg value="2"/>
     </bean>

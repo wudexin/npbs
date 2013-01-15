@@ -82,7 +82,8 @@ public class GlobalConst {
 		POS, // 便民服务站
 		EPOS, // 缴费一站通
 		ELEBUSISERIVCE, // 电子商务平台服务渠道
-		ELEBUSIREQUEST//web渠道
+		ELEBUSIREQUEST,//web渠道
+		WEB
 	 
 	 
 	}
