@@ -34,7 +34,7 @@ public class XAGasCashData {
 	
 	private String preSysSerial;		// 原交易电商平台流水号
 	
-	
+	private String SAPCODE;
 
 	public String getUserName() {
 		return userName;
@@ -138,6 +138,14 @@ public class XAGasCashData {
 
 	public void setCurSysSerial(String curSysSerial) {
 		this.curSysSerial = curSysSerial;
+	}
+
+	public String getSAPCODE() {
+		return SAPCODE;
+	}
+
+	public void setSAPCODE(String sAPCODE) {
+		SAPCODE = sAPCODE;
 	}
 	
 }

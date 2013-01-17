@@ -97,7 +97,7 @@ public class Epos000903SocketClient {
 
 	private static Socket reconnect() throws UnknownHostException, IOException {
 		logger.debug("recreating socket...");
-		String serverIp = "10.232.4.144";
+		String serverIp = "localhost";
 		int serverPort = 8888;
 		Socket s = new Socket(serverIp, serverPort);
 		s.setSoTimeout(10000000);

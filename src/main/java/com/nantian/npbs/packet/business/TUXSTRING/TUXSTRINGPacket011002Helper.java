@@ -50,6 +50,9 @@ public class TUXSTRINGPacket011002Helper extends TUXSTRINGPacketxxx002Helper {
 		// 便民服务站日期
 		PacketUtils.addFieldValue(fieldValues, "D13_13_XAIC_BM_DATE", bm.getTranDate());	
 		
+		// 公司代码
+	 	PacketUtils.addFieldValue(fieldValues, "D13_13_XAG_SAPCODE", cardData.getSAPCODE());	
+		
 	}
 	
 	

@@ -1,5 +1,9 @@
 package com.nantian.npbs.business.service.request;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
@@ -144,6 +148,19 @@ public class RequestBusiness903Service extends RequestBusinessService {
 		
 		String maxPosSeq = tradeDao.selectMaxPosSeq(bm.getTranDate(),shopCode);
 		bm.setOrigPosJournalSeqno(maxPosSeq);
+		
+		
+		//add by fengyafang 农电参数配置检查
+		//先检查该商户 是否有农电业务
+		// if(checkNdBusiness(bm.getShopCode())){
+			 //有农电业务后再检查 是否配置了农电参数，
+		 	// if(checkNdPara(bm.getShopCode())){
+				 //配置了农电参数 再去修改参数值为1
+				 //do 
+				 
+		//	 }
+			 
+		// } 
 
 		// 修改状态为签到，修改商户表：tb_bi_company中CheckStat状态为1，0为未签到，1为签到
 		if(shop.getCheckstat() != null){
@@ -158,6 +175,8 @@ public class RequestBusiness903Service extends RequestBusinessService {
 				return;
 			}
 		}
+		
+		
 		try {
 			if(companyDao.updateComCheckStat(bm.getShop(),"1") == false){
 				logger.error("修改签到状态失败!商户号=[" + shopCode + "];");
@@ -174,6 +193,44 @@ public class RequestBusiness903Service extends RequestBusinessService {
 		 
 		
 		 
+	}
+	/**
+	 * 检查是否有农电业务
+	 * @param company_code
+	 * @return
+	 * @throws Exception 
+	 */
+	private boolean checkNdBusiness(String company_code )  {
+		 boolean checkShopBindBusiness =false;
+		try {
+			checkShopBindBusiness= companyDao.checkShopBindBusiness(company_code, "018");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (checkShopBindBusiness){return checkShopBindBusiness;}else return false;
+		 
+	}
+	
+	/**
+	 * 检查农电业务是否成功配置
+	 * @param company_code
+	 * @return
+	 */
+	private boolean checkNdPara(String company_code ){
+		StringBuffer sb=new StringBuffer();
+		sb.append(" from TbNdPara TP where tp.id=?");
+		List find = baseHibernateDao.find(sb.toString(),new String[]{company_code}  );
+		Map map=(Map)find.iterator().next();
+		 Iterator iterator = map.keySet().iterator(); 
+		 String value="";
+		   while(iterator.hasNext()){
+			   String next = (String)iterator.next(); 
+			  Object object = map.get(next) ;
+			  value=object.toString();
+		   }
+		   
+		if(value.isEmpty()){return false;}   
+		return true;
 	}
 	
 	/**

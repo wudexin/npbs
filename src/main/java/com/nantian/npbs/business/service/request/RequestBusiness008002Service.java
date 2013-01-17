@@ -39,7 +39,7 @@ public class RequestBusiness008002Service extends  RequestBusiness002Service{
 			String temp = cashTemp.getTempValue(); 
 			String fkcs = temp.split("\\|")[0];
 			Double totalBill = Double.parseDouble(temp.split("\\|")[1]);
-			
+			String sapCode = temp.split("\\|")[2];
 	/*		// 缴费金额必须大于应缴金额
 			if(totalBill > bm.getAmount()){
 				cm.setResultCode(GlobalConst.RESULTCODE_FAILURE);
@@ -60,6 +60,8 @@ public class RequestBusiness008002Service extends  RequestBusiness002Service{
 			cashData.setCurPBDate(bm.getTranDate());
 			// 接入渠道流水号
 			cashData.setCurPBSerial(bm.getPbSeqno());
+			//公司代码
+			//cashData.setSAPCODE(sapCode);
 			
 			bm.setCustomData(cashData);
 			

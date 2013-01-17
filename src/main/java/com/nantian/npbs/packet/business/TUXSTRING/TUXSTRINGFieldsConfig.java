@@ -1674,6 +1674,11 @@ public class TUXSTRINGFieldsConfig extends FieldsConfig {
 		f = new Field("D13_13_XAIC_BM_JT", VariableType.ASCII, LengthType.VARIABLE, 120, "阶梯气价");
 		addFieldConfig(f.getName(), f);
 		
+		//add by fengyafang 20130104 新奥燃气公司代码
+		
+		f = new Field("D13_13_XAG_SAPCODE", VariableType.ASCII, LengthType.VARIABLE, 4, "公司代码");
+		addFieldConfig(f.getName(), f);
+		
 	}
 
 	private static FieldsConfig instance = null;

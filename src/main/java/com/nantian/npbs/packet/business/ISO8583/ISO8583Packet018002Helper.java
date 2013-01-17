@@ -70,11 +70,11 @@ public class ISO8583Packet018002Helper extends ISO8583Packetxxx002Helper {
 			return bm.getResponseMsg();
 		}
 		StringBuffer str = new StringBuffer();
-		if(!("".equals(cashData.getLADDER_DIFF().trim())||cashData.getLADDER_DIFF()==null))
+		if(!("".equals(cashData.getLADDER_DIFF())||cashData.getLADDER_DIFF()==null))
 		str.append("阶梯差价:").append(cashData.getLADDER_DIFF()).append("\n");
-		if(!("".equals(cashData.getANNUAL_VALUE().trim())||cashData.getANNUAL_VALUE()==null))
+		if(!("".equals(cashData.getANNUAL_VALUE())||cashData.getANNUAL_VALUE()==null))
 		str.append("本年累计用电量:").append(cashData.getANNUAL_VALUE()).append("\n");
-		if(!("".equals(cashData.getLADDER_SURPLUS().trim())||cashData.getLADDER_SURPLUS()==null))
+		if(!("".equals(cashData.getLADDER_SURPLUS())||cashData.getLADDER_SURPLUS()==null))
 		str.append(cashData.getLADDER_SURPLUS());
 		if(str.toString().length()>1){
 		 bm.setResponseMsg(str.toString());

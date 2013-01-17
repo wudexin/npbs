@@ -161,7 +161,10 @@ public class ISO8583Packet012002Helper extends ISO8583Packetxxx002Helper{
 					int n = 0;    //定义n档信息
 					
 					if(null != icData.getLev1Electric() && !"".equals(icData.getLev1Electric())) {
-						str.append("一档电量:").append(icData.getLev1Electric()).append("\n");
+					//modify by fengyafang 20120116	 start
+					//	str.append("一档电量:").append(icData.getLev1Electric()).append("\n");
+						str.append("截止至抄表日期:").append(icData.getLev1Electric()).append("\n");
+					 //modify by fengyafang 20120116  end	 	 
 						if(Integer.valueOf(icData.getLev1Electric()) != 0) {
 							n = 1;
 						}						
@@ -183,11 +186,11 @@ public class ISO8583Packet012002Helper extends ISO8583Packetxxx002Helper{
 						}	
 					}
 					
-					BigDecimal totalElectrict = BigDecimal.valueOf(Double.valueOf(icData.getLev1Electric())
-							+ Double.valueOf(icData.getLev2Electric()) 
-							+ Double.valueOf(icData.getLev3Electric()));
+				//	BigDecimal totalElectrict = BigDecimal.valueOf(Double.valueOf(icData.getLev1Electric())
+				//			+ Double.valueOf(icData.getLev2Electric()) 
+				//			+ Double.valueOf(icData.getLev3Electric()));
 					
-					str.append("本年累计用电量:").append(totalElectrict).append("\n");
+				//	str.append("本年累计用电量:").append(totalElectrict).append("\n");
 					
 					if(n == 0||n == 1) {
 						str.append("第1档剩余电量为:").append(icData.getLevnElectric()).append("\n");

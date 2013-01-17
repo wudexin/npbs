@@ -250,7 +250,7 @@ public class RequestBusiness004Service extends RequestBusinessService {
 			}
 			if(queryBySQL.get(0).equals("00")){
 				logger.info("查询缴费对应写卡流水为成功则修改缴费流水为成功");
-				boolean updateTradeStatus = tradeDao.updateTradeStatus(oriTrade.getSystemDate(), oriTrade.getId().getPbSerial(), "00");
+				boolean updateTradeStatus = tradeDao.updateTradeStatus("20"+bm.getOldPbSeqno().trim().substring(0,6), oriTrade.getId().getPbSerial(), "00");
 				if(updateTradeStatus){
 					return true;	
 				}else{

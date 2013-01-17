@@ -58,6 +58,8 @@ public class AnswerRouteBuilder extends SpringRouteBuilder {
 		to("bean:webcreateResponse?method=returnFromQueue");
 		
 
+		
+		//from("WEBSERVICEANSWER").to("bean:webcreateResponse?method=returnFromQueue");
 	}
 
 }

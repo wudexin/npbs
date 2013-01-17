@@ -115,8 +115,13 @@ public class TUXSTRINGPacket011001Helper extends TUXSTRINGPacketxxx001Helper {
 			// 购气金额
 			String xaic_cost = (String) fieldValues.get("D13_13_XAIC_COST");
 			if (xaic_cost == null) throw new PacketOperationException();			
-			cash.setXAIC_Cost(xaic_cost.replace(".", ""));		
+			cash.setXAIC_Cost(xaic_cost.replace(".", ""));
 			
+		 	// 公司代码
+			String sapCode = (String) fieldValues.get("D13_13_XAG_SAPCODE");
+			if (sapCode == null) throw new PacketOperationException();
+			cash.setSAPCODE(sapCode);
+		 	
 		}else {
 			logger.info("数据错误！");
 		}	
@@ -137,7 +142,8 @@ public class TUXSTRINGPacket011001Helper extends TUXSTRINGPacketxxx001Helper {
 				"D13_13_XAIC_AMT1",    		// 购气单价
 				"D13_13_XAIC_AMT",			// 帐户余额
 				"D13_13_XAIC_BUY",			// 购气量
-				"D13_13_XAIC_COST",		    // 购气金额				
+				"D13_13_XAIC_COST"		    // 购气金额	
+			 	,"D13_13_XAG_SAPCODE"        //公司代码
 		};
 		return fields;
 	}

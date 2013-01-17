@@ -178,7 +178,7 @@ public class ISO8583Packet010002Helper extends ISO8583Packetxxx002Helper {
 							+ Double.valueOf(icData.getLev2Electric()) 
 							+ Double.valueOf(icData.getLev3Electric()));
 					
-					str.append("本年累计用电量:").append(totalElectrict).append("\n");
+				//	str.append("本年累计用电量:").append(totalElectrict).append("\n");
 					
 					if(n == 0||n == 1) {
 						str.append("第1档剩余电量为:").append(icData.getLevnElectric()).append("\n");

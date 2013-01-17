@@ -1,9 +1,5 @@
 package com.nantian.npbs.business.service.answer;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
@@ -13,29 +9,29 @@ import com.nantian.npbs.business.model.TempData;
 import com.nantian.npbs.common.GlobalConst;
 import com.nantian.npbs.packet.BusinessMessage;
 import com.nantian.npbs.packet.ControlMessage;
-import com.nantian.npbs.packet.internal.XAGasCashData;
+import com.nantian.npbs.packet.internal.XAICCardData;
 
 /**
- * 现金新奥燃气
- * @author MDB
+ * 新奥燃气（IC）
+ * @author fengyafang
  *
  */
 @Scope("prototype")
 @Component
-public class AnswerBusiness008001Service extends  AnswerBusiness001Service{
+public class AnswerBusiness011001Service extends  AnswerBusiness001Service{
 
-	private static Logger logger = LoggerFactory.getLogger(AnswerBusiness008001Service.class);
+	private static Logger logger = LoggerFactory.getLogger(AnswerBusiness011001Service.class);
 	
 	/**
 	 * 保存现金缴费临时表数据
 	 */
+	@Override
 	protected void setTempValue(ControlMessage cm,BusinessMessage bm){
 		
-		XAGasCashData cashData = (XAGasCashData) bm.getCustomData();
+		XAICCardData lt = (XAICCardData) bm.getCustomData();
 		TempData ct = new TempData();
 		ct.setPbSeqno(bm.getPbSeqno());
-		ct.setTempValue(cashData.getFkcs()+ "|" + cashData.getAccBalance());
-		//+"|"+cashData.getSAPCODE()
+		ct.setTempValue(lt.getSAPCODE());
 
 		ct.setTradeDate(bm.getTranDate());
 		

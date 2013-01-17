@@ -47,6 +47,7 @@ public class XAICCardData {
 	
 	private String IC_BM_JT;
 	
+	private String SAPCODE;
 	public String getXAIC_Bz1() {
 		return XAIC_Bz1;
 	}
@@ -157,6 +158,14 @@ public class XAICCardData {
 
 	public void setIC_BM_JT(String iCBMJT) {
 		IC_BM_JT = iCBMJT;
+	}
+
+	public String getSAPCODE() {
+		return SAPCODE;
+	}
+
+	public void setSAPCODE(String sAPCODE) {
+		SAPCODE = sAPCODE;
 	}
 
 

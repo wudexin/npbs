@@ -19,6 +19,8 @@ public class PacketFactory {
 	private static Logger logger = LoggerFactory.getLogger(PacketFactory.class);
 	
 	public static IPacket factory(CHANEL_TYPE chanelType) {
+		
+		
 		try {
 			return (IPacket) SpringContextHolder.getBean(PacketConfig.getPacketHelperBean(chanelType));
 
