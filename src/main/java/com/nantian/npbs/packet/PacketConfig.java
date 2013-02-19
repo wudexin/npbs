@@ -43,7 +43,7 @@ public final class PacketConfig {
 		supportPacketType.put(CHANEL_TYPE.ELEBUSISERIVCE, PACKET_TYPE.TUXSTRING);
 		supportPacketType.put(CHANEL_TYPE.POS, PACKET_TYPE.ISO8583);
 		supportPacketType.put(CHANEL_TYPE.EPOS, PACKET_TYPE.FIXSTRING);
-		supportPacketType.put(CHANEL_TYPE.WEB, PACKET_TYPE.FIXSTRING);
+	//	supportPacketType.put(CHANEL_TYPE.WEB, PACKET_TYPE.FIXSTRING);
 		supportPacketType.put(CHANEL_TYPE.ELEBUSIREQUEST, PACKET_TYPE.SPLITSTRING);
 	}
 }

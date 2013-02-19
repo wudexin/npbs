@@ -41,6 +41,8 @@ public class ModelSvc001 extends Client3_TextCXFAPI{
 		logger.info("testDemoMethod end!"); 
  	 
 	}
+	
+	
 
 }
 

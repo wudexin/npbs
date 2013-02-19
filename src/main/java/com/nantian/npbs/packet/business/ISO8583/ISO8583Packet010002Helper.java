@@ -152,15 +152,16 @@ public class ISO8583Packet010002Helper extends ISO8583Packetxxx002Helper {
 					int n = 0;    //定义n档信息
 					
 					if(null != icData.getLev1Electric() && !"".equals(icData.getLev1Electric())) {
-						str.append("一档电量:").append(icData.getLev1Electric()).append("\n");
+				//		str.append("一档电量:").append(icData.getLev1Electric()).append("\n");
+						str.append("截止抄表日期:").append(icData.getLev1Electric()).append("\n");
 						if(Integer.valueOf(icData.getLev1Electric()) != 0) {
 							n = 1;
 						}						
 					}
 					
 					if(null != icData.getLev2Electric() && !"".equals(icData.getLev2Electric())) {
-						str.append("二档电量:").append(icData.getLev2Electric()).append("\n");
-						
+					//	str.append("二档电量:").append(icData.getLev2Electric()).append("\n");
+						str.append("本次阶梯二档电量:").append(icData.getLev2Electric()).append("\n");
 						if(Integer.valueOf(icData.getLev2Electric()) != 0) {
 							n = 2;
 						}	
@@ -168,17 +169,18 @@ public class ISO8583Packet010002Helper extends ISO8583Packetxxx002Helper {
 					}
 					
 					if(null != icData.getLev3Electric() && !"".equals(icData.getLev3Electric())) {
-						str.append("三档电量:").append(icData.getLev3Electric()).append("\n");
+					/*	str.append("三档电量:").append(icData.getLev3Electric()).append("\n");*/
+						str.append("本次阶梯三档电量:").append(icData.getLev3Electric()).append("\n");
 						if(Integer.valueOf(icData.getLev3Electric()) != 0) {
 							n = 3;
 						}	
 					}
 					
-					BigDecimal totalElectrict = BigDecimal.valueOf(Double.valueOf(icData.getLev1Electric())
-							+ Double.valueOf(icData.getLev2Electric()) 
-							+ Double.valueOf(icData.getLev3Electric()));
+		//			BigDecimal totalElectrict = BigDecimal.valueOf(Double.valueOf(icData.getLev1Electric())
+		//					+ Double.valueOf(icData.getLev2Electric()) 
+		//					+ Double.valueOf(icData.getLev3Electric()));
 					
-				//	str.append("本年累计用电量:").append(totalElectrict).append("\n");
+			//  	str.append("本年累计用电量:").append(totalElectrict).append("\n");
 					
 					if(n == 0||n == 1) {
 						str.append("第1档剩余电量为:").append(icData.getLevnElectric()).append("\n");

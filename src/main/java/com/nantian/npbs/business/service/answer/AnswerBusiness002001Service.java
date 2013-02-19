@@ -31,7 +31,7 @@ public class AnswerBusiness002001Service extends  AnswerBusiness001Service{
 		UnitcomCashData lt = (UnitcomCashData) bm.getCustomData();
 		TempData ct = new TempData();
 		ct.setPbSeqno(bm.getPbSeqno());
-		ct.setTempValue(lt.getOughtAmt());
+	//	ct.setTempValue(lt.getOughtAmt());
 
 		ct.setTradeDate(bm.getTranDate());
 		

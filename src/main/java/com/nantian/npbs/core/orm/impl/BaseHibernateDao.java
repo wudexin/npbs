@@ -36,6 +36,9 @@ public class BaseHibernateDao extends GenericHibernateDao<Object, Serializable> 
 
 	}
 	
+	
+
+	
 	/**
 	 * 获取系统日期状态表
 	 * 
@@ -105,5 +108,23 @@ public class BaseHibernateDao extends GenericHibernateDao<Object, Serializable> 
 		} catch (Exception e) {
 			logger.error("执行SQL错误：" + sql, e);
 		}
+	}
+
+
+ 
+	
+	/**
+	 * SQL查询
+	 * @param sql SQL语句
+	 */
+	@SuppressWarnings("unchecked")
+	public List queryBySQL(final String sql)  {
+		logger.info("SQL - "+sql);
+		return (List)getHibernateTemplate().execute(new HibernateCallback<Object>() {
+			public Object doInHibernate(Session session) throws HibernateException, SQLException {
+				Query query = session.createSQLQuery(sql);
+				return query.list();
+			}
+		});
 	}
 }
