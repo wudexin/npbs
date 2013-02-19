@@ -33,7 +33,7 @@ import com.nantian.npbs.services.webservices.sendqueues.WebSendModel;
 @Component(value = "webRequestSvc")
 public class WebRequestSvcImpl implements WebRequestSvc {
 	private static final Logger logger = LoggerFactory
-			.getLogger(ModelRequest025001SvcImpl.class);
+			.getLogger(WebRequestSvcImpl.class);
 
 	@SuppressWarnings("null")
 	@Override
@@ -71,7 +71,7 @@ public class WebRequestSvcImpl implements WebRequestSvc {
 					e.printStackTrace();
 				}
 				if(null!=st){
-					bean.ha.remove(webSvcReq.substring(36, 42));
+					bean.ha.remove(webSvcReq.substring(35, 41));
 					webSvcAns1=st;
 					break;
 				}
