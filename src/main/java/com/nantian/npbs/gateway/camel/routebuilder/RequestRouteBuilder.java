@@ -34,8 +34,8 @@ public class RequestRouteBuilder extends SpringRouteBuilder {
 
 	@Resource
 	Processor eposRequestProcessor;
-	@Resource
-	Processor webRequestProcessor;
+//	@Resource
+//	Processor webRequestProcessor;
 
 	@Resource
 	Processor logRequestProcessor;
@@ -91,14 +91,14 @@ public class RequestRouteBuilder extends SpringRouteBuilder {
 				eposRequestProcessor);
 		logger.info("启动 RequestRouteBuilder 完成!");
 		
-		String websSedaRequestQueue = "seda:" + SEDA_TYPE.REQUEST
+/*		String websSedaRequestQueue = "seda:" + SEDA_TYPE.REQUEST
 				+ CHANEL_TYPE.WEB;
 		String webSedaRequestEndpoint = websSedaRequestQueue + "?size="
 				+ GlobalConst.MAIN_QUEUE_LENGTH + "&concurrentConsumers="
 				+ GlobalConst.MAIN_QUEUE_CONCURRENT_CONSUMERS
 				+ "&timeout=55000";
 		logger.info("webbSedaRequestEndpoint=[{}]", webSedaRequestEndpoint);
-		from(webSedaRequestEndpoint).process(webRequestProcessor);
+		from(webSedaRequestEndpoint).process(webRequestProcessor);*/
 	 
 	}
 }

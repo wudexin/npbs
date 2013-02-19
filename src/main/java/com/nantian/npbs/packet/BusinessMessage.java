@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.nantian.npbs.business.model.TbBiCompany;
 import com.nantian.npbs.business.model.TbBiPrepay;
+import com.nantian.npbs.business.model.TbBiProcMem;
 import com.nantian.npbs.common.GlobalConst.CHANEL_TYPE;
 
 /**
@@ -147,6 +148,23 @@ public class BusinessMessage {
 	private String  ndzhuanyong; //农电专用流水 用来存放取消 补写 撤消补写的 查询流水号
 	private String qxMessage;//取消交易的信息
 	
+	
+	private String exchangeId;//进程控制里的exchangeid
+	private TbBiProcMem tpm;//进程控制里的对象
+	private char  procerFlag;//进程控制里是否存储标志
+	
+	public void setProcerFlag(char procerFlag){
+		 this.procerFlag=procerFlag;
+	}
+	public char getProcerFlag(){
+		return procerFlag;
+	}
+	public TbBiProcMem getTpm(){
+		return tpm;
+	}
+	public void setTpm(TbBiProcMem tpm){
+		this.tpm=tpm;
+	}
 	public String getNdzhuanyong() {
 		return ndzhuanyong;
 	}
@@ -851,5 +869,11 @@ public class BusinessMessage {
 	}
 	public void setQxMessage(String qxMessage) {
 		this.qxMessage = qxMessage;
+	}
+	public String getExchangeId() {
+		return exchangeId;
+	}
+	public void setExchangeId(String exchangeId) {
+		this.exchangeId = exchangeId;
 	}
 }

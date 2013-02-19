@@ -30,7 +30,7 @@
 		class="org.apache.cxf.interceptor.LoggingOutInterceptor" />
 	<bean id="saajIn"
 		class="org.apache.cxf.binding.soap.saaj.SAAJInInterceptor" />
- 
+   
 	<jaxws:endpoint id="ModelRequest025001Svc" implementor="#modelRequest025001Svc"
 		address="/ModelRequest025001Svc">
 		<jaxws:binding>
@@ -73,6 +73,8 @@
 			<ref bean="logOut" />
 		</jaxws:outInterceptors>
 	</jaxws:endpoint>
+	
+	 <!--  
 	<jaxws:endpoint id="WebRequestSvc" implementor="#webRequestSvc"
 		address="/WebRequestSvc">
 		<jaxws:binding>
@@ -86,4 +88,6 @@
 			<ref bean="logOut" />
 		</jaxws:outInterceptors>
 	</jaxws:endpoint>
+	-->
+ 
 </beans>

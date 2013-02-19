@@ -82,6 +82,7 @@ public abstract class RequestProcessor extends BaseProcessor implements
 			}
 		}
 
+		
 		try {
 			ControlMessage cm = getControlMessage(exchange);
 			BusinessMessage bm = getBusinessMessage(exchange);
@@ -89,7 +90,7 @@ public abstract class RequestProcessor extends BaseProcessor implements
 			// request business service (pre)
 			IRequestBusinessService requestService = RequestBusinessFactory
 					.create(bm);
-
+			bm.setExchangeId(exchange.getExchangeId());
 			requestService.execute(cm, bm);
 			String resultCode = cm.getResultCode();
 			logger.info("request service finished, resultCode[{}]", resultCode);

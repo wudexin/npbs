@@ -42,7 +42,7 @@ public abstract class AnswerBusinessService implements IAnswerBusinessService {
 		if ("1".equals(bm.getSeqnoFlag())) {
 			editTradeState(cm, bm);
 		}
-
+	 
 		// 失败不需要进行业务处理
 		if(!GlobalConst.RESULTCODE_SUCCESS.equals(cm.getResultCode())) {
 			//河电省标卡申请写卡数据交易收到电商明确失败信息时同步更新原缴费交易流失号为失败	
@@ -50,13 +50,15 @@ public abstract class AnswerBusinessService implements IAnswerBusinessService {
 					&& "010003".equals(bm.getTranCode().trim())) {
 				tradeDao.updateTradeStatus(bm.getTranDate(), bm.getOldPbSeqno(), 
 						GlobalConst.TRADE_STATUS_FAILURE);	
-			}			
-			return;
+			}	
 		}
-			
+		
 		dealBusiness(cm, bm);
-		
-		
+	/*	if(bm.getProcerFlag()=='1'){
+			baseHibernateDao.delete(bm.getTpm()); 	
+		}
+*/
+	
 	}
 
 	/**

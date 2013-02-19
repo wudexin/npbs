@@ -159,7 +159,6 @@ public class RequestBusiness903Service extends RequestBusinessService {
 				 //do 
 				 
 		//	 }
-			 
 		// } 
 
 		// 修改状态为签到，修改商户表：tb_bi_company中CheckStat状态为1，0为未签到，1为签到

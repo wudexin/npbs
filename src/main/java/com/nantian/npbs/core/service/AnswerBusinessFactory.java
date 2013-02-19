@@ -35,6 +35,7 @@ public class AnswerBusinessFactory {
 				|| bm.getTranCode().equals("015001")
 				// add by fengyafang 农电
 				|| bm.getTranCode().equals("018001")
+				|| bm.getTranCode().equals("011001")
 				) { 
 			return SpringContextHolder.getBean("answerBusiness"
 					+ bm.getTranCode() + "Service");

@@ -76,11 +76,11 @@ public class RequestBusiness906Service extends RequestBusinessService {
 	private List<Object[]> findParaitemList(ControlMessage cm,
 			BusinessMessage bm) {
 		List<Object[]> paraitemList = new ArrayList<Object[]>();
-		//	String sql = "select t.PARA_VALUENAME,t.PARA_VALUE FROM TB_SM_PARAITEM t WHERE t.PARA_CODE='005' order by t.PARA_VALUENAME";
-		  String sql="SELECT T.PARA_VALUENAME,T.PARA_VALUE FROM TB_SM_PARAITEM T WHERE T.PARA_CODE='005' "+
-		   "UNION  ALL "+
-		  "select ND_PARA_VALUENAME,ND_PARA_VALUE from TB_BI_COMPANY_PARA tp where tp.NDCOMPANY_CODE='"+bm.getShopCode()+"'";
-		try {
+		 	String sql = "select t.PARA_VALUENAME,t.PARA_VALUE FROM TB_SM_PARAITEM t WHERE t.PARA_CODE='005' order by t.PARA_VALUENAME";
+		/*		  String sql="SELECT T.PARA_VALUENAME,T.PARA_VALUE FROM TB_SM_PARAITEM T WHERE T.PARA_CODE='005' "+
+				   "UNION  ALL "+
+				  "select ND_PARA_VALUENAME,ND_PARA_VALUE from TB_BI_COMPANY_PARA tp where tp.NDCOMPANY_CODE='"+bm.getShopCode()+"'";
+	*/	try {
 			paraitemList = tradeDao.findInfoList(sql);
 		} catch (Exception e) {
 			bm.setResponseCode(GlobalConst.RESPONSECODE_FAILURE);

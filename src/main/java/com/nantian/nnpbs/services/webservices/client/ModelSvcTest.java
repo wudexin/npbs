@@ -1,14 +1,10 @@
 package com.nantian.nnpbs.services.webservices.client;
  
-
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.nantian.npbs.services.webservices.ModelRequest025001Svc;
 import com.nantian.npbs.services.webservices.ModelRequest025002Svc;
 import com.nantian.npbs.services.webservices.models.ModelSvcAns;
 import com.nantian.npbs.services.webservices.models.ModelSvcReq;
@@ -43,6 +39,13 @@ public class ModelSvcTest extends Client3_TextCXFAPI{
 		System.out.println(modelSvcAns.getAcc_balance_fir()+modelSvcAns.getMessage());
 		logger.info("testDemoMethod end!"); 
 	}
+	
+	
+
+   
+  
+   
+
 
 }
 

@@ -93,6 +93,8 @@ public class FIXSTRINGPacketHelper implements IPacket {
 			fields = packetHelper.hasFields();
 			fieldValues.clear();
 			unpackFIXSTRING(fields, buffer);
+			
+			System.out.println(buffer.toString());
 			packetHelper.unpack(fieldValues, cm, bm);
 
 			

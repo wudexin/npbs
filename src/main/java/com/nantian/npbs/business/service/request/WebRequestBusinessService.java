@@ -64,7 +64,15 @@ public abstract class WebRequestBusinessService {
 			modelSvcAns.setStatus(GlobalConst.TRADE_STATUS_CARD_ORIG);
 			return;
 		}
-	 
+	 //检查余额
+		if (Double.parseDouble(modelSvcReq.getAmount())
+				- (modelSvcReq.getTbBiPrepay().getAccBalance() +modelSvcReq.getTbBiPrepay().getSurCreamt()) > 0) {
+			modelSvcAns.setMessage("您的备付金余额不足,请尽快充值");
+			modelSvcAns.setStatus(GlobalConst.RESPONSECODE_FAILURE);
+			logger.info("备付金余额不足!账户余额:" + modelSvcReq.getTbBiPrepay().getAccBalance()
+					+ "信用余额:" +modelSvcReq.getTbBiPrepay().getSurCreamt() + ",缴费金额:" + modelSvcReq.getAmount());
+			return ;
+		}
 		//设置是否登记流水
 		setTradeFlag(modelSvcReq);
 		modelSvcReq.setPb_serial(baseHibernateDao.getNumber()) ;

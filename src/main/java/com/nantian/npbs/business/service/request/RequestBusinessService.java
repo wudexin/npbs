@@ -14,9 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.nantian.npbs.business.dao.CompanyDao;
 import com.nantian.npbs.business.dao.ProgramDao;
 import com.nantian.npbs.business.dao.TradeDao;
+import com.nantian.npbs.business.model.TbBiBusinessUnit;
+import com.nantian.npbs.business.model.TbBiBusinessUnitId;
 import com.nantian.npbs.business.model.TbBiCompany;
 import com.nantian.npbs.business.model.TbBiCompanyMessage;
 import com.nantian.npbs.business.model.TbBiEcUnit;
+import com.nantian.npbs.business.model.TbBiProcMem;
 import com.nantian.npbs.business.model.TbBiTrade;
 import com.nantian.npbs.business.model.TbSmInterouter;
 import com.nantian.npbs.business.model.TbSmInterouterId;
@@ -78,7 +81,10 @@ public abstract class RequestBusinessService implements IRequestBusinessService 
 		if(!GlobalConst.RESULTCODE_SUCCESS.equals(cm.getResultCode())){
 			return;
 		}
-
+		
+		 
+		
+	 
 		logger.info("开始执行交易,{}", getClass().getSimpleName());
 
 		// 初始化BusinessMessage信息，检查系统状态
@@ -139,9 +145,103 @@ public abstract class RequestBusinessService implements IRequestBusinessService 
 				cm.setResultMsg("增加交易流水失败!");
 				return;
 			}
-
 			logger.info("增加交易流水成功!");
+			
 		}
+		
+		/*
+			//判断是否为000开头的交易，如果为000开头的，则另存到一张表里，为了方便便民后台监控情况;
+			String substring = bm.getTranCode().substring(0,3);
+			String  mobi= bm.getTranCode().substring(3,5);
+			if(substring.equals("000")){
+				//如果是000.则为其他交易，不进行判断
+				
+				
+			}else if(mobi.equals("010")){
+				//末笔查询
+				
+			} 
+			
+			else{
+			TbBiBusinessUnitId tu =new TbBiBusinessUnitId();
+			tu.setBusiCode(substring);
+			if(bm.getChanelType().equals(CHANEL_TYPE.POS)){
+				//POS需要查询机构
+				TbBiCompany tbBiCompany = companyDao.get(bm.getShopCode());
+				if(tbBiCompany.equals(null)){
+					bm.setResponseCode(GlobalConst.RESPONSECODE_FAILURE);
+					bm.setResponseMsg("商户号不存在！");
+					cm.setResultCode(GlobalConst.RESULTCODE_FAILURE);
+					cm.setResultMsg("商户号不存在！");
+					logger.error("商户号不存在！");
+					return ;}
+				tu.setUnitcode(tbBiCompany.getUnitcode());
+			}else{
+				//EPOS直接取机构
+			tu.setUnitcode(bm.getShopInst());}
+			//县级机构bean
+			TbBiBusinessUnit tui =(TbBiBusinessUnit) baseHibernateDao.get(TbBiBusinessUnit.class,tu);
+			String unitcode = tu.getUnitcode();
+			TbBiBusinessUnitId shitu=new TbBiBusinessUnitId();
+			shitu.setBusiCode(substring);
+			shitu.setUnitcode(unitcode.substring(0,4)+"00000");
+			  //市级机构bean
+			TbBiBusinessUnit tushi =(TbBiBusinessUnit) baseHibernateDao.get(TbBiBusinessUnit.class,shitu);
+			TbBiBusinessUnitId shentu=new TbBiBusinessUnitId();
+			shentu.setBusiCode(substring);
+			shentu.setUnitcode(unitcode.substring(0,2)+"0000000");
+			//省级机构bean
+			TbBiBusinessUnit tushen =(TbBiBusinessUnit) baseHibernateDao.get(TbBiBusinessUnit.class,shentu);
+			Integer processnow_xian= tui.getPorcessmax();//当前商户所在机构的进程数
+			Integer processnow_shi=tushi.getPorcessmax();
+			Integer processnow_shen=tushen.getPorcessmax();
+			TbBiProcMem tm = new TbBiProcMem();
+			List find = baseHibernateDao.queryBySQL("  select * from TB_BI_PROC_MEM tm where tm.busi_code='"+substring+"'  and tm.unitcode='"+unitcode+"'");
+			TbBiProcMem	entity=new TbBiProcMem();
+			entity.setPid( bm.getExchangeId());
+			entity.setBusi_code(substring);
+			entity.setUnitcode(unitcode);
+			entity.setC1("dd");
+			entity.setC2("");
+			
+			//检查 省市县参数是否设置合理省>=市>=县>=0
+
+			System.out.println("======================="+processnow_shen+"   "+processnow_shi+"    "+processnow_xian); 
+		if(processnow_shen.intValue()>=processnow_shi.intValue()&&processnow_shi.intValue()>=processnow_xian.intValue()&&processnow_xian.intValue()>=0)	{
+			bm.setProcerFlag('0');
+			if(find.size()==0){
+				logger.info("进程控制数量等于0，直接做交易");
+				baseHibernateDao.save(entity);	
+				bm.setTpm(entity);
+				bm.setProcerFlag('1');
+			}else if(find.size()<processnow_xian.intValue())
+			{
+				logger.info("进程控制数量小于县级数量，直接做交易");
+				baseHibernateDao.save(entity);
+				bm.setProcerFlag('1');
+				}
+			else if(find.size()>processnow_xian.intValue()){
+				bm.setResponseCode(GlobalConst.RESPONSECODE_FAILURE);
+				bm.setResponseMsg("当前业务繁忙，请稍候再试");
+				cm.setResultCode(GlobalConst.RESULTCODE_FAILURE);
+				cm.setResultMsg("当前业务繁忙，请稍候再试！");
+				logger.info("进程控制数量大于 县级数量，直接返回失败。当前业务繁忙，请稍候再试");
+				return ;
+			} 
+			 	
+			bm.setTpm(entity);
+		
+			}else{
+				cm.setServiceCallFlag("0");//不发送第三方
+				bm.setResponseCode(GlobalConst.RESPONSECODE_FAILURE);
+				bm.setResponseMsg("进程控制参数设置不合理,请联系管理员！");
+				cm.setResultCode(GlobalConst.RESULTCODE_FAILURE);
+				cm.setResultMsg("进程控制参数设置不合理,请联系管理员！");
+				logger.info("进程控制参数设置不合理,请联系管理员");
+				return;
+			}
+			}*/
+		 
 	}
 
 	/**
