@@ -15,8 +15,8 @@ public class Client3_TextCXFAPI {
 	private final static Logger logger = LoggerFactory
 			.getLogger(Client3_TextCXFAPI.class);
 
-	public static String URL_UNIMNG = "http://10.232.6.210:7001/npbs/services/";
-
+//	public static String URL_UNIMNG = "http://10.232.6.210:7001/npbs/services/";
+	public static String URL_UNIMNG = "http://localhost:7001/npbs/services/";
 	// 在客户端中设置请求超时的限制（比默认值加倍）
 	protected static void replaceClientTimeOut(Object svc) {
 		Client client = ClientProxy.getClient(svc);
