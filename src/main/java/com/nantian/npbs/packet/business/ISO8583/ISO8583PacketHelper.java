@@ -176,6 +176,7 @@ public class ISO8583PacketHelper implements IPacket {
 
 		PacketUtils.setOrigAnsPacket(message, buffer);
 		logger.info("pack buffer finished, buffer length {}", buffer.length);
+	 
 		if ("00".equals(bm.getResponseCode())) {
 			bm.setResponseMsg("交易成功!");
 		}
@@ -200,7 +201,7 @@ public class ISO8583PacketHelper implements IPacket {
 		// 由processor转换为byte[]，此处直接使用byte[]
 		buffer = (byte[]) (PacketUtils.getOrigReqPacket(message));
 		logger.info("终端报文: {}", ConvertUtils.bytes2HexStr(buffer));
-
+		System.out.println(ConvertUtils.bytes2HexStr(buffer));
 		cm = PacketUtils.getControlMessage(message);
 		bm = PacketUtils.getBusinessMessage(message);
 		bm.setSystemChanelCode(GlobalConst.posChanelCode);

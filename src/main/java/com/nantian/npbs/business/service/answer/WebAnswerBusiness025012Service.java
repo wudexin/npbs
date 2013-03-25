@@ -1,5 +1,6 @@
 package com.nantian.npbs.business.service.answer;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -94,8 +95,10 @@ public class WebAnswerBusiness025012Service extends WebAnswerBusinessService {
 			setPrepayInfo(prepayInfo, tbPrepayId, modelSvcReq, modelSvcReq
 					.getCompany_code_fir());
 			prepayInfo.setFlag("1");
-			prepayInfo.setAmount(Double.parseDouble(modelSvcReq.getAmount()));
-			prepayInfo.setBal(Double.parseDouble(modelSvcAns.getAcc_balance_fir()));
+		//	prepayInfo.setAmount(Double.parseDouble(modelSvcReq.getAmount()));
+			prepayInfo.setAmount(new BigDecimal(modelSvcReq.getAmount()).doubleValue());
+		//	prepayInfo.setBal(Double.parseDouble(modelSvcAns.getAcc_balance_fir()));
+			prepayInfo.setBal(new BigDecimal(modelSvcAns.getAcc_balance_fir()).doubleValue());
 			prepayInfo.setSummary("存款");
 			prepayInfo.setRemark("交易取消回退");
 

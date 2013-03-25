@@ -151,14 +151,7 @@ public class BusinessMessage {
 	
 	private String exchangeId;//进程控制里的exchangeid
 	private TbBiProcMem tpm;//进程控制里的对象
-	private char  procerFlag;//进程控制里是否存储标志
-	
-	public void setProcerFlag(char procerFlag){
-		 this.procerFlag=procerFlag;
-	}
-	public char getProcerFlag(){
-		return procerFlag;
-	}
+ 
 	public TbBiProcMem getTpm(){
 		return tpm;
 	}

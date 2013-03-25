@@ -53,6 +53,4 @@
     </bean>
     <bean id="string-decoder" class="org.jboss.netty.handler.codec.string.StringDecoder"/>
     <bean id="monitorBean" class="com.nantian.npbs.monitor.service.QueueMonitor"/>
-
-
 </beans>

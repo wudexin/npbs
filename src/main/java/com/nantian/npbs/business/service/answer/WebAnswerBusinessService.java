@@ -1,5 +1,6 @@
 package com.nantian.npbs.business.service.answer;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -163,7 +164,7 @@ public abstract class WebAnswerBusinessService {
 		logger.info("备付金处理开始！");
 
 		String accNo = modelSvcReq.getCompany_code_fir();
-		Double amt = Double.parseDouble(modelSvcReq.getAmount());
+		Double amt = new BigDecimal(modelSvcReq.getAmount()).doubleValue();
 		String retCode = GlobalConst.RESULTCODE_SUCCESS;
 
 		logger.info(" accNo=[{}];amt=[{}]", new Object[] { accNo, amt });

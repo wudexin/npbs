@@ -19,7 +19,9 @@ import com.nantian.npbs.common.GlobalConst;
 import com.nantian.npbs.common.GlobalConst.CHANEL_TYPE;
 import com.nantian.npbs.common.GlobalConst.DATA_TYPE;
 import com.nantian.npbs.common.GlobalConst.SEDA_TYPE;
+import com.nantian.npbs.common.ProcessManager;
 import com.nantian.npbs.common.utils.TimeUtils;
+import com.nantian.npbs.core.modules.utils.SpringContextHolder;
 import com.nantian.npbs.core.service.IRequestBusinessService;
 import com.nantian.npbs.core.service.RequestBusinessFactory;
 import com.nantian.npbs.gateway.camel.sedaroute.SedaRouteUtils;
@@ -90,12 +92,18 @@ public abstract class RequestProcessor extends BaseProcessor implements
 			// request business service (pre)
 			IRequestBusinessService requestService = RequestBusinessFactory
 					.create(bm);
-			bm.setExchangeId(exchange.getExchangeId());
-			requestService.execute(cm, bm);
+			
+			//进程控制
+		 	if(requestService.needLockProcess()){
+		 		//进程控制
+			 	bm.setExchangeId(exchange.getExchangeId());
+		 		ProcessManager.getProcessManager().lockProcess(cm, bm); 
+		 	} 
+		 	requestService.execute(cm, bm);
 			String resultCode = cm.getResultCode();
-			logger.info("request service finished, resultCode[{}]", resultCode);
+			logger.info("request service finished,cm resultCode[{}],bm resultCode[{}]", resultCode,bm.getResponseCode());
 
-			if (!GlobalConst.RESULTCODE_SUCCESS.equals(resultCode)) {
+			if (!GlobalConst.RESULTCODE_SUCCESS.equals(resultCode)) { 
 				processBusinessError(exchange, isSynchronous());
 				return;
 			}
@@ -119,7 +127,6 @@ public abstract class RequestProcessor extends BaseProcessor implements
 			processBusinessError(exchange, isSynchronous());
 			return;
 		}
-
 	}
 
 	protected void distributeRequestRoute(Exchange exchange) throws Exception {
@@ -135,8 +142,8 @@ public abstract class RequestProcessor extends BaseProcessor implements
 		if ("1".equals(cm.getServiceCallFlag()) == true) {
 			sedaService = SedaRouteUtils.getServiceBusinessRoute(tranCode,
 					SEDA_TYPE.SERVICEREQUEST);
-					//TODO:在RouteBuilder中加了超时时间后测试，没有起作用；在这里加后起作用了。
-			SedaUtils.send2Seda(exchange, sedaService+ "?timeout=53000", isSynchronous());
+			//TODO:在RouteBuilder中加了超时时间后测试，没有起作用；在这里加后起作用了。
+			SedaUtils.send2Seda(exchange, sedaService+ "?timeout=60000", isSynchronous());
 		} else {
 			sedaService = SedaRouteUtils.getChanelBusinessRoute(exchange,
 					SEDA_TYPE.SERVICEANSWER);

@@ -43,11 +43,7 @@ public class AnswerProcessor extends BaseProcessor implements Processor {
 			IAnswerBusinessService answerService = AnswerBusinessFactory.create(bm);
 			answerService.execute(cm, bm);
 			
-			//释放申请的进程资源
-			if (cm.isLockProcess()) {
-				ProcessManager.getProcessManager().unlockProcess(cm, bm);
-			}
-			
+			 
 			logger.info("answer Service finished! resultCode:[{}], resultMsg:{}" 
 					,cm.getResultCode() ,bm.getResponseMsg());
 		} catch (Exception e) {
@@ -57,7 +53,13 @@ public class AnswerProcessor extends BaseProcessor implements Processor {
 			processBusinessError(exchange, cm.isSynchronous());
 			return;
 		}
-
+		 
+		//释放申请的进程资源 在所有交易完成后进行释放
+	 	if (cm.isLockProcess()) {
+	 		ProcessManager.getProcessManager().unlockProcess(cm, bm);
+	 		cm.setLockProcess(false);
+	 	}
+		 
 		
 		//pack response packet
 		processResponse(exchange);
@@ -77,6 +79,8 @@ public class AnswerProcessor extends BaseProcessor implements Processor {
 			logger.info("[AnswerProcessor--------------------------------------交易结束--------------------------------------]");
 			return;
 		}
+		
+		
 		
 		//asynchronization response to answer seda queue 
 		String sedaAnswer = SedaRouteUtils.getAsyncAnswerRoute();

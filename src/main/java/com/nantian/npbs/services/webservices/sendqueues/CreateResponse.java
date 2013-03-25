@@ -14,10 +14,10 @@ public class CreateResponse {
 
 	public void returnFromQueue(Exchange e) {
 		ModelSvcAns nodelSvcAns = (ModelSvcAns) e.getIn().getBody();
-		if (nodelSvcAns.getStatus().equals("000000")) {
+		if (nodelSvcAns.getStatus().equals("000000")||nodelSvcAns.getStatus().equals("00")) {
 			nodelSvcAns.setTotalStatus("00");
 			nodelSvcAns.setStatus("00");
-		}else if (nodelSvcAns.getStatus().equals("000001")){
+		}else if (nodelSvcAns.getStatus().equals("000001")||nodelSvcAns.getStatus().equals("01")){
 			nodelSvcAns.setTotalStatus("01");	
 			nodelSvcAns.setStatus("01");
 		}else if(nodelSvcAns.getStatus().equals("99")){

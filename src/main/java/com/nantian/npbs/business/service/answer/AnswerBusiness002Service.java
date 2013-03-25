@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 import com.nantian.npbs.business.dao.PrepayDao;
 import com.nantian.npbs.business.dao.TradeDao;
 import com.nantian.npbs.business.model.TbBiPrepay;
+import com.nantian.npbs.business.model.TbBiPrepayInfo;
+import com.nantian.npbs.business.model.TbBiPrepayInfoId;
 import com.nantian.npbs.business.model.TbBiPrepayLowamount;
 import com.nantian.npbs.business.service.internal.CommonPrepay;
 import com.nantian.npbs.common.GlobalConst;
@@ -43,9 +45,23 @@ public class AnswerBusiness002Service extends AnswerBusinessService {
 		if ("010002".equals(bm.getTranCode()) != true
 				&& "000000".equals(cm.getServiceResultCode()) == true) {
 			deleteAuthorizeAmount(cm, bm);
-			if(!commonPrepay.payPrepay(cm, bm)){
-				return;
-			}		
+			//为防止 重复扣款的问题先检查 是否有备付金明细
+			 TbBiPrepayInfoId ti=new TbBiPrepayInfoId();
+			 ti.setPbSerial(bm.getPbSeqno());
+			 ti.setTradeDate(bm.getTranDate());
+			try {
+			 	TbBiPrepayInfo prepayInfo = commonPrepay.getPrepayInfo(ti);
+			 	if(prepayInfo==null){
+					if(!commonPrepay.payPrepay(cm, bm)){
+						return;
+					}		
+			 	}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+				
 		}		
 		
 		// 检查商户是否有备付金帐号

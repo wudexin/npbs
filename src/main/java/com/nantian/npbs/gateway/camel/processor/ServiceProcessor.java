@@ -55,12 +55,11 @@ public class ServiceProcessor extends BaseProcessor implements Processor {
 			processExchange(exchange);
 			Object requestPkg = PacketUtils.getServiceReqPacket(PacketUtils
 					.getMessageMap(exchange));
+	       CallWTCSvc callSvc = new CallWTCSvc();
+	    	Object responsePkg = callSvc.callSvc(requestPkg, getServiceCode(cm,bm));
 			
-	   //	      CallWTCSvc callSvc = new CallWTCSvc();
-		//			Object responsePkg = callSvc.callSvc(requestPkg, getServiceCode(cm,bm));
-			
-		//	测试用
-	 	 	TypedString responsePkg = new TypedString(TuxStringTest.backPacket(cm));
+	    	//	测试用
+	    	// TypedString responsePkg = new TypedString(TuxStringTest.backPacket(cm));
 			//responsePkg = null;
 			PacketUtils.setServiceAnsPacket(
 					PacketUtils.getMessageMap(exchange), responsePkg);
@@ -73,7 +72,7 @@ public class ServiceProcessor extends BaseProcessor implements Processor {
 			cm.setServiceResultMsg(msgHeadData.getRetMsg());
 			bm.setMidPlatformDate(msgHeadData.getSysDate());
 			bm.setSysJournalSeqno(msgHeadData.getJournalSeqno());
-			
+ 
 			if("000000".equals(cm.getServiceResultCode()) != true){
 				logger.info("调用Service返回错误，retcode=[{}],retmsg=[{}];" , cm.getServiceResultCode() ,cm.getServiceResultMsg());
 				if("000010".equals(bm.getTranCode())){//末笔交易查询

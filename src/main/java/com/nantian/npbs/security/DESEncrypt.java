@@ -226,24 +226,39 @@ public class DESEncrypt {
 	}
 
 	public static void main(String[] args) throws Exception {
-		// String source = "abcd1234";// 要加密的字符串
-		// // 生成密钥
-		// byte[] keybyte = generateKey2();
+		  String source = "04FB4975BE6828916EA43654FDD27DF404FB4975BE682891";// 要加密的字符串
+		  // 生成密钥
+		  byte[] keybyte = generateKey2();
 		// // 转换成十六进制字符串
-		// System.out.println(ConvertUtils.bytes2HexStr(keybyte));
-		// System.out.println(ConvertUtils.bytes2HexStr(encrypt(MAINKEY,keybyte)));
-		// // 使用主密钥将生成密钥再加密
-		// keybyte = generateKey3(keybyte);
-		// System.out.println(ConvertUtils.bytes2HexStr(keybyte));
-		// System.out.println(ConvertUtils.bytes2HexStr(encrypt(MAINKEY,keybyte)));
-		// // 生成的密文
-		// byte[] cryptograph = encrypt(keybyte, source.getBytes());
-		// BASE64Encoder encoder = new BASE64Encoder();
-		// System.out.println(encoder.encode(cryptograph));
-		// // 解密密文
-		// System.out.println(new String(decrypt(keybyte, cryptograph)));
-
-		String accno = "05000001";
+		 System.out.println(ConvertUtils.bytes2HexStr(keybyte));
+		  System.out.println(ConvertUtils.bytes2HexStr(encrypt(MAINKEY,keybyte)));
+		  // 使用主密钥将生成密钥再加密
+		  keybyte = generateKey3(keybyte);
+		  System.out.println(ConvertUtils.bytes2HexStr(keybyte));
+		  System.out.println(ConvertUtils.bytes2HexStr(encrypt(MAINKEY,keybyte)));
+		  
+		  
+		  
+/*		  // 生成的密文
+ 	   byte[] cryptograph = encrypt(keybyte, source.getBytes());
+	 	  BASE64Encoder encoder = new BASE64Encoder();
+		  System.out.println(encoder.encode(cryptograph));
+		 //  解密密文
+		  System.out.println(new String(decrypt(keybyte, cryptograph)));
+*/
+		  byte[] pinKey = DESEncrypt.decrypt(KEK,
+					ConvertUtils.hexStr2Bytes("04FB4975BE6828916EA43654FDD27DF404FB4975BE682891"));
+		  byte[] pinblock = PinBlock.process("88888888", "05008895");
+			byte[] pin = encrypt(pinKey, pinblock);
+			logger.info("jiami::{}" , ConvertUtils.bytes2HexStr(pin)); 
+		  
+		//	logger.info("checkPin, kek: [{}]pin key: [{}]",getKEK(),ConvertUtils.bytes2HexStr(pinKey).substring(0, 3));
+			
+		 // PinBlock.getMD5("88888888", "05008895");
+			
+			
+			
+/*		String accno = "05000001";
 		String pwd = "123456";
 		byte[] pinblock = PinBlock.process(pwd, accno);
 		EncryptionService es = new EncryptionService();
@@ -261,6 +276,6 @@ public class DESEncrypt {
 			logger.info("checkPin, kek: [{}]pin key: [{}]",getKEK(),ConvertUtils.bytes2HexStr(pinKey).substring(0, 3));
 			byte[] pin = encrypt(pinKey, pinblock);
 			logger.info("密钥加密后:{}" , ConvertUtils.bytes2HexStr(pin));
-		}
+		}*/
 	}
 }

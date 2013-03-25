@@ -13,6 +13,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.nantian.npbs.business.model.TbBiPrepayInfo;
+import com.nantian.npbs.business.model.TbBiPrepayInfoId;
 import com.nantian.npbs.business.model.TbBiTradeContrast;
 import com.nantian.npbs.business.model.TbBiTradeContrastId;
 import com.nantian.npbs.business.service.internal.CommonPrepay;
@@ -37,8 +39,22 @@ public class AnswerBusiness003Service extends AnswerBusinessService {
 		if ("010003".equals(bm.getTranCode())) {
 			//删除缴费上限授权记录
 			deleteAuthorizeAmount(cm, bm);
-		   //处理备付金
-			commonPrepay.payPrepay(cm, bm);	
+			 
+			 TbBiPrepayInfoId ti=new TbBiPrepayInfoId();
+			 ti.setPbSerial(bm.getPbSeqno());
+			 ti.setTradeDate(bm.getTranDate());
+			try {
+			 	TbBiPrepayInfo prepayInfo = commonPrepay.getPrepayInfo(ti);
+			 	if(prepayInfo==null){
+					if(!commonPrepay.payPrepay(cm, bm)){
+						return;
+					}		
+			 	}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			 
 			//更新原缴费流水状态为成功
 			tradeDao.updateTradeStatus(bm.getTranDate(), bm.getOldPbSeqno(), 
 						GlobalConst.TRADE_STATUS_SUCCESS);			

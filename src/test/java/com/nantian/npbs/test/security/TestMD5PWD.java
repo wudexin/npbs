@@ -98,7 +98,7 @@ public class TestMD5PWD {
 //		boolean checkMacFlag = Boolean.valueOf(str);
 //		System.out.println(checkMacFlag);
 		
-		System.out.println(DigestUtils.md5Hex("000000"+"06600001"));
+		System.out.println(DigestUtils.md5Hex("888888"+"0500"));
 	}
 	
 	

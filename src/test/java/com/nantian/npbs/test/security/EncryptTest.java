@@ -27,12 +27,15 @@ public class EncryptTest {
 	
 	@Test
 	public void encrypt(){
+		
+		String str="000000"; 
 		byte[] kek =ConvertUtils.hexStr2Bytes("7DC9996017654EFB");
 		
 		byte[] encryptedKEK = DESEncrypt.encrypt(mainKey, ConvertUtils.hexStr2Bytes("7DC9996017654EFB"));
 		logger.info("checkMac, kek: [" + ConvertUtils.bytes2HexStr(encryptedKEK) + "]");
 
 		byte[] macKey =DESEncrypt.encrypt(kek, ConvertUtils.hexStr2Bytes("2A8FB2FF2B5A8E4A"));
+		 
 		
 		logger.info("checkMac, mac key: [" + ConvertUtils.bytes2HexStr(macKey) + "]");
 

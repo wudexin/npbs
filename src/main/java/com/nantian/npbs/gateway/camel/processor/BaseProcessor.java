@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.nantian.npbs.common.GlobalConst;
+import com.nantian.npbs.common.ProcessManager;
 import com.nantian.npbs.gateway.camel.sedaroute.SedaRouteUtils;
 import com.nantian.npbs.gateway.camel.sedaroute.SedaUtils;
 import com.nantian.npbs.packet.BusinessMessage;
@@ -84,6 +85,13 @@ public abstract class BaseProcessor {
 			PacketUtils.packAnswerPacket(exchange,
 					PacketUtils.getMessageMap(exchange));
 			logger.info("pack answer packet OK, answer packet is: {}", exchange);
+			
+			//释放申请的进程资源 在所有交易完成后进行释放
+		 	if (cm.isLockProcess()) {
+		 		ProcessManager.getProcessManager().unlockProcess(cm, bm);
+		 		cm.setLockProcess(false);
+		 	}
+			 
 			
 			if (isSync) {
 				logger.info("[---------------------------------- 异常处理完成 ---------------------------------------]");

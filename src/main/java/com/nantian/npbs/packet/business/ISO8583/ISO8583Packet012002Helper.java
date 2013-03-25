@@ -63,11 +63,12 @@ public class ISO8583Packet012002Helper extends ISO8583Packetxxx002Helper{
 			
 			// 欠费金额
 			String qfje = (String)values[31];
-			icData.setFee(String.valueOf(Double.parseDouble(qfje.trim()) * 100.00));
-			
+	//		icData.setFee(String.valueOf(Double.parseDouble(qfje.trim()) * 100.00));
+			icData.setFee(String.valueOf(new BigDecimal(qfje.trim()).doubleValue() * 100.00));
 			// 预收金额
 			String ysje = (String)values[46];
-			icData.setYsAmount(String.valueOf(Double.parseDouble(ysje.trim()) * 100.00));
+			//	icData.setYsAmount(String.valueOf(Double.parseDouble(ysje.trim()) * 100.00));
+			icData.setYsAmount(String.valueOf(new BigDecimal(ysje.trim()).doubleValue() * 100.00));
 			
 			// 核算单位编号
 			String checkUnitCode = (String)values[5];
@@ -79,11 +80,13 @@ public class ISO8583Packet012002Helper extends ISO8583Packetxxx002Helper{
 			
 			// 低保户剩余金额
 			String dibaofei = (String)values[7];
-			icData.setDibaofei(String.valueOf(Double.parseDouble(dibaofei.trim()) * 100.00));
+			//icData.setDibaofei(String.valueOf(Double.parseDouble(dibaofei.trim()) * 100.00));
+			icData.setDibaofei(String.valueOf(new BigDecimal(dibaofei.trim()).doubleValue() * 100.00));
 			
 			// 调整金额
 			String tzAmount = (String)values[47];
-			icData.setTzAmount(String.valueOf(Double.parseDouble(tzAmount.trim()) * 100.00));
+			//icData.setTzAmount(String.valueOf(Double.parseDouble(tzAmount.trim()) * 100.00));
+			icData.setTzAmount(String.valueOf(new BigDecimal(tzAmount.trim()).doubleValue() * 100.00));
 
 		} catch (Exception e) {
 			logger.error("河电国标卡IC卡缴费--解包55位元出错",e);

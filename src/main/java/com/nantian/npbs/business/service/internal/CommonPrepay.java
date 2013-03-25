@@ -486,7 +486,7 @@ public class CommonPrepay {
 		logger
 				.info(
 						"回退备付金账户后：金额  amt=[{}]账户余额  balance=[{}]已使用信用额度  useCreAmt=[{}]剩余信用额度  surCreAmt=[{}]",
-						new Object[] { amt, balance, useCreAmt, surCreAmt });
+						new Object[] { amt, tbPrepay.getAccBalance(), 	tbPrepay.getUseCreamt(), tbPrepay.getSurCreamt() });
 
 		logger.info("回退备付金账户成功！");
 		

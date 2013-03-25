@@ -25,8 +25,7 @@ public class TUXSTRINGPacket013003Helper extends TUXSTRINGPacketxxx022Helper {
 	@Override
 	public void pack(Map<String, Object> fieldValues, ControlMessage cm,
 			BusinessMessage bm) throws PacketOperationException {
-		logger.debug("向商务平台打包(013003) - 开始");
-		
+		logger.debug("向商务平台打包(013003) - 开始"); 
 		HuaElecICCard sc = (HuaElecICCard)bm.getCustomData();
 		logger.info("账户余额[{}]返回购电次数[{}]",new Object[]{
 				sc.getAccountBalance(),sc.getBuyElecNum()

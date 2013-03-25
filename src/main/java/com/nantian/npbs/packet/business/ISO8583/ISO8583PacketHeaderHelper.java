@@ -71,6 +71,8 @@ public class ISO8583PacketHeaderHelper {
 		offset += posPacketLen;
 
 		logger.info("报文长度: {}" , packetLength);
+	
+		
 
 		// 报文网关打包处理TPDU 5位bcd码：tpdu值(10byte)
 		String tpdu = packetHeader.getTPDU();
@@ -89,6 +91,8 @@ public class ISO8583PacketHeaderHelper {
 				+ handleType + terminalVersion;
 		FieldUtils.setBcdField(buffer, offset, packetHeadStr, headerLen);
 		offset += headerLen;
+		
+		System.out.println("93buffer:"+ConvertUtils.bytes2HexStr(buffer));
 
 		if ("000907".equals(bm.getTranCode()) != true) {
 			// 打包消息类型、bitmap和mac
@@ -102,7 +106,6 @@ public class ISO8583PacketHeaderHelper {
 		System.arraycopy(buffer, posPacketLen, buf, 0, packetLength);
 
 		logger.info("返回报文：{}" , ConvertUtils.bytes2HexStr(buf));
-
 		return buf;
 	}
 
@@ -148,12 +151,15 @@ public class ISO8583PacketHeaderHelper {
 				// packetLength
 				packetLength += macLen;
 				packetHeader.setPacketLength(packetLength);
+				logger.info("64isnull");
 			} else {
 				// mablen
 				// 11 = 5位tpdu + 6位报文头
 				// 8位mac
 				mabLength = packetLength - macLen - tpduLen - headerLen;
 				packetHeader.setMabLength(mabLength);
+				
+				logger.info("64isnotnull");
 			}
 			// mac macLength = 8;
 			byte[] mab = new byte[mabLength];
@@ -161,7 +167,7 @@ public class ISO8583PacketHeaderHelper {
 			System.arraycopy(buffer, posPacketLen + tpduLen + headerLen, mab, 0, mabLength);
 			logger.info("mab：{}" , ConvertUtils.bytes2HexStr(mab));
 			bm.setMacData(mab);
-			byte[] mac = getMac(mab, bm.getShopCode());
+			byte[] mac = getMac(mab, bm.getShopCode()); 
 			logger.info("mac：{}" , ConvertUtils.bytes2HexStr(mac));
 			bm.setMac(mac);
 			String macStr = ConvertUtils.bytes2HexStr(mac);// "E9070BF5BD59099A";//

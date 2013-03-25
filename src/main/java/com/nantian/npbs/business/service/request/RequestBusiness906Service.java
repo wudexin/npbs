@@ -133,7 +133,7 @@ public class RequestBusiness906Service extends RequestBusinessService {
 	@Override
 	public boolean needLockProcess() {
 		// 需要进程检查
-		return true;
+		return false;
 	}
 
 	@Override

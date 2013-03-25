@@ -11,6 +11,8 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.BitSet;
 
+import monfox.toolkit.snmp.agent.modules.SnmpV2Mib.SysOREntry;
+
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 import org.perf4j.aop.Profiled;
@@ -34,6 +36,8 @@ public class ConvertUtils {
 		char achar = 'A';
 		System.out.println("字符" + achar + "的byte值为"
 				+ ConvertUtils.hexChar2byte(achar));
+		 
+		
 
 	}
 

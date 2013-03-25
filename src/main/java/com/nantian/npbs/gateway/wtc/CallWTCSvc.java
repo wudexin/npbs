@@ -1,5 +1,7 @@
 package com.nantian.npbs.gateway.wtc;
 
+import java.util.Date;
+
 import javax.naming.Context;
 import javax.naming.NamingException;
 
@@ -53,9 +55,12 @@ public class CallWTCSvc {
 
 			// myRtn = myTux.tpcall(serviceName, (TypedBuffer) requestPkgCArray,
 			// ApplicationToMonitorInterface.TPNOTRAN);
+			 
 			myRtn = myTux.tpcall(serviceName, (TypedBuffer) requestPkg, 0);
+		
 		} catch (Exception e) {
 			logger.error("WTC调用失败：", e);
+		 
 			if (e instanceof TPException)
 				throw new Exception(TPException.tpstrerror(((TPException) e)
 						.gettperrno()));
@@ -63,7 +68,7 @@ public class CallWTCSvc {
 				throw new Exception(e.getMessage());
 		}
 		logger.info("tpcall successfull!");
-
+ 
 		TypedBuffer retBuffer = myRtn.getReplyBuffer();
 		logger.info("电子商务平台返回类型：{}" ,retBuffer.getType());
 		if (retBuffer.getType().equals("STRING")) {

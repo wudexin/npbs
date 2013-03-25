@@ -58,20 +58,20 @@ public class RequestRouteBuilder extends SpringRouteBuilder {
 		String posSedaRequestEndpoint = posSedaRequestQueue + "?size="
 				+ GlobalConst.MAIN_QUEUE_LENGTH + "&concurrentConsumers="
 				+ GlobalConst.MAIN_QUEUE_CONCURRENT_CONSUMERS
-				+ "&timeout=55000";
+				+ "&timeout=60000";
 		logger.info("posSedaRequest=[{}]", posSedaRequestEndpoint);
 
-		String posNettyConfig = "asyncDuplex=true&corePoolSize=25&workerCount=32&reuseAddress=false&allowDefaultCodec=false&connectTimeout=60000&disconnectOnNoReply=false&noReplyLogLevel=ERROR&decoder=#length-decoder&encoder=#length-encoder";
+		String posNettyConfig = "asyncDuplex=true&corePoolSize=25&workerCount=32&reuseAddress=false&allowDefaultCodec=false&connectTimeout=55000&disconnectOnNoReply=false&noReplyLogLevel=ERROR&decoder=#length-decoder&encoder=#length-encoder";
 
 		String eposSedaRequestQueue = "seda:" + SEDA_TYPE.REQUEST
 				+ CHANEL_TYPE.EPOS;
 		String eposSedaRequestEndpoint = eposSedaRequestQueue + "?size="
 				+ GlobalConst.MAIN_QUEUE_LENGTH + "&concurrentConsumers="
 				+ GlobalConst.MAIN_QUEUE_CONCURRENT_CONSUMERS
-				+ "&timeout=55000";
+				+ "&timeout=60000";
 		logger.info("eposSedaRequest=[{}]", eposSedaRequestEndpoint);
 
-		String eposNettyConfig = "corePoolSize=50&workerCount=128&reuseAddress=false&allowDefaultCodec=false&connectTimeout=60000&disconnectOnNoReply=false&noReplyLogLevel=ERROR&decoder=#string-decoder&encoder=#string-encoder";
+		String eposNettyConfig = "corePoolSize=50&workerCount=128&reuseAddress=false&allowDefaultCodec=false&connectTimeout=55000&disconnectOnNoReply=false&noReplyLogLevel=ERROR&decoder=#string-decoder&encoder=#string-encoder";
 
 		String posPort = null;
 		for (int i = 0; i < GlobalConst.POS_HOST_REQ_ADDRESS.length; i++) {

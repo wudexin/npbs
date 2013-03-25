@@ -10,6 +10,7 @@ import com.nantian.npbs.business.dao.TradeDao;
 import com.nantian.npbs.business.model.TbBiBusinessUnit;
 import com.nantian.npbs.business.model.TbBiTrade;
 import com.nantian.npbs.common.GlobalConst;
+import com.nantian.npbs.common.ProcessManager;
 import com.nantian.npbs.core.orm.impl.BaseHibernateDao;
 import com.nantian.npbs.core.service.IAnswerBusinessService;
 import com.nantian.npbs.packet.BusinessMessage;
@@ -51,13 +52,10 @@ public abstract class AnswerBusinessService implements IAnswerBusinessService {
 				tradeDao.updateTradeStatus(bm.getTranDate(), bm.getOldPbSeqno(), 
 						GlobalConst.TRADE_STATUS_FAILURE);	
 			}	
+			return;
 		}
 		
-		dealBusiness(cm, bm);
-	/*	if(bm.getProcerFlag()=='1'){
-			baseHibernateDao.delete(bm.getTpm()); 	
-		}
-*/
+		dealBusiness(cm, bm); 
 	
 	}
 

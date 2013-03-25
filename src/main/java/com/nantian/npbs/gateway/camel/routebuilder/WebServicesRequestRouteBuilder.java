@@ -45,6 +45,7 @@ public class WebServicesRequestRouteBuilder extends SpringRouteBuilder {
 	@Override
 	public void configure() throws Exception {
 	 
+		
 		String webSedaRequestQueue = "seda:" + SEDA_TYPE.REQUEST+"WEBSERVICES";
 		String webSedaRequestEndpoint = webSedaRequestQueue + "?size="
 				+ GlobalConst.MAIN_QUEUE_LENGTH + "&concurrentConsumers="

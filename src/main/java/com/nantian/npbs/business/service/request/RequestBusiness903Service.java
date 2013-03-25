@@ -62,6 +62,23 @@ public class RequestBusiness903Service extends RequestBusinessService {
 			return;
 		}
 		
+		//检查渠道跟后台所设置渠道是否相同
+		String type="";
+		if("POS".equalsIgnoreCase(bm.getChanelType().toString())){
+		type="01";	
+		}else if("EPOS".equalsIgnoreCase(bm.getChanelType().toString())){
+			type="03";
+		}
+		if(!bm.getShop().getChannelCode().equals(type)){
+			bm.setResponseCode(GlobalConst.RESULTCODE_FAILURE);
+			bm.setResponseMsg("渠道设置不正确");
+			cm.setResultCode(GlobalConst.RESULTCODE_FAILURE);
+			cm.setResultMsg("渠道设置不正确");
+			bm.setAdditionalTip("渠道设置不正确");
+			
+			return;
+		}
+		
 //		super.initShop(cm, bm);
 		TbBiPrepay prepay = null;
 		TbBiPrepayLowamount lowAmountPrepay= null;
@@ -95,6 +112,8 @@ public class RequestBusiness903Service extends RequestBusinessService {
 			pwdFlag = prepay.getPwdFlag();
 		}
 		
+	
+		
 		//15域增加标志域处理by jxw at 20111017
 		String flagField = getFlagField(shop.getPayType(),pwdFlag);
 		bm.setFlagField(flagField);
@@ -107,6 +126,8 @@ public class RequestBusiness903Service extends RequestBusinessService {
 			return;
 		}
 		bm.setWorkKeys(workKeys);
+		
+	
 		
 		  // 提醒已经使用的信用额度和剩余的信用额度。放到58域中返回
 //		ArrayList<Object> journalList = new ArrayList<Object>();
@@ -150,6 +171,8 @@ public class RequestBusiness903Service extends RequestBusinessService {
 		bm.setOrigPosJournalSeqno(maxPosSeq);
 		
 		
+		
+		
 		//add by fengyafang 农电参数配置检查
 		//先检查该商户 是否有农电业务
 		// if(checkNdBusiness(bm.getShopCode())){
@@ -187,9 +210,8 @@ public class RequestBusiness903Service extends RequestBusinessService {
 			setRetMsg(cm,bm,"","修改签到状态失败!商户号=[" + shopCode + "];");
 			return;
 		}
-		//在此增加检查是否有农电业务 是否需要下载农电的标志。如果需要，则置参数下载标志为1。
-		//add by fengyafang 20121213
-		 
+	 
+		
 		
 		 
 	}

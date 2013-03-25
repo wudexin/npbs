@@ -163,7 +163,7 @@ public class RequestBusiness004Service extends RequestBusinessService {
 	 */
 	@Override
 	public boolean needLockProcess() {
-		return true;
+		return false;
 	}
 
 	@Override

@@ -53,7 +53,7 @@ public class RequestBusiness017Service extends RequestBusinessService {
 	@Override
 	public boolean needLockProcess() {
 		// TODO Auto-generated method stub
-		return true;
+		return false;
 	}
 
 	@Override

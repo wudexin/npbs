@@ -15,7 +15,7 @@ public class TuxStringTest {
 		} else if (cm.getTranCode().equals("003002")) { // 电信缴费
 			responseDataString = "000000||20111031|368|00001|13483571178|孙永强|1234567890|01-12|100|80.44|12|13|44|22|58|1|2|3|4|5|6|7|8|9|10|11|";
 		} else if (cm.getTranCode().equals("001001")) { // 移动查询
-			responseDataString = "000000||20111031|368|00001|孙永强|100|80.44|";
+			responseDataString = "000000||20130321|0|00001|*磊|-191.28|93.79|";
 		} else if (cm.getTranCode().equals("001002")) { // 移动缴费
 			responseDataString = "000000||20120221|130000763|00001|1|210859|神州行|张永录|18733243127|130000763|31288159651583256|20.00|20120221|                                                 |                                                 |                                                 |                                                 |                                                 |                                                 |                                                 |                                                 |                                                 |                                                 |                                                 |                                                 |                                                 |                                                 |                                                 |                                                 |                                                 |                       |计费金额合计：0"
 					+ ".00        当前月话费：24.71         |最新余额：22.18           |协议款剩余：0.00          协议款消费：0.00          | |0.00        |";
@@ -80,6 +80,6 @@ public class TuxStringTest {
 
 		
 
-		return responseDataString;
+		return responseDataString ;
 	}
 }

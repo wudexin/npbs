@@ -94,4 +94,8 @@ public class RequestBusiness001Service extends RequestBusinessService {
 		return true;
 	}
 
+	@Override
+	public boolean needLockProcess() {
+		return true;
+	}
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.nantian.npbs.business.model.TbBiPrepay;
 import com.nantian.npbs.business.model.TbBiPrepayInfo;
+import com.nantian.npbs.business.model.TbBiPrepayInfoId;
 import com.nantian.npbs.business.model.TbBiTrade;
 import com.nantian.npbs.business.model.TbBiTradeContrast;
 import com.nantian.npbs.business.service.internal.CommonPrepay;
@@ -31,11 +32,11 @@ public class AnswerBusiness010Service extends AnswerBusinessService {
 	@Override
 	public void dealBusiness(ControlMessage cm, BusinessMessage bm) {
 
-
-		if ("0".equals(cm.getServiceCallFlag())) { // 判断是否调用了电子商务平台,0为不调用,直接返回，可能是无本地流水返回02,异常返回99
-			logger.info("便民服务站直接返回，不发送电子商务平台。");
-			return;
-		}
+	 
+	 	if ("0".equals(cm.getServiceCallFlag())) { // 判断是否调用了电子商务平台,0为不调用,直接返回，可能是无本地流水返回02,异常返回99
+	 		logger.info("便民服务站直接返回，不发送电子商务平台。");
+	 		return;
+	 	}
 
 		if (!GlobalConst.RESULTCODE_SUCCESS.equals(cm.getServiceResultCode())) { // 和电子商务平台交互应答失败,返回原交易记录状态99
 			logger.info("查询电子商务平台失败!");
@@ -112,8 +113,19 @@ public class AnswerBusiness010Service extends AnswerBusinessService {
 		deleteAuthorizeAmount(cm, bm);
 		//处理备付金，登记明细
 		bm.setPrePayAccno(bm.getShop().getResaccno());
-		if(!commonPrepay.payPrepay(cm, bm)){
+		//为防止 重复扣款的问题先检查 是否有备付金明细
+		 TbBiPrepayInfoId ti=new TbBiPrepayInfoId();
+		 ti.setPbSerial(bm.getPbSeqno());
+		 ti.setTradeDate(bm.getTranDate());
+		try {
+		 	TbBiPrepayInfo prepayInfo = commonPrepay.getPrepayInfo(ti);
+		 	if(prepayInfo==null){
+		 		if(!commonPrepay.payPrepay(cm, bm)){
 			return false;
+		 }}
+		 	} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return true;
 	}
