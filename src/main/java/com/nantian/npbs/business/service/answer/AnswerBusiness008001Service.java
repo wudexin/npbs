@@ -34,8 +34,8 @@ public class AnswerBusiness008001Service extends  AnswerBusiness001Service{
 		XAGasCashData cashData = (XAGasCashData) bm.getCustomData();
 		TempData ct = new TempData();
 		ct.setPbSeqno(bm.getPbSeqno());
-		ct.setTempValue(cashData.getFkcs()+ "|" + cashData.getAccBalance());
-		//+"|"+cashData.getSAPCODE()
+		ct.setTempValue(cashData.getFkcs()+ "|" + cashData.getAccBalance()
+		 +"|"+cashData.getSAPCODE());
 
 		ct.setTradeDate(bm.getTranDate());
 		

@@ -202,9 +202,9 @@ public class ISO8583Packet012002Helper extends ISO8583Packetxxx002Helper{
 				 	str.append("本年累计用电量:").append(totalElectrict).append("\n");*/
 					
 					if(n == 0||n == 1) {
-						str.append("第1档剩余电量为:").append(icData.getLevnElectric()).append("\n");
+						str.append("").append(icData.getLevnElectric()).append("\n");
 					}else if(n == 2) {
-						str.append("第2档剩余电量为:").append(icData.getLevnElectric()).append("\n");
+						str.append("").append(icData.getLevnElectric()).append("\n");
 					}else {
 						str.append("已用到第三档。\n");
 					}

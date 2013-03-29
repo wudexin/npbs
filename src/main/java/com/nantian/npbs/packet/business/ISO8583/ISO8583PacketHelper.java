@@ -95,7 +95,7 @@ public class ISO8583PacketHelper implements IPacket {
 		} catch (Exception e) {
 			logger.error("pack header error!", e);
 		}
-
+	 
 		PacketUtils.setOrigAnsPacket(message, buffer);
 		logger.info("retCode:[{}]; retMsg:[{}];",
 				bm.getResponseCode(),
@@ -176,6 +176,7 @@ public class ISO8583PacketHelper implements IPacket {
 
 		PacketUtils.setOrigAnsPacket(message, buffer);
 		logger.info("pack buffer finished, buffer length {}", buffer.length);
+		 
 	 
 		if ("00".equals(bm.getResponseCode())) {
 			bm.setResponseMsg("交易成功!");

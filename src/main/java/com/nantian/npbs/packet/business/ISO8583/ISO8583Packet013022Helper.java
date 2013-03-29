@@ -69,7 +69,7 @@ public class ISO8583Packet013022Helper extends ISO8583Packetxxx022Helper {
 		logger.info("ISO8583 xxx023开始打包：ChanleType:" + cm.getChanelType());
 		
 		int fieldNo = 0;
-		
+		//10, 11, 12, 36, 38, 40, 41, 54, 63
 		//对fieldValues中对应bitmap的赋值，解包结束后不打包原包数据
 		//Field 11, POS journal no
 		ISO8583PacketUtils.packField(fieldValues, 11, bm);

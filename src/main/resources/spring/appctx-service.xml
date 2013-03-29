@@ -74,7 +74,7 @@
 		</jaxws:outInterceptors>
 	</jaxws:endpoint>
 	
-	 <!--  
+	   
 	<jaxws:endpoint id="WebRequestSvc" implementor="#webRequestSvc"
 		address="/WebRequestSvc">
 		<jaxws:binding>
@@ -88,6 +88,6 @@
 			<ref bean="logOut" />
 		</jaxws:outInterceptors>
 	</jaxws:endpoint>
-	-->
+	
  
 </beans>

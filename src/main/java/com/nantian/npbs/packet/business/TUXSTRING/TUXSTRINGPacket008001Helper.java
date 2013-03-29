@@ -75,12 +75,12 @@ public class TUXSTRINGPacket008001Helper extends TUXSTRINGPacketxxx001Helper {
 		cashData.setFkcs(fkcs);
 		//D13_13_XAG_SAPCODE
 	
-		/*
+		 
 		// 公司代码
 		String sapCode = (String) fieldValues.get("D13_13_XAG_SAPCODE");
 		if (sapCode == null) throw new PacketOperationException();
 		cashData.setSAPCODE(sapCode);
-		*/
+		 
 		bm.setCustomData(cashData);
 		
 	}
@@ -95,7 +95,7 @@ public class TUXSTRINGPacket008001Helper extends TUXSTRINGPacketxxx001Helper {
 				"D13_13_XAG_USER_ADDR",		// 用电地址
 				"D13_13_XAG_LAST_BAL",		// 账户余额
 				"D13_13_XAG_CARD_NUM"		// 发卡次数
-				//,"D13_13_XAG_SAPCODE"        //公司代码
+				 ,"D13_13_XAG_SAPCODE"        //公司代码
 				};
 		return fields;
 	}

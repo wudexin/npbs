@@ -94,10 +94,10 @@ public abstract class RequestProcessor extends BaseProcessor implements
 					.create(bm);
 			
 			//进程控制
-		 	if(requestService.needLockProcess()){
-		 		//进程控制
-			 	bm.setExchangeId(exchange.getExchangeId());
-		 		ProcessManager.getProcessManager().lockProcess(cm, bm); 
+		  	if(requestService.needLockProcess()){
+		 	//进程控制
+	 	 	bm.setExchangeId(exchange.getExchangeId());
+		  	ProcessManager.getProcessManager().lockProcess(cm, bm); 
 		 	} 
 		 	requestService.execute(cm, bm);
 			String resultCode = cm.getResultCode();

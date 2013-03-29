@@ -68,6 +68,8 @@ public class RequestBusiness903Service extends RequestBusinessService {
 		type="01";	
 		}else if("EPOS".equalsIgnoreCase(bm.getChanelType().toString())){
 			type="03";
+		}else if("WEB".equalsIgnoreCase(bm.getChanelType().toString())){
+			type="02";
 		}
 		if(!bm.getShop().getChannelCode().equals(type)){
 			bm.setResponseCode(GlobalConst.RESULTCODE_FAILURE);

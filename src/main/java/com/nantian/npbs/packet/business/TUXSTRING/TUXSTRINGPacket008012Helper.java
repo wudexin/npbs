@@ -8,6 +8,7 @@ import com.nantian.npbs.packet.BusinessMessage;
 import com.nantian.npbs.packet.ControlMessage;
 import com.nantian.npbs.packet.PacketOperationException;
 import com.nantian.npbs.packet.PacketUtils;
+import com.nantian.npbs.packet.internal.XAGasCashData;
 
 /**
  * 现金新奥燃气交易取消
@@ -35,6 +36,9 @@ public class TUXSTRINGPacket008012Helper extends TUXSTRINGPacketxxx012Helper {
 		// 接入渠道流水号-必输项
 		PacketUtils.addFieldValue(fieldValues, "CHANNEL_SEQNO",  bm.getPbSeqno());
 		
+		 
+		
+		PacketUtils.addFieldValue(fieldValues, "D13_13_XAG_SAPCODE",  "0000");
 	}
 	
 	@Override

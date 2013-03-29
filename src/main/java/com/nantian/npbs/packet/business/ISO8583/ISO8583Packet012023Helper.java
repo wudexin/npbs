@@ -74,6 +74,8 @@ public class ISO8583Packet012023Helper extends ISO8583Packetxxx023Helper{
 		
 		//Field 60, Trade code
 		ISO8583PacketUtils.packField(fieldValues, 60, bm);
+		
+	 
 	}
 
 	@Override

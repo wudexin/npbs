@@ -37,7 +37,7 @@ public class TUXSTRINGPacket008002Helper extends TUXSTRINGPacketxxx002Helper {
 		PacketUtils.addFieldValue(fieldValues, "CHANNEL_SEQNO", cashData.getCurPBSerial());
 		
 		// 公司代码
-	//	PacketUtils.addFieldValue(fieldValues, "D13_13_XAG_SAPCODE", cashData.getSAPCODE());
+	 	PacketUtils.addFieldValue(fieldValues, "D13_13_XAG_SAPCODE", cashData.getSAPCODE());
 		
 	}
 	

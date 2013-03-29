@@ -10,9 +10,11 @@ import com.nantian.npbs.business.model.TbBiPrepay;
 import com.nantian.npbs.business.model.TbBiTrade;
 import com.nantian.npbs.business.model.TbBiTradeContrast;
 import com.nantian.npbs.business.model.TbBiTradeContrastId;
+import com.nantian.npbs.business.model.TempData;
 import com.nantian.npbs.common.GlobalConst;
 import com.nantian.npbs.packet.BusinessMessage;
 import com.nantian.npbs.packet.ControlMessage;
+import com.nantian.npbs.packet.internal.XAGasCashData;
 
 /**
  * 交易取消
@@ -76,6 +78,8 @@ public class RequestBusiness012Service extends RequestBusinessService {
 					new Object[]{bm.getOldPbSeqno(), bm.getUserCode(), bm.getAmount()});
 			return;
 		}
+		
+	 
 		
 		// 原交易流水商户号
 		logger.info("原交易流水商户号:[{}]" , oriTrade.getCompanyCode());

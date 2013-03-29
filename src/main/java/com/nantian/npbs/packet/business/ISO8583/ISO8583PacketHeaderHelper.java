@@ -43,7 +43,7 @@ public class ISO8583PacketHeaderHelper {
 	//mac 8位
 	private static int macLen = 8;
 	
-	private int packetLength = 0;
+	  
 
 	@Resource
 	EncryptionService encryptionService;
@@ -58,6 +58,7 @@ public class ISO8583PacketHeaderHelper {
 		logger.info("报文头打包开始!");
 
 		int offset = 0;
+		int packetLength = 0;
 
 		// 报文长度。因直接接收socket字符串所以上传报文中包含报文长度，但不打包到下传报文中，由socket添加报文长度。
 		packetLength = length - posPacketLen; // 减去报文长度本身
@@ -70,9 +71,8 @@ public class ISO8583PacketHeaderHelper {
 		FieldUtils.setBcdField(buffer, offset, packLenStr, posPacketLen);
 		offset += posPacketLen;
 
-		logger.info("报文长度: {}" , packetLength);
-	
-		
+		logger.info("报文长度: {}" , packetLength);//packetLength=371
+		System.out.println(packetLength);
 
 		// 报文网关打包处理TPDU 5位bcd码：tpdu值(10byte)
 		String tpdu = packetHeader.getTPDU();
@@ -91,26 +91,24 @@ public class ISO8583PacketHeaderHelper {
 				+ handleType + terminalVersion;
 		FieldUtils.setBcdField(buffer, offset, packetHeadStr, headerLen);
 		offset += headerLen;
-		
-		System.out.println("93buffer:"+ConvertUtils.bytes2HexStr(buffer));
+		 
 
 		if ("000907".equals(bm.getTranCode()) != true) {
 			// 打包消息类型、bitmap和mac
-			packOtherHeader(fieldValues, buffer, offset, cm, bm);
+		 
+			packetLength=packOtherHeader(fieldValues, buffer, offset, cm, bm, packetLength);
 		}
-		
-		
-
+		 
 		// 删除报文长度
 		byte[] buf = new byte[packetLength];
 		System.arraycopy(buffer, posPacketLen, buf, 0, packetLength);
-
 		logger.info("返回报文：{}" , ConvertUtils.bytes2HexStr(buf));
+		System.out.println(packetLength);
 		return buf;
 	}
 
-	public byte[] packOtherHeader(Object fieldValues[], byte[] buffer,
-			int offset, ControlMessage cm, BusinessMessage bm) throws Exception {
+	public int packOtherHeader(Object fieldValues[], byte[] buffer,
+			int offset, ControlMessage cm, BusinessMessage bm,int packetLength) throws Exception {
 		// int offset = 0;
 		PacketHeader packetHeader = cm.getPacketHeader();
 //		int packetLength = packetHeader.getPacketLength();
@@ -161,6 +159,7 @@ public class ISO8583PacketHeaderHelper {
 				
 				logger.info("64isnotnull");
 			}
+			 
 			// mac macLength = 8;
 			byte[] mab = new byte[mabLength];
 			// 13 = 2位报文长度 + 5位tupd + 6位报文头
@@ -169,13 +168,13 @@ public class ISO8583PacketHeaderHelper {
 			bm.setMacData(mab);
 			byte[] mac = getMac(mab, bm.getShopCode()); 
 			logger.info("mac：{}" , ConvertUtils.bytes2HexStr(mac));
-			bm.setMac(mac);
+			bm.setMac(mac); 
 			String macStr = ConvertUtils.bytes2HexStr(mac);// "E9070BF5BD59099A";//
 			FieldUtils.setBcdField(buffer, packetLength + posPacketLen - macLen, macStr, macLen);
 		}
 
 		logger.info("bitmap对应位设置(从0开始,位元需+1): {}" ,bitmap);
-		return buffer;
+		return packetLength;
 	}
 
 	/**

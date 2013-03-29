@@ -84,9 +84,9 @@ public class AnswerProcessor extends BaseProcessor implements Processor {
 		
 		//asynchronization response to answer seda queue 
 		String sedaAnswer = SedaRouteUtils.getAsyncAnswerRoute();
-	/*	if(cm.getChanelType().equals(CHANEL_TYPE.WEB)){
+	 	if(cm.getChanelType().equals(CHANEL_TYPE.WEB)){
 			sedaAnswer=sedaAnswer+"WEB";
-		}*/
+		} 
 		SedaUtils.send2Seda(exchange, sedaAnswer, cm.isSynchronous());
 		logger.info("is asynchronous, send to {}OK!" , sedaAnswer);
 		logger.info("[AnswerProcessor--------------------------------------交易结束--------------------------------------]");

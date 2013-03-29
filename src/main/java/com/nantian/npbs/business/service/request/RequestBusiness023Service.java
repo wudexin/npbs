@@ -44,8 +44,6 @@ public class RequestBusiness023Service extends RequestBusinessService {
 		//华电国标卡补写卡
 		if ("013023".equals(bm.getTranCode()) ) {
 			
-			//TbBiTrade t = tradeDao.findTrade(bm);
-			
 			//根据61域缴费流水查询电子商务写卡流水
 			StringBuffer sql = new StringBuffer();
 			sql.append("select t.system_serial from tb_bi_trade t where t.pb_serial = " +

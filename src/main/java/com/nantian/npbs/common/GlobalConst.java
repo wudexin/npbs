@@ -83,7 +83,7 @@ public class GlobalConst {
 		EPOS, // 缴费一站通
 		ELEBUSISERIVCE, // 电子商务平台服务渠道
 		ELEBUSIREQUEST,//web渠道
-	//	WEB
+		WEB
 	 
 	 
 	}
