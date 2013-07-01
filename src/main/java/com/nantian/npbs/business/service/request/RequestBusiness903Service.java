@@ -69,10 +69,10 @@ public class RequestBusiness903Service extends RequestBusinessService {
 		}else if("EPOS".equalsIgnoreCase(bm.getChanelType().toString())){
 			type="03";
 		}else if("WEB".equalsIgnoreCase(bm.getChanelType().toString())){
-			type="02";
+			type="04";
 		}
 		if(!bm.getShop().getChannelCode().equals(type)){
-			bm.setResponseCode(GlobalConst.RESULTCODE_FAILURE);
+			bm.setResponseCode(GlobalConst.RESPONSECODE_FAILURE);
 			bm.setResponseMsg("渠道设置不正确");
 			cm.setResultCode(GlobalConst.RESULTCODE_FAILURE);
 			cm.setResultMsg("渠道设置不正确");

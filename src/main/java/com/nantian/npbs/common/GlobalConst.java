@@ -91,13 +91,14 @@ public class GlobalConst {
 	public static final String posChanelCode = "01";
 	public static final String eposChanelCode = "02";
 	public static final String eleChanelCode = "03";
+	public static final String bmwebChanelCode = "04";
 
 	public static enum SEDA_TYPE {
 		REQUEST, SERVICEREQUEST, SERVICEANSWER, ASYNCANSWER
 	}
 
 	public static enum PACKET_TYPE {
-		ISO8583, TUXSTRING, FIXSTRING, SPLITSTRING
+		ISO8583, TUXSTRING, FIXSTRING, SPLITSTRING,WEBSTRING
 	}
 
 	// 报文头，终端状态

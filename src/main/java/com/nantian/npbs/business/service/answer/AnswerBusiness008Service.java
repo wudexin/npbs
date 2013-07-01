@@ -78,13 +78,15 @@ public class AnswerBusiness008Service extends AnswerBusinessService {
 		}
 
 		// 按商户号查询统计信息
-		String sql = "select COMPANY_CODE,BUSI_CODE,count(PB_SERIAL),sum(AMOUNT) from TB_BI_TRADE where COMPANY_CODE = "
+		String sql = "select COMPANY_CODE,BUSI_CODE,count(PB_SERIAL),sum(AMOUNT) from TB_BI_TRADE where COMPANY_CODE = '"
 				+ shopAccount
-				+ " and trade_date >= "
+				+ "' and trade_date >= '"
 				+ queryStartDate
-				+ " and trade_date <= "
+				+ "' and trade_date <= '"
 				+ queryEndDate
-				+ " and STATUS = '00' GROUP BY COMPANY_CODE, BUSI_CODE ORDER BY BUSI_CODE";
+				+ "' and trade_time >='" +queryStartDate.trim()+
+				"000000'  and trade_time <='" +queryEndDate.trim()+
+				"000000' and STATUS = '00' GROUP BY COMPANY_CODE, BUSI_CODE ORDER BY BUSI_CODE";
 		try {
 			List<Object[]> o = tradeDao.findInfoList(sql);
 			if (null != o && o.size() > 0) {

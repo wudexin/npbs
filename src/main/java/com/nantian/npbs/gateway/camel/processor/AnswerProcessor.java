@@ -39,7 +39,7 @@ public class AnswerProcessor extends BaseProcessor implements Processor {
 		
 		try{
 			//business service
-			
+			//Thread.sleep(60000);
 			IAnswerBusinessService answerService = AnswerBusinessFactory.create(bm);
 			answerService.execute(cm, bm);
 			

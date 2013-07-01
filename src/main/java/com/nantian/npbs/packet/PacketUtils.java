@@ -118,8 +118,8 @@ public class PacketUtils {
 		}
 		if(CHANEL_TYPE.WEB.equals(cm.getChanelType())){
 			cm.setSynchronous(false);
-			String answerBuffer = (String) PacketUtils.getOrigAnsPacket(message);
-			exchange.getOut().setBody(answerBuffer);
+			//String answerBuffer = (String) PacketUtils.getOrigAnsPacket(message);
+			//exchange.getOut().setBody(answerBuffer);
 		}
 	}
 	

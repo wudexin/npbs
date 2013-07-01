@@ -4,8 +4,14 @@ import org.apache.camel.Exchange;
 import org.perf4j.aop.Profiled;
 import org.springframework.stereotype.Component;
 
+import com.nantian.npbs.common.GlobalConst;
 import com.nantian.npbs.common.GlobalConst.CHANEL_TYPE;
+import com.nantian.npbs.common.GlobalConst.SEDA_TYPE;
 import com.nantian.npbs.gateway.camel.processor.RequestProcessor;
+import com.nantian.npbs.gateway.camel.sedaroute.SedaRouteUtils;
+import com.nantian.npbs.gateway.camel.sedaroute.SedaUtils;
+import com.nantian.npbs.packet.BusinessMessage;
+import com.nantian.npbs.packet.ControlMessage;
 
 /**
  * @author TsaiYee
@@ -26,6 +32,13 @@ public class WEBRequestProcessor extends RequestProcessor {
 	@Profiled(tag = "webRequestProcessor")
 	public void process(final Exchange exchange) throws Exception {
 			super.process(exchange);
+			ControlMessage cm = getControlMessage(exchange);
+			BusinessMessage bm = getBusinessMessage(exchange);
+			String resultCode = cm.getResultCode();
+			if (!GlobalConst.RESULTCODE_SUCCESS.equals(resultCode)) { 
+				String sedaService = SedaRouteUtils.getChanelBusinessRoute(exchange,SEDA_TYPE.SERVICEANSWER);
+				SedaUtils.send2Seda(exchange, sedaService, getControlMessage(exchange).isSynchronous());
+			}
 	}
 	
 	/* (non-Javadoc)

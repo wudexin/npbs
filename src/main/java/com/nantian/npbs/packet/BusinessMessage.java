@@ -107,6 +107,13 @@ public class BusinessMessage {
 	
 	private Object msgHeadData; 			//TUXEDO报文头数据对象封装	
 	private Object fixMsgHeadData; 			//FIXSTRING报文头数据对象封装
+	private Object webMsgHeadData; 			//WEBSTRING报文头数据对象封装
+	public Object getWebMsgHeadData() {
+		return webMsgHeadData;
+	}
+	public void setWebMsgHeadData(Object webMsgHeadData) {
+		this.webMsgHeadData = webMsgHeadData;
+	}
 	private Object splitsHeadData; 			//splits报文头数据对象封装
 	
 	//EPOS报文
