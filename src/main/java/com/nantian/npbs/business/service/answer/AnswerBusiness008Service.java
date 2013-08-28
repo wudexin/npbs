@@ -86,7 +86,7 @@ public class AnswerBusiness008Service extends AnswerBusinessService {
 				+ queryEndDate
 				+ "' and trade_time >='" +queryStartDate.trim()+
 				"000000'  and trade_time <='" +queryEndDate.trim()+
-				"000000' and STATUS = '00' GROUP BY COMPANY_CODE, BUSI_CODE ORDER BY BUSI_CODE";
+				"235959' and STATUS = '00' GROUP BY COMPANY_CODE, BUSI_CODE ORDER BY BUSI_CODE";
 		try {
 			List<Object[]> o = tradeDao.findInfoList(sql);
 			if (null != o && o.size() > 0) {

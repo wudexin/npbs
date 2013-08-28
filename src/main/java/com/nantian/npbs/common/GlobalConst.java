@@ -66,10 +66,10 @@ public class GlobalConst {
 	public static final int COMMON_QUEUE_CONCURRENT_CONSUMERS = 100; //公共、非特定服务队列并发数
 	public static final int COMMON_QUEUE_LENGTH = 50; //公共、非特定服务队列长度
 
-	public static final int SERVICE_QUEUE_CONCURRENT_CONSUMERS = 100; // 服务、交易队列并发数
+	public static final int SERVICE_QUEUE_CONCURRENT_CONSUMERS = 150; // 服务、交易队列并发数
 	public static final int SERVICE_QUEUE_LENGTH = 100; // 服务、交易队列长度
 
-	public static final int CHANNEL_QUEUE_CONCURRENT_CONSUMERS = 20; // 渠道队列并发数
+	public static final int CHANNEL_QUEUE_CONCURRENT_CONSUMERS = 50; // 渠道队列并发数
 	public static final int CHANNEL_QUEUE_LENGTH = 20; // 公共、非特定服务队列长度
 
 	public static enum DATA_TYPE {

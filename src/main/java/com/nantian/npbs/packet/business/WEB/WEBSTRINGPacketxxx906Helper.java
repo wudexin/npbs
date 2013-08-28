@@ -67,7 +67,7 @@ public class WEBSTRINGPacketxxx906Helper implements IPacketWEBSTRING {
 		//EPOS流水号
 		String ePOSSeqNo = (String) fieldValues.get("D_EPOS_SEQNO");
 		if (ePOSSeqNo == null) throw new PacketOperationException();
-		bm.setPosJournalNo(ePOSSeqNo);
+//		bm.setPosJournalNo(ePOSSeqNo);
 		
 		//终端编号
 		String terminalId = (String) fieldValues.get("D_TERMINAL_ID");

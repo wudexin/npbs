@@ -15,7 +15,7 @@ public class WebCreateResponse {
 	public void returnFromQueue(Exchange e) {
 		Object body = e.getIn().getBody();
 		int i = (body.toString()).indexOf("ORIGREQPACKET=");
-		String mapid = body.toString().substring(i + 49, i + 49 + 6);
+		String mapid = body.toString().substring(i + 50, i + 50 + 6);
 		ha.put(mapid, body.toString());
 	}
 }

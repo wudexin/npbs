@@ -63,7 +63,7 @@ public class WebRequestSvcImpl implements WebRequestSvc {
 			WebCreateResponse bean = SpringContextHolder.getBean("webcreateResponse");
 			//在返回的数据里找数据，直到找到为止
 			while (i < 60) { 
-				  String st =(String)	bean.ha.get(webSvcReq.substring(35, 41));
+				  String st =(String)	bean.ha.get(webSvcReq.substring(36, 42));
 				i++;
 				try {
 					Thread.sleep(1000);
@@ -71,7 +71,7 @@ public class WebRequestSvcImpl implements WebRequestSvc {
 					e.printStackTrace();
 				}
 				if(null!=st){
-					bean.ha.remove(webSvcReq.substring(35, 41));
+					bean.ha.remove(webSvcReq.substring(36, 42));
 					webSvcAns1=st;
 					break;
 				}
