@@ -138,6 +138,8 @@ public class AnswerBusiness006Service extends AnswerBusinessService {
 					+ origLocalDate
 					+ "' and t.company_code = '"
 					+ bm.getShopCode()
+					+ "' and t.busi_code != '"
+					+ "000"
 					+ "' order by t.trade_Time desc";
 			ArrayList<Object> numList = (ArrayList) tradeDao
 					.findInfoList(numsql);// 取得对应交易明细
@@ -165,6 +167,8 @@ public class AnswerBusiness006Service extends AnswerBusinessService {
 					+ origLocalDate
 					+ "' and t.company_code = '"
 					+ bm.getShopCode()
+					+ "' and t.busi_code != '"
+					+ "000"
 					+ "' order by t.trade_Time desc ) a where rownum <= "
 					+ num
 					* 6 + " ) where rn >" + (num - 1) * 6;
